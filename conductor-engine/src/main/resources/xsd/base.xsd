@@ -1,0 +1,213 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="urn:conductor"
+            targetNamespace="urn:conductor"
+            elementFormDefault="qualified">
+
+    <xsd:element name="container">
+        <xsd:annotation>
+            <xsd:documentation>
+                No Operation. Simply runs its contents.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:any minOccurs="0" maxOccurs="unbounded"/>
+            </xsd:sequence>
+            <xsd:attribute type="xsd:boolean" name="isolated" default="false"/>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="script">
+        <xsd:annotation>
+            <xsd:documentation>
+                Execute the body of this tag in the execution context.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:simpleContent>
+                <xsd:extension base="xsd:normalizedString">
+                    <xsd:anyAttribute/>
+                </xsd:extension>
+            </xsd:simpleContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="debug-context">
+        <xsd:annotation>
+            <xsd:documentation>
+                Print the contents of the execution context to the console.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="include">
+        <xsd:annotation>
+            <xsd:documentation>
+                Includes the contents of the specified file. Context changes made inside the include will propagate to
+                the including file.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:attribute type="xsd:anyURI" name="src" use="required">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The path to the file that should be included, relative to the current execution context path.
+                        Interpolated.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="load">
+        <xsd:annotation>
+            <xsd:documentation>
+                Loads the contents of the specified file into the context.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:attribute type="xsd:anyURI" name="src" use="required">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The path to the file that should be loaded, relative to the current execution context path.
+                        Interpolated.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute type="xsd:token" name="as" use="required">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The JS name for the loaded file.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute type="xsd:token" name="charset" default="UTF-8">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The charset of the file. Defaults to UTF-8.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="for">
+        <xsd:annotation>
+            <xsd:documentation>
+                Execute a loop over the contents of this element.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:any minOccurs="0" maxOccurs="unbounded"/>
+            </xsd:sequence>
+            <xsd:attribute type="xsd:token" name="as" default="it"/>
+            <xsd:attribute type="xsd:token" name="from" use="required"/>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="never-fail">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:any minOccurs="0" maxOccurs="unbounded"/>
+            </xsd:sequence>
+            <xsd:attribute name="mode" use="required">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:token">
+                        <xsd:enumeration value="silent"/>
+                        <xsd:enumeration value="logged"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:attribute>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="vault">
+        <xsd:annotation>
+            <xsd:documentation>
+                Loads a KDBX file from the file system into the execution context.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:attribute type="xsd:token" name="as" use="required">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The JS name for the vault.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute type="xsd:anyURI" name="vault-src" use="required">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The path to the KDBX file, relative to the execution context directory. Interpolated.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute type="xsd:anyURI" name="password-file">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The path to a plain-text file containing the KDBX password. Interpolated.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute type="xsd:anyURI" name="key-file">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The path to the key file that opens the KDBX file. Interpolated.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="host">
+        <xsd:annotation>
+            <xsd:documentation>
+                Declares a single, hard-coded host.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:attribute type="xsd:token" name="as" use="required">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The JS name for the host.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute type="xsd:token" name="ip-address" use="required">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The IP Address for the host. This field will not be passed through a DNS resolver. Interpolated.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="tags" use="required">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The tags associated with this host. Interpolated.
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:list itemType="xsd:token"/>
+                </xsd:simpleType>
+            </xsd:attribute>
+            <xsd:attribute type="xsd:unsignedShort" name="ssh-port" default="22">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The port on this machine with a listening SSH daemon. Defaults to 22.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

@@ -1,0 +1,22 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="urn:conductor:flow"
+            targetNamespace="urn:conductor:flow"
+            elementFormDefault="qualified">
+
+    <xsd:attribute name="if" type="xsd:normalizedString">
+        <xsd:annotation>
+            <xsd:documentation>
+                This expression will be evaluated to determine if the associated element will be executed.
+            </xsd:documentation>
+        </xsd:annotation>
+    </xsd:attribute>
+
+    <xsd:attribute name="unless" type="xsd:normalizedString">
+        <xsd:annotation>
+            <xsd:documentation>
+                This expression will be evaluated to determine if the associated element will be skipped.
+            </xsd:documentation>
+        </xsd:annotation>
+    </xsd:attribute>
+
+</xsd:schema>
