@@ -1,19 +1,23 @@
 package urn.conductor.core
 
-import com.google.gson.GsonBuilder
 import org.apache.logging.log4j.LogManager
 import urn.conductor.ElementHandler
 import urn.conductor.Engine
 import urn.conductor.stdlib.xml.Load
 import java.nio.file.Files
+import javax.xml.namespace.QName
 
 class LoadHandler : ElementHandler<Load> {
 	private val logger = LogManager.getLogger()
 
-	override val handles: Class<urn.conductor.stdlib.xml.Load>
-		get() = urn.conductor.stdlib.xml.Load::class.java
+	override val handles: Class<Load>
+		get() = Load::class.java
 
-	override fun process(element: urn.conductor.stdlib.xml.Load, engine: Engine, processChild: (Any) -> Unit) {
+	override fun getAttributes(element: Load): Map<QName, String> {
+		return element.otherAttributes
+	}
+
+	override fun process(element: Load, engine: Engine, processChild: (Any) -> Unit) {
 		val charset = element.charset
 				?.let { charset(it) }
 				?: Charsets.UTF_8

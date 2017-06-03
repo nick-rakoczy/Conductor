@@ -4,15 +4,20 @@ import org.apache.logging.log4j.LogManager
 import urn.conductor.ElementHandler
 import urn.conductor.Engine
 import urn.conductor.stdlib.xml.Host
+import javax.xml.namespace.QName
 
 
 class HostHandler : ElementHandler<Host> {
 	private val logger = LogManager.getLogger()
 
-	override val handles: Class<urn.conductor.stdlib.xml.Host>
-		get() = urn.conductor.stdlib.xml.Host::class.java
+	override val handles: Class<Host>
+		get() = Host::class.java
 
-	override fun process(element: urn.conductor.stdlib.xml.Host, engine: Engine, processChild: (Any) -> Unit) {
+	override fun getAttributes(element: Host): Map<QName, String> {
+		return element.otherAttributes
+	}
+
+	override fun process(element: Host, engine: Engine, processChild: (Any) -> Unit) {
 		urn.conductor.Host(
 				name = element.`as`,
 				ipAddress = element.ipAddress.let(engine::interpolate),

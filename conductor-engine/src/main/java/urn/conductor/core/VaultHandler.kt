@@ -5,17 +5,23 @@ import de.slackspace.openkeepass.domain.Group
 import org.apache.logging.log4j.LogManager
 import urn.conductor.ElementHandler
 import urn.conductor.Engine
+import urn.conductor.stdlib.xml.DebugContext
 import urn.conductor.stdlib.xml.Vault
 import java.nio.file.Files
 import java.nio.file.Paths
+import javax.xml.namespace.QName
 
 class VaultHandler : ElementHandler<Vault> {
 	private val logger = LogManager.getLogger()
 
-	override val handles: Class<urn.conductor.stdlib.xml.Vault>
-		get() = urn.conductor.stdlib.xml.Vault::class.java
+	override val handles: Class<Vault>
+		get() = Vault::class.java
 
-	override fun process(element: urn.conductor.stdlib.xml.Vault, engine: Engine, processChild: (Any) -> Unit) {
+	override fun getAttributes(element: Vault): Map<QName, String> {
+		return element.otherAttributes
+	}
+
+	override fun process(element: Vault, engine: Engine, processChild: (Any) -> Unit) {
 		val sourcePath = element.vaultSrc
 				.let(engine::interpolate)
 				.let { Paths.get(it) }
