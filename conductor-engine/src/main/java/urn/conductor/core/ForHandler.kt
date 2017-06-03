@@ -10,7 +10,7 @@ class ForHandler : ElementHandler<For> {
 
 	override fun process(element: urn.conductor.stdlib.xml.For, engine: Engine, processChild: (Any) -> Unit) {
 		val itemName = element.`as`
-		val collectionName = element.from
+		val collectionName = element.ref
 		val sourceCollection = engine.getObjectMirror(collectionName)
 
 		val oldValue = engine.getObjectMirror(itemName)

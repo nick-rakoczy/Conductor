@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager
 import org.reflections.Reflections
 import org.reflections.scanners.SubTypesScanner
 import org.reflections.util.ConfigurationBuilder
+import java.io.InputStreamReader
 
 import java.net.URLClassLoader
 import java.nio.file.Files
@@ -14,7 +15,7 @@ import javax.xml.bind.JAXBContext
 import javax.xml.namespace.QName
 
 class Main(private val arguments: Array<String>) {
-	private val log = LogManager.getLogger()
+	private val log = LogManager.getLogger("Main")
 
 	private val options = HashMap<String, Any>().apply {
 		this["file"] = "./plan.xml"
@@ -63,14 +64,14 @@ class Main(private val arguments: Array<String>) {
 
 			classLoaders.add(Main::class.java.classLoader)
 
-			log.info("- Found ${classLoaders.size} packages...")
+			log.info("Found ${classLoaders.size} packages...")
 
 			classLoaders.filterIsInstance(URLClassLoader::class.java).map {
 				it.urLs.singleOrNull()?.toString()
 			}.filterNotNull().map {
 				"$it"
 			}.forEach {
-				log.debug("-- $it")
+				log.debug("$it")
 			}
 
 			val reflectionsConfig = ConfigurationBuilder.build(*classLoaders.toTypedArray(), SubTypesScanner())
@@ -82,12 +83,12 @@ class Main(private val arguments: Array<String>) {
 				attributeHandlers[it.handles] = it
 			}
 
-			log.info("- Found ${attributeHandlers.size} attribute handlers...")
+			log.info("Found ${attributeHandlers.size} attribute handlers...")
 
 			attributeHandlers.keys.map {
 				"{${it.namespaceURI}}:${it.localPart}"
-			}.forEach {
-				log.debug("-- $it")
+			}.sorted().forEach {
+				log.debug("$it")
 			}
 
 			reflections.getSubTypesOf(ElementHandler::class.java).attemptMap {
@@ -96,12 +97,12 @@ class Main(private val arguments: Array<String>) {
 				elementHandlers[it.handles] = it
 			}
 
-			log.info("- Found ${elementHandlers.size} element handlers...")
+			log.info("Found ${elementHandlers.size} element handlers...")
 
 			elementHandlers.keys.map {
 				"{${it.xmlNamespace}}:${it.xmlElementName}"
-			}.forEach {
-				log.debug("-- $it")
+			}.sorted().forEach {
+				log.debug("$it")
 			}
 		}
 	}
@@ -113,7 +114,9 @@ class Main(private val arguments: Array<String>) {
 		jaxbReader.unmarshal(it)
 	}
 
-	private val scriptEngine = ScriptEngineManager().getEngineByName("javascript")!!
+	private val scriptEngine = ScriptEngineManager().getEngineByName("javascript")!!.apply {
+
+	}
 	private val engine = Engine(scriptEngine, jaxbReader)
 
 	init {
@@ -123,7 +126,13 @@ class Main(private val arguments: Array<String>) {
 
 		scriptEngine["options"] = options
 
-		log.info("\nProcessing Plan...")
+		this.javaClass.getResourceAsStream("base-context.js").use {
+			InputStreamReader(it).use {
+				scriptEngine.eval(it)
+			}
+		}
+
+		log.info("Processing Plan...")
 		processElement(plan)
 	}
 

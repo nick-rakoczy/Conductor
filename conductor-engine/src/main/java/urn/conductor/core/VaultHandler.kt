@@ -1,5 +1,6 @@
 package urn.conductor.core
 
+import org.apache.logging.log4j.LogManager
 import urn.conductor.ElementHandler
 import urn.conductor.Engine
 import urn.conductor.stdlib.xml.Vault
@@ -7,6 +8,8 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 class VaultHandler : ElementHandler<Vault> {
+	private val logger = LogManager.getLogger()
+
 	override val handles: Class<urn.conductor.stdlib.xml.Vault>
 		get() = urn.conductor.stdlib.xml.Vault::class.java
 
@@ -65,6 +68,6 @@ class VaultHandler : ElementHandler<Vault> {
 		val vaultJsName = element.`as`
 		engine.put(vaultJsName, vaultMap)
 
-		println("Creating KDBX Vault named [$vaultJsName]")
+		logger.info("Creating KDBX Vault named [$vaultJsName]")
 	}
 }

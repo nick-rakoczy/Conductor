@@ -11,10 +11,6 @@
 
     <artifactId>conductor-engine</artifactId>
 
-    <properties>
-        <project.generatedsources>${project.build.directory}/generated-sources</project.generatedsources>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>conductor</groupId>

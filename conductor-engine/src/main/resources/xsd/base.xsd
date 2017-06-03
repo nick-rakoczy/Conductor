@@ -60,6 +60,14 @@
                     </xsd:documentation>
                 </xsd:annotation>
             </xsd:attribute>
+            <xsd:attribute name="mode" default="xml">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:token">
+                        <xsd:enumeration value="xml"/>
+                        <xsd:enumeration value="js"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:attribute>
             <xsd:anyAttribute/>
         </xsd:complexType>
     </xsd:element>
@@ -93,6 +101,15 @@
                     </xsd:documentation>
                 </xsd:annotation>
             </xsd:attribute>
+            <xsd:attribute name="mode" default="text">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:token">
+                        <xsd:enumeration value="text"/>
+                        <xsd:enumeration value="json"/>
+                        <xsd:enumeration value="js"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:attribute>
             <xsd:anyAttribute/>
         </xsd:complexType>
     </xsd:element>
@@ -108,7 +125,7 @@
                 <xsd:any minOccurs="0" maxOccurs="unbounded"/>
             </xsd:sequence>
             <xsd:attribute type="xsd:token" name="as" default="it"/>
-            <xsd:attribute type="xsd:token" name="from" use="required"/>
+            <xsd:attribute type="xsd:token" name="ref" use="required"/>
             <xsd:anyAttribute/>
         </xsd:complexType>
     </xsd:element>
