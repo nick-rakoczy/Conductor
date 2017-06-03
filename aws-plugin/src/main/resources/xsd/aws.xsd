@@ -3,6 +3,13 @@
             xmlns="https://amazonaws.com"
             elementFormDefault="qualified">
 
+    <xsd:simpleType name="status">
+        <xsd:restriction base="xsd:token">
+            <xsd:enumeration value="present"/>
+            <xsd:enumeration value="absent"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
     <xsd:attributeGroup name="aws-credential-set">
         <xsd:attribute type="xsd:token" name="access-key"/>
         <xsd:attribute type="xsd:token" name="secret-key"/>
