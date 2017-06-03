@@ -1,5 +1,6 @@
 package urn.conductor
 
+import org.apache.logging.log4j.LogManager
 import javax.xml.namespace.QName
 
 interface ElementHandler<T : Any> {

@@ -3,6 +3,9 @@ package urn.conductor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import jdk.nashorn.api.scripting.ScriptObjectMirror
+import org.apache.logging.log4j.Level
+import org.apache.logging.log4j.LogManager
+import java.io.Writer
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.LinkedList
@@ -18,7 +21,7 @@ class Engine(
 		private val internalScriptEngine: ScriptEngine,
 		val jaxbReader: Unmarshaller
 ) : ScriptEngine by internalScriptEngine {
-	private val gson = GsonBuilder().setPrettyPrinting().create()
+	val gson = GsonBuilder().setPrettyPrinting().create()
 	private val contextStack = Stack<String>()
 
 	override fun toString(): String {
