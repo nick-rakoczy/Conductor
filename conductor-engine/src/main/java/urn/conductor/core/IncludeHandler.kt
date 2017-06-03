@@ -29,6 +29,6 @@ class IncludeHandler : ElementHandler<Include> {
 			}
 		}
 
-		logger.info("Included [${sourceFile.toAbsolutePath().normalize()}]")
+		logger.info("Included ${type.toUpperCase()} [${sourceFile.toAbsolutePath().normalize()}]")
 	}
 }
