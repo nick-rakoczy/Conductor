@@ -1,0 +1,12 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="https://amazonaws.com/route53"
+            xmlns="https://amazonaws.com/route53"
+            elementFormDefault="qualified">
+
+    <xsd:element name="do">
+        <xsd:complexType>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>

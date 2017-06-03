@@ -1,0 +1,22 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="https://amazonaws.com"
+            xmlns="https://amazonaws.com"
+            elementFormDefault="qualified">
+
+    <xsd:attributeGroup name="aws-credential-set">
+        <xsd:attribute type="xsd:token" name="access-key"/>
+        <xsd:attribute type="xsd:token" name="secret-key"/>
+    </xsd:attributeGroup>
+
+    <xsd:element name="credentials">
+        <xsd:complexType>
+            <xsd:attribute type="xsd:token" name="as" default="awsCredentials"/>
+            <xsd:attribute type="xsd:token" name="vault-ref"/>
+            <xsd:attributeGroup ref="aws-credential-set"/>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:attribute type="xsd:token" name="client-configuration-ref"/>
+
+</xsd:schema>
