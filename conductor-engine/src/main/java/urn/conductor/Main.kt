@@ -68,11 +68,7 @@ class Main(private val arguments: Array<String>) {
 
 			classLoaders.filterIsInstance(URLClassLoader::class.java).map {
 				it.urLs.singleOrNull()?.toString()
-			}.filterNotNull().map {
-				"$it"
-			}.forEach {
-				log.debug("$it")
-			}
+			}.filterNotNull().forEach(log::debug)
 
 			val reflectionsConfig = ConfigurationBuilder.build(*classLoaders.toTypedArray(), SubTypesScanner())
 			val reflections = Reflections(reflectionsConfig)
@@ -87,9 +83,7 @@ class Main(private val arguments: Array<String>) {
 
 			attributeHandlers.keys.map {
 				"{${it.namespaceURI}}:${it.localPart}"
-			}.sorted().forEach {
-				log.debug("$it")
-			}
+			}.sorted().forEach(log::debug)
 
 			reflections.getSubTypesOf(ElementHandler::class.java).attemptMap {
 				it.newInstance()
@@ -101,9 +95,7 @@ class Main(private val arguments: Array<String>) {
 
 			elementHandlers.keys.map {
 				"{${it.xmlNamespace}}:${it.xmlElementName}"
-			}.sorted().forEach {
-				log.debug("$it")
-			}
+			}.sorted().forEach(log::debug)
 		}
 	}
 
