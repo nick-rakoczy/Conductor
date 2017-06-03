@@ -6,7 +6,7 @@ class DebugContextHandler : urn.conductor.ElementHandler<urn.conductor.stdlib.xm
 	private val logger = LogManager.getLogger()
 
 	override fun process(element: urn.conductor.stdlib.xml.DebugContext, engine: urn.conductor.Engine, processChild: (Any) -> Unit) {
-		logger.info(engine.toString())
+		logger.debug(engine.toString())
 	}
 
 	override val handles: Class<urn.conductor.stdlib.xml.DebugContext>

@@ -1,10 +1,13 @@
 package urn.conductor.core
 
+import org.apache.logging.log4j.LogManager
 import urn.conductor.ElementHandler
 import urn.conductor.Engine
 import urn.conductor.stdlib.xml.For
 
 class ForHandler : ElementHandler<For> {
+	private val logger = LogManager.getLogger()
+
 	override val handles: Class<urn.conductor.stdlib.xml.For>
 		get() = urn.conductor.stdlib.xml.For::class.java
 

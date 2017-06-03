@@ -1,6 +1,10 @@
 package urn.conductor.flow
 
+import org.apache.logging.log4j.LogManager
+
 class IfHandler : urn.conductor.AttributeHandler {
+	private val logger = LogManager.getLogger()
+
 	override val priority: Int
 		get() = 100
 

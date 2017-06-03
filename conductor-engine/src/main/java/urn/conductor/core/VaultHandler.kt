@@ -1,5 +1,7 @@
 package urn.conductor.core
 
+import de.slackspace.openkeepass.domain.Entry
+import de.slackspace.openkeepass.domain.Group
 import org.apache.logging.log4j.LogManager
 import urn.conductor.ElementHandler
 import urn.conductor.Engine
@@ -14,11 +16,10 @@ class VaultHandler : ElementHandler<Vault> {
 		get() = urn.conductor.stdlib.xml.Vault::class.java
 
 	override fun process(element: urn.conductor.stdlib.xml.Vault, engine: Engine, processChild: (Any) -> Unit) {
-		val sourceFile = element.vaultSrc
+		val sourcePath = element.vaultSrc
 				.let(engine::interpolate)
 				.let { Paths.get(it) }
-				.toFile()
-
+		val sourceFile = sourcePath.toFile()
 		val vaultDatabase = de.slackspace.openkeepass.KeePassDatabase.getInstance(sourceFile)
 		val vaultPassword = element.passwordFile
 				?.let(engine::interpolate)
@@ -39,7 +40,7 @@ class VaultHandler : ElementHandler<Vault> {
 
 		val vaultMap = HashMap<String, Any>()
 
-		fun de.slackspace.openkeepass.domain.Entry.toVaultRecord(): Map<String, String> = mapOf(
+		fun Entry.toVaultRecord(): Map<String, String> = mapOf(
 				"uuid" to this.uuid.toString().replace("-", "").toUpperCase(),
 				"username" to this.username,
 				"password" to this.password,
@@ -48,7 +49,7 @@ class VaultHandler : ElementHandler<Vault> {
 				"url" to this.url
 		)
 
-		fun processRecords(parent: HashMap<String, Any>, entries: Iterable<de.slackspace.openkeepass.domain.Entry>, groups: Iterable<de.slackspace.openkeepass.domain.Group>) {
+		fun processRecords(parent: HashMap<String, Any>, entries: Iterable<Entry>, groups: Iterable<Group>) {
 			entries.map {
 				it to it.toVaultRecord()
 			}.forEach { (entry, vr) ->
@@ -68,6 +69,6 @@ class VaultHandler : ElementHandler<Vault> {
 		val vaultJsName = element.`as`
 		engine.put(vaultJsName, vaultMap)
 
-		logger.info("Creating KDBX Vault named [$vaultJsName]")
+		logger.info("Loaded KDBX [${sourcePath.toAbsolutePath().normalize()}] as $vaultJsName")
 	}
 }

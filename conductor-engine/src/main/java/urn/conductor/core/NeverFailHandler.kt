@@ -17,7 +17,7 @@ class NeverFailHandler : ElementHandler<NeverFail> {
 		}
 		catch (e: Exception) {
 			when (element.mode) {
-				"silent" -> let {}
+				"silent" -> logger.debug("silent failure", e)
 				"logged" -> logger.warn(e)
 				else -> error("invalid state: ${element.mode}")
 			}

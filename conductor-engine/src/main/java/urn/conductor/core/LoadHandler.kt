@@ -28,6 +28,6 @@ class LoadHandler : ElementHandler<Load> {
 			"js" -> engine.eval("var ${element.`as`} = $data;")
 		}
 
-		logger.info("Loaded [${sourcePath.toAbsolutePath().normalize()}] as ${element.`as`}")
+		logger.info("Loaded ${type.toUpperCase()} [${sourcePath.toAbsolutePath().normalize()}] as ${element.`as`}")
 	}
 }

@@ -1,10 +1,13 @@
 package urn.conductor.flow
 
+import org.apache.logging.log4j.LogManager
 import urn.conductor.AttributeHandler
 import urn.conductor.Engine
 import javax.xml.namespace.QName
 
 class UnlessHandler : AttributeHandler {
+	private val logger = LogManager.getLogger()
+
 	override val priority: Int
 		get() = 100
 
