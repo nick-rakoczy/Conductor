@@ -1,12 +1,8 @@
-(function () {
-    function receiverMethod() {
-        return {
-            __noSuchProperty__: this
-        }
-    }
-
-    Function.prototype.receiverMethod = receiverMethod;
-})();
+Function.prototype.receiverMethod = function () {
+    return {
+        __noSuchProperty__: this
+    };
+};
 
 var logFactory = function (name) {
     return org.apache.logging.log4j.LogManager.getLogger(name);
