@@ -1,35 +1,27 @@
-function getRootLogger() {
-    return org.apache.logging.log4j.LogManager.getLogger("JS");
-}
+(function () {
+    function receiverMethod() {
+        return {
+            __noSuchProperty__: this
+        }
+    }
 
-function getLogger(name) {
+    Function.prototype.receiverMethod = receiverMethod;
+})();
+
+var logFactory = function (name) {
     return org.apache.logging.log4j.LogManager.getLogger(name);
-}
+};
+
+var logManager = logFactory.receiverMethod();
+
+var logger = logManager.JS;
+
+logger.info("test");
 
 function print(msg) {
-    error("Do not use print() in JS");
+    logger.JS.error("Do not use print() in JS");
 }
 
 function println(msg) {
-    error("Do not use println() in JS");
-}
-
-function info(msg) {
-    getRootLogger().info(msg);
-}
-
-function warn(msg) {
-    getRootLogger().warn(msg);
-}
-
-function error(msg) {
-    getRootLogger().error(msg);
-}
-
-function debug(msg) {
-    getRootLogger().debug(msg);
-}
-
-function trace(msg) {
-    getRootLogger().trace(msg);
+    logger.JS.error("Do not use println() in JS");
 }
