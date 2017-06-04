@@ -1,33 +1,20 @@
 package urn.conductor
 
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import jdk.nashorn.api.scripting.ScriptObjectMirror
-import org.apache.logging.log4j.Level
-import org.apache.logging.log4j.LogManager
-import java.io.Writer
 import java.nio.file.Path
 import java.nio.file.Paths
-import java.util.LinkedList
-import java.util.Queue
 import java.util.Stack
 import javax.script.ScriptContext
 import javax.script.ScriptEngine
 import javax.script.SimpleBindings
 import javax.xml.bind.Unmarshaller
-import kotlin.reflect.KClass
 
 class Engine(
 		private val internalScriptEngine: ScriptEngine,
 		val jaxbReader: Unmarshaller
 ) : ScriptEngine by internalScriptEngine {
 	val gson = GsonBuilder().setPrettyPrinting().create()
-	private val contextStack = Stack<String>()
-
-	override fun toString(): String {
-		return this.getBindings(ScriptContext.ENGINE_SCOPE)
-				.let(gson::toJson)
-	}
 
 	fun delete(name: String) {
 		this.context.removeAttribute(name, ScriptContext.ENGINE_SCOPE)

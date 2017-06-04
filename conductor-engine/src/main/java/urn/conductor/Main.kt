@@ -134,7 +134,11 @@ class Main(private val arguments: Array<String>) {
 	fun processElement(element: Any) {
 		val type = element.javaClass
 		val elementHandler = plugin.elementHandlers[type]
-		val attributes = elementHandler?.getAttributes(element) ?: emptyMap()
+
+		@Suppress("UNCHECKED_CAST")
+		val elementAttributeHandler = elementHandler as? CustomAttributeHandler<Any> ?: AutoAttributeHandler
+
+		val attributes = elementAttributeHandler.getAttributes(element)
 
 		val attributeOrder = attributes
 				.map { plugin.attributeHandlers.get(it.key) }

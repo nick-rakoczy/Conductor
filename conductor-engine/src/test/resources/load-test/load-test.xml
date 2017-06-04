@@ -1,0 +1,26 @@
+<container xmlns="urn:conductor">
+    <include src="../junit.js" mode="js"/>
+
+    <container>
+        <load as="text" src="./sample.txt" mode="text"/>
+        <script>
+            assert(text === "Sample Text File");
+        </script>
+    </container>
+
+    <container>
+        <load as="json" src="./sample.json" mode="json"/>
+        <script>
+            assert(typeof(json) !== "undefined");
+            assert(json.name === "Junit Tester");
+        </script>
+    </container>
+
+    <container>
+        <load as="json2" src="./sample.js" mode="js"/>
+        <script>
+            assert(typeof(json2) !== "undefined");
+            assert(json2.name === "Junit Tester");
+        </script>
+    </container>
+</container>

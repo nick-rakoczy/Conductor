@@ -13,10 +13,6 @@ class LoadHandler : ElementHandler<Load> {
 	override val handles: Class<Load>
 		get() = Load::class.java
 
-	override fun getAttributes(element: Load): Map<QName, String> {
-		return element.otherAttributes
-	}
-
 	override fun process(element: Load, engine: Engine, processChild: (Any) -> Unit) {
 		val charset = element.charset
 				?.let { charset(it) }

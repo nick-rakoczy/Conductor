@@ -1,0 +1,10 @@
+<container xmlns="urn:conductor">
+    <include src="junit.js" mode="js"/>
+
+    <never-fail mode="logged">
+        <script>
+            throw "error";
+        </script>
+    </never-fail>
+
+</container>

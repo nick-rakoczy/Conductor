@@ -7,8 +7,6 @@ interface ElementHandler<T : Any> {
 
 	val handles: Class<T>
 
-	fun getAttributes(element: T): Map<QName, String>
-
 	fun process(element: T, engine: Engine, processChild: (Any) -> Unit)
 
 }

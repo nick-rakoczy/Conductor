@@ -13,10 +13,6 @@ class IncludeHandler : ElementHandler<Include> {
 	override val handles: Class<Include>
 		get() = Include::class.java
 
-	override fun getAttributes(element: Include): Map<QName, String> {
-		return element.otherAttributes
-	}
-
 	override fun process(element: Include, engine: Engine, processChild: (Any) -> Unit) {
 		val sourceFile = engine.getPath(element.src.let(engine::interpolate))
 		val sourceDirectory = sourceFile.parent

@@ -1,0 +1,7 @@
+<container xmlns="urn:conductor">
+    <include src="./junit.js" mode="js"/>
+    <script>
+        assert(true);
+        assert(typeof(assert) === "function");
+    </script>
+</container>

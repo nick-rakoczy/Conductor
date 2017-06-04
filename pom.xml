@@ -11,6 +11,7 @@
     <modules>
         <module>conductor-api</module>
         <module>conductor-engine</module>
+        <module>aws-plugin</module>
     </modules>
 
     <properties>
@@ -38,7 +39,6 @@
             <scope>runtime</scope>
         </dependency>
     </dependencies>
-
 
     <build>
         <plugins>

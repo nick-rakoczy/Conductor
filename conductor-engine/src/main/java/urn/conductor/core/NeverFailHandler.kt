@@ -10,10 +10,6 @@ import javax.xml.namespace.QName
 class NeverFailHandler : ElementHandler<NeverFail> {
 	private val logger = LogManager.getLogger()
 
-	override fun getAttributes(element: NeverFail): Map<QName, String> {
-		return element.otherAttributes
-	}
-
 	override val handles: Class<urn.conductor.stdlib.xml.NeverFail>
 		get() = urn.conductor.stdlib.xml.NeverFail::class.java
 

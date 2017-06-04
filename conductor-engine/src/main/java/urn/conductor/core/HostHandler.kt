@@ -13,10 +13,6 @@ class HostHandler : ElementHandler<Host> {
 	override val handles: Class<Host>
 		get() = Host::class.java
 
-	override fun getAttributes(element: Host): Map<QName, String> {
-		return element.otherAttributes
-	}
-
 	override fun process(element: Host, engine: Engine, processChild: (Any) -> Unit) {
 		urn.conductor.Host(
 				name = element.`as`,

@@ -32,17 +32,6 @@
         </xsd:complexType>
     </xsd:element>
 
-    <xsd:element name="debug-context">
-        <xsd:annotation>
-            <xsd:documentation>
-                Print the contents of the execution context to the console.
-            </xsd:documentation>
-        </xsd:annotation>
-        <xsd:complexType>
-            <xsd:anyAttribute/>
-        </xsd:complexType>
-    </xsd:element>
-
     <xsd:element name="include">
         <xsd:annotation>
             <xsd:documentation>
@@ -149,7 +138,8 @@
     <xsd:element name="vault">
         <xsd:annotation>
             <xsd:documentation>
-                Loads a KDBX file from the file system into the execution context.
+                Loads a KDBX file from the file system into the execution context. Only supports KDBX files encrypted
+                with AES/Rijndael 256-bit with a KDF of AES-KDF.
             </xsd:documentation>
         </xsd:annotation>
         <xsd:complexType>

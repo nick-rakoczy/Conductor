@@ -1,0 +1,73 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="https://amazonaws.com/route53"
+            xmlns="https://amazonaws.com/route53"
+            xmlns:aws="https://amazonaws.com"
+            elementFormDefault="qualified">
+
+    <xsd:import schemaLocation="aws.xsd" namespace="https://amazonaws.com"/>
+
+    <xsd:element name="remove-zone">
+        <xsd:complexType>
+            <xsd:attribute type="xsd:token" name="name" use="required"/>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:simpleType name="dns-record-type">
+        <xsd:restriction base="xsd:token">
+            <xsd:enumeration value="A"/>
+            <xsd:enumeration value="AAAA"/>
+            <xsd:enumeration value="CNAME"/>
+            <xsd:enumeration value="MX"/>
+            <xsd:enumeration value="TXT"/>
+            <xsd:enumeration value="PTR"/>
+            <xsd:enumeration value="SRV"/>
+            <xsd:enumeration value="SPF"/>
+            <xsd:enumeration value="NS"/>
+            <xsd:enumeration value="SOA"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:element name="zone">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="clear-records" minOccurs="0" maxOccurs="unbounded">
+                    <xsd:complexType>
+                        <xsd:attribute type="xsd:token" name="name" use="required"/>
+                        <xsd:attribute type="dns-record-type" name="type" use="required"/>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="record" minOccurs="0" maxOccurs="unbounded">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="value" minOccurs="0" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:simpleContent>
+                                        <xsd:extension base="xsd:token">
+                                            <xsd:attribute type="xsd:unsignedInt" name="ttl" default="3600"/>
+                                        </xsd:extension>
+                                    </xsd:simpleContent>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                        <xsd:attribute type="xsd:token" name="name" use="required"/>
+                        <xsd:attribute type="dns-record-type" name="type" default="A"/>
+                        <xsd:attribute type="aws:status" name="status" default="present"/>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="await-replication" minOccurs="0" maxOccurs="1">
+                    <xsd:complexType>
+
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+            <xsd:attribute type="xsd:token" name="iam-ref" default="awsCredentials"/>
+            <xsd:attribute type="xsd:token" name="name" use="required"/>
+            <xsd:attribute type="xsd:boolean" name="clear" default="false"/>
+            <xsd:attribute type="xsd:boolean" name="private" default="false"/>
+            <xsd:attribute type="xsd:token" name="region" use="required"/>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>
