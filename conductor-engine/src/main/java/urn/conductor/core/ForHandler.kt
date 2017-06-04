@@ -3,13 +3,19 @@ package urn.conductor.core
 import org.apache.logging.log4j.LogManager
 import urn.conductor.ElementHandler
 import urn.conductor.Engine
+import urn.conductor.stdlib.xml.DebugContext
 import urn.conductor.stdlib.xml.For
+import javax.xml.namespace.QName
 
 class ForHandler : ElementHandler<For> {
 	private val logger = LogManager.getLogger()
 
-	override val handles: Class<urn.conductor.stdlib.xml.For>
+	override val handles: Class<For>
 		get() = urn.conductor.stdlib.xml.For::class.java
+
+	override fun getAttributes(element: For): Map<QName, String> {
+		return element.otherAttributes
+	}
 
 	override fun process(element: urn.conductor.stdlib.xml.For, engine: Engine, processChild: (Any) -> Unit) {
 		val itemName = element.`as`

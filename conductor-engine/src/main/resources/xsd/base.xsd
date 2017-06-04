@@ -13,7 +13,6 @@
             <xsd:sequence>
                 <xsd:any minOccurs="0" maxOccurs="unbounded"/>
             </xsd:sequence>
-            <xsd:attribute type="xsd:boolean" name="isolated" default="false"/>
             <xsd:anyAttribute/>
         </xsd:complexType>
     </xsd:element>

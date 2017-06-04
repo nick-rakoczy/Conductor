@@ -26,27 +26,6 @@ class Engine(
 		this.context.removeAttribute(name, ScriptContext.ENGINE_SCOPE)
 	}
 
-	fun pushContext() {
-		this.getBindings(ScriptContext.ENGINE_SCOPE)
-				.let(gson::toJson)
-				.let(contextStack::push)
-	}
-
-	fun popContext() {
-		contextStack.pop().let {
-			gson.fromJson(it, SimpleBindings::class.java)
-		}.let {
-			this.setBindings(it, ScriptContext.ENGINE_SCOPE)
-		}
-	}
-
-	fun <T> nestContext(block: () -> T): T {
-		pushContext()
-		return block().also {
-			popContext()
-		}
-	}
-
 	fun interpolate(expr: String): String = StringBuilder().apply {
 		var left = expr
 		while (left.isNotEmpty()) {

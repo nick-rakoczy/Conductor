@@ -102,13 +102,14 @@ class Main(private val arguments: Array<String>) {
 	val jaxbContext = JAXBContext.newInstance(*this@Main.plugin.jaxbInitializationArray)
 	val jaxbReader = jaxbContext.createUnmarshaller()
 
-	private val plan = Files.newBufferedReader(Paths.get(options["file"] as String)).use {
+	val filePath = Paths.get(options["file"] as String)
+
+	private val plan = Files.newBufferedReader(filePath).use {
 		jaxbReader.unmarshal(it)
 	}
 
-	private val scriptEngine = ScriptEngineManager().getEngineByName("javascript")!!.apply {
+	private val scriptEngine = ScriptEngineManager().getEngineByName("javascript")!!
 
-	}
 	private val engine = Engine(scriptEngine, jaxbReader)
 
 	init {
@@ -123,6 +124,8 @@ class Main(private val arguments: Array<String>) {
 				scriptEngine.eval(it)
 			}
 		}
+
+		engine.pushWorkingDirectory(filePath.parent)
 
 		log.info("Processing Plan...")
 		processElement(plan)

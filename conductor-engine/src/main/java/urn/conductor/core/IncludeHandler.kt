@@ -5,14 +5,19 @@ import urn.conductor.ElementHandler
 import urn.conductor.Engine
 import urn.conductor.stdlib.xml.Include
 import java.nio.file.Files
+import javax.xml.namespace.QName
 
 class IncludeHandler : ElementHandler<Include> {
 	private val logger = LogManager.getLogger()
 
-	override val handles: Class<urn.conductor.stdlib.xml.Include>
-		get() = urn.conductor.stdlib.xml.Include::class.java
+	override val handles: Class<Include>
+		get() = Include::class.java
 
-	override fun process(element: urn.conductor.stdlib.xml.Include, engine: Engine, processChild: (Any) -> Unit) {
+	override fun getAttributes(element: Include): Map<QName, String> {
+		return element.otherAttributes
+	}
+
+	override fun process(element: Include, engine: Engine, processChild: (Any) -> Unit) {
 		val sourceFile = engine.getPath(element.src.let(engine::interpolate))
 		val sourceDirectory = sourceFile.parent
 		val type = element.mode

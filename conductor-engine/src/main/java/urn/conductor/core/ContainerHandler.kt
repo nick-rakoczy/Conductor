@@ -1,18 +1,17 @@
 package urn.conductor.core
 
-class ContainerHandler : urn.conductor.ElementHandler<urn.conductor.stdlib.xml.Container> {
-	override fun process(element: urn.conductor.stdlib.xml.Container, engine: urn.conductor.Engine, processChild: (Any) -> Unit) {
-		if (element.isIsolated) {
-			engine.nestContext {
-				element.any.forEach(processChild)
-			}
-		} else {
-			element.any.forEach(processChild)
-		}
+import urn.conductor.ElementHandler
+import urn.conductor.Engine
+import urn.conductor.stdlib.xml.Container
+import javax.xml.namespace.QName
+
+class ContainerHandler : ElementHandler<Container> {
+	override fun process(element: Container, engine: Engine, processChild: (Any) -> Unit) {
+		element.any.forEach(processChild)
 	}
 
-	override fun getAttributes(element: urn.conductor.stdlib.xml.Container): Map<javax.xml.namespace.QName, String> = element.otherAttributes
+	override fun getAttributes(element: Container): Map<QName, String> = element.otherAttributes
 
-	override val handles: Class<urn.conductor.stdlib.xml.Container>
-		get() = urn.conductor.stdlib.xml.Container::class.java
+	override val handles: Class<Container>
+		get() = Container::class.java
 }

@@ -3,10 +3,16 @@ package urn.conductor.core
 import org.apache.logging.log4j.LogManager
 import urn.conductor.ElementHandler
 import urn.conductor.Engine
+import urn.conductor.stdlib.xml.DebugContext
 import urn.conductor.stdlib.xml.NeverFail
+import javax.xml.namespace.QName
 
 class NeverFailHandler : ElementHandler<NeverFail> {
 	private val logger = LogManager.getLogger()
+
+	override fun getAttributes(element: NeverFail): Map<QName, String> {
+		return element.otherAttributes
+	}
 
 	override val handles: Class<urn.conductor.stdlib.xml.NeverFail>
 		get() = urn.conductor.stdlib.xml.NeverFail::class.java
