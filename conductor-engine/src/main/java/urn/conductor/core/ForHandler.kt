@@ -13,10 +13,6 @@ class ForHandler : ElementHandler<For> {
 	override val handles: Class<For>
 		get() = urn.conductor.stdlib.xml.For::class.java
 
-	override fun getAttributes(element: For): Map<QName, String> {
-		return element.otherAttributes
-	}
-
 	override fun process(element: urn.conductor.stdlib.xml.For, engine: Engine, processChild: (Any) -> Unit) {
 		val itemName = element.`as`
 		val collectionName = element.ref

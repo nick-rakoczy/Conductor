@@ -10,8 +10,6 @@ class ContainerHandler : ElementHandler<Container> {
 		element.any.forEach(processChild)
 	}
 
-	override fun getAttributes(element: Container): Map<QName, String> = element.otherAttributes
-
 	override val handles: Class<Container>
 		get() = Container::class.java
 }

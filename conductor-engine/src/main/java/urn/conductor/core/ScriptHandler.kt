@@ -11,8 +11,6 @@ class ScriptHandler : urn.conductor.ElementHandler<urn.conductor.stdlib.xml.Scri
 		}
 	}
 
-	override fun getAttributes(element: urn.conductor.stdlib.xml.Script): Map<javax.xml.namespace.QName, String> = element.otherAttributes
-
 	override val handles: Class<urn.conductor.stdlib.xml.Script>
 		get() = urn.conductor.stdlib.xml.Script::class.java
 }

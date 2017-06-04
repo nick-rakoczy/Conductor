@@ -17,10 +17,6 @@ class VaultHandler : ElementHandler<Vault> {
 	override val handles: Class<Vault>
 		get() = Vault::class.java
 
-	override fun getAttributes(element: Vault): Map<QName, String> {
-		return element.otherAttributes
-	}
-
 	override fun process(element: Vault, engine: Engine, processChild: (Any) -> Unit) {
 		val sourcePath = element.vaultSrc
 				.let(engine::interpolate)
