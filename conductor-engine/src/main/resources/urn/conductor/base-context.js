@@ -12,12 +12,10 @@ var logManager = logFactory.receiverMethod();
 
 var logger = logManager.JS;
 
-logger.info("test");
-
 function print(msg) {
-    logger.JS.error("Do not use print() in JS");
+    logger.error("Do not use print() in JS");
 }
 
 function println(msg) {
-    logger.JS.error("Do not use println() in JS");
+    logger.error("Do not use println() in JS");
 }
