@@ -32,17 +32,6 @@
         </xsd:complexType>
     </xsd:element>
 
-    <xsd:element name="debug-context">
-        <xsd:annotation>
-            <xsd:documentation>
-                Print the contents of the execution context to the console.
-            </xsd:documentation>
-        </xsd:annotation>
-        <xsd:complexType>
-            <xsd:anyAttribute/>
-        </xsd:complexType>
-    </xsd:element>
-
     <xsd:element name="include">
         <xsd:annotation>
             <xsd:documentation>
