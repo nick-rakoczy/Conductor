@@ -138,7 +138,8 @@
     <xsd:element name="vault">
         <xsd:annotation>
             <xsd:documentation>
-                Loads a KDBX file from the file system into the execution context.
+                Loads a KDBX file from the file system into the execution context. Only supports KDBX files encrypted
+                with AES/Rijndael 256-bit with a KDF of AES-KDF.
             </xsd:documentation>
         </xsd:annotation>
         <xsd:complexType>
