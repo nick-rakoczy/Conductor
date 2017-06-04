@@ -15,12 +15,6 @@ class Engine(
 		val jaxbReader: Unmarshaller
 ) : ScriptEngine by internalScriptEngine {
 	val gson = GsonBuilder().setPrettyPrinting().create()
-	private val contextStack = Stack<String>()
-
-	override fun toString(): String {
-		return this.getBindings(ScriptContext.ENGINE_SCOPE)
-				.let(gson::toJson)
-	}
 
 	fun delete(name: String) {
 		this.context.removeAttribute(name, ScriptContext.ENGINE_SCOPE)
