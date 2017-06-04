@@ -5,6 +5,7 @@ import com.amazonaws.auth.BasicAWSCredentials
 import urn.conductor.ElementHandler
 import urn.conductor.Engine
 import urn.conductor.aws.xml.Credentials
+import javax.xml.namespace.QName
 
 class CredentialHandler : ElementHandler<Credentials> {
 	override val handles: Class<Credentials>
@@ -15,9 +16,9 @@ class CredentialHandler : ElementHandler<Credentials> {
 		when {
 			element.vaultRef.isNotEmpty() -> {
 				val vaultRef = element.vaultRef.orEmpty().let(engine::interpolate)
-				val vaultEntry = engine.eval(vaultRef) as? Map<String, String> ?: error("Invalid vault defined")
-				val accessKey = vaultEntry["username"] ?: error("Invalid entry defined")
-				val secretKey = vaultEntry["password"] ?: error("Invalid entry defined")
+				val vaultEntry = engine.eval(vaultRef) as? Map<*, *> ?: error("Invalid vault reference")
+				val accessKey = vaultEntry["username"] as? String ?: error("Invalid entry defined")
+				val secretKey = vaultEntry["password"] as? String ?: error("Invalid entry defined")
 				BasicAWSCredentials(accessKey, secretKey)
 			}
 			element.accessKey.isNotEmpty() && element.secretKey.isNotEmpty() -> {

@@ -4,6 +4,8 @@
             xmlns:aws="https://amazonaws.com"
             elementFormDefault="qualified">
 
+    <xsd:import schemaLocation="aws.xsd" namespace="https://amazonaws.com"/>
+
     <xsd:element name="remove-zone">
         <xsd:complexType>
             <xsd:attribute type="xsd:token" name="name" use="required"/>

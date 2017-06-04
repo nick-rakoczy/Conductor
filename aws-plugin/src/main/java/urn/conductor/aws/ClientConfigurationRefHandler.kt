@@ -36,8 +36,12 @@ class ClientConfigurationRefHandler : AttributeHandler {
 			prop.writeMethod.invoke(config, value)
 		}
 
-		engine.put(ClientConfigurationRefHandler::class.java.name, config)
+		engine.put(clientConfigurationPropertyName, config)
 		proceed()
-		engine.delete(ClientConfigurationRefHandler::class.java.name)
+		engine.delete(clientConfigurationPropertyName)
+	}
+
+	companion object {
+		val clientConfigurationPropertyName = "aws:client-configuration"
 	}
 }
