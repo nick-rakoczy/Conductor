@@ -20,7 +20,7 @@ class VaultHandler : ElementHandler<Vault> {
 	override fun process(element: Vault, engine: Engine, processChild: (Any) -> Unit) {
 		val sourcePath = element.vaultSrc
 				.let(engine::interpolate)
-				.let { Paths.get(it) }
+				.let(engine::getPath)
 		val sourceFile = sourcePath.toFile()
 		val vaultDatabase = de.slackspace.openkeepass.KeePassDatabase.getInstance(sourceFile)
 		val vaultPassword = element.passwordFile
