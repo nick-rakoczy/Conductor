@@ -1,0 +1,23 @@
+<container xmlns="urn:conductor" xmlns:flow="urn:conductor:flow">
+    <include src="junit.js" mode="js"/>
+
+    <script>
+        var value = 0;
+    </script>
+
+    <script flow:if="value == 0">
+        value++;
+    </script>
+
+    <script flow:if="value == 1">
+        value++;
+    </script>
+
+    <script flow:unless="value == 2">
+        value++;
+    </script>
+
+    <script>
+        assert(value === 2);
+    </script>
+</container>

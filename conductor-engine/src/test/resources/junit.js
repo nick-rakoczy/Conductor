@@ -19,6 +19,9 @@ function assertArrayEquals() {
 function fail() {
     org.junit.Assert.fail(arguments);
 }
+function assert() {
+    assertTrue(arguments);
+}
 function assertUndefined(obj) {
     assertTrue(typeof(obj) === 'undefined');
 }

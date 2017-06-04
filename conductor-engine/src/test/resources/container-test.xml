@@ -1,0 +1,22 @@
+<container xmlns="urn:conductor">
+    <include src="junit.js" mode="js"/>
+
+    <script>
+        var test = 0;
+    </script>
+
+    <!-- Just ensuring that containers call their children. -->
+    <container>
+        <script>
+            test++;
+        </script>
+        <script>
+            test++;
+        </script>
+    </container>
+
+    <script>
+        assert(test === 2);
+    </script>
+
+</container>

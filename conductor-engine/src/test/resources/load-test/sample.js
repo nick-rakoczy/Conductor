@@ -1,0 +1,3 @@
+{
+    name: "Junit Tester2"
+}

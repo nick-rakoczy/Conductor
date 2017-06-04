@@ -1,0 +1,15 @@
+<container xmlns="urn:conductor">
+    <include src="junit.js" mode="js"/>
+
+    <script>
+        var value = 0;
+    </script>
+
+    <script>
+        value++;
+    </script>
+
+    <script>
+        assert(value === 1);
+    </script>
+</container>

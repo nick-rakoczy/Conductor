@@ -1,0 +1,18 @@
+<container xmlns="urn:conductor" xmlns:flow="urn:conductor:flow">
+    <include src="junit.js" mode="js"/>
+
+    <script>
+        var array = [1, 2, 3];
+        var sum = 0;
+    </script>
+
+    <for ref="array">
+        <script>
+            sum += it;
+        </script>
+    </for>
+
+    <script>
+        assert(sum === 6);
+    </script>
+</container>
