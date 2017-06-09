@@ -138,36 +138,45 @@
     <xsd:element name="vault">
         <xsd:annotation>
             <xsd:documentation>
-                Loads a KDBX file from the file system into the execution context. Only supports KDBX files encrypted
-                with AES/Rijndael 256-bit with a KDF of AES-KDF.
+                Loads KDBX files from the file system into the execution context. Each KDBX file overrides the files
+                above it.
+
+                Only supports KDBX files encrypted with AES/Rijndael 256-bit with a KDF of AES-KDF.
             </xsd:documentation>
         </xsd:annotation>
         <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="source" minOccurs="1" maxOccurs="unbounded">
+                    <xsd:complexType>
+                        <xsd:attribute type="xsd:anyURI" name="src" use="required">
+                            <xsd:annotation>
+                                <xsd:documentation>
+                                    The path to the KDBX file, relative to the execution context directory.
+                                    Interpolated.
+                                </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                        <xsd:attribute type="xsd:anyURI" name="password-file">
+                            <xsd:annotation>
+                                <xsd:documentation>
+                                    The path to a plain-text file containing the KDBX password. Interpolated.
+                                </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                        <xsd:attribute type="xsd:anyURI" name="key-file">
+                            <xsd:annotation>
+                                <xsd:documentation>
+                                    The path to the key file that opens the KDBX file. Interpolated.
+                                </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
             <xsd:attribute type="xsd:token" name="as" use="required">
                 <xsd:annotation>
                     <xsd:documentation>
                         The JS name for the vault.
-                    </xsd:documentation>
-                </xsd:annotation>
-            </xsd:attribute>
-            <xsd:attribute type="xsd:anyURI" name="vault-src" use="required">
-                <xsd:annotation>
-                    <xsd:documentation>
-                        The path to the KDBX file, relative to the execution context directory. Interpolated.
-                    </xsd:documentation>
-                </xsd:annotation>
-            </xsd:attribute>
-            <xsd:attribute type="xsd:anyURI" name="password-file">
-                <xsd:annotation>
-                    <xsd:documentation>
-                        The path to a plain-text file containing the KDBX password. Interpolated.
-                    </xsd:documentation>
-                </xsd:annotation>
-            </xsd:attribute>
-            <xsd:attribute type="xsd:anyURI" name="key-file">
-                <xsd:annotation>
-                    <xsd:documentation>
-                        The path to the key file that opens the KDBX file. Interpolated.
                     </xsd:documentation>
                 </xsd:annotation>
             </xsd:attribute>

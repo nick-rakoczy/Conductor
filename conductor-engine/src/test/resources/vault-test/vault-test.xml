@@ -1,9 +1,9 @@
 <container xmlns="urn:conductor">
     <include src="../junit.js" mode="js"/>
 
-    <vault as="simpleVault"
-           vault-src="./simple-vault.kdbx"
-           password-file="./password.txt"/>
+    <vault as="simpleVault">
+        <source src="./simple-vault.kdbx" password-file="./password.txt"/>
+    </vault>
 
     <script>
         assert(simpleVault.main.username === "junit-tester");
@@ -15,23 +15,39 @@
         assert(simpleVault.nest.main.notes === "Test File for Junit");
     </script>
 
-    <vault as="keyedVault"
-           vault-src="./key-file-vault.kdbx"
-           key-file="./key-file-vault.key"/>
+    <vault as="keyedVault">
+        <source src="./key-file-vault.kdbx" key-file="./key-file-vault.key"/>
+    </vault>
 
     <script>
         assert(keyedVault.main.username === "junit-tester");
         assert(keyedVault.main.password === "oSNZc2QoAt2R85TrKKve");
     </script>
 
-    <vault as="mfaVault"
-           vault-src="./2fa-vault.kdbx"
-           password-file="./password.txt"
-           key-file="./key-file-vault.key"/>
+    <vault as="mfaVault">
+        <source src="./2fa-vault.kdbx"
+                password-file="./password.txt"
+                key-file="./key-file-vault.key"/>
+    </vault>
 
     <script>
         assert(mfaVault.main.username === "junit-tester");
         assert(mfaVault.main.password === "vuD2EXu2GdEK2AooBJ6C");
+    </script>
+
+    <vault as="inheritanceVault">
+        <source src="./simple-vault.kdbx" password-file="./password.txt"/>
+        <source src="./key-file-vault.kdbx" key-file="./key-file-vault.key"/>
+    </vault>
+
+    <script>
+        assert(inheritanceVault.main.username === "junit-tester");
+        assert(inheritanceVault.main.password === "oSNZc2QoAt2R85TrKKve");
+
+        assert(inheritanceVault.nest.main.username === "junit-tester");
+        assert(inheritanceVault.nest.main.password === "qhnfgnsPVa320O4PvpI6");
+        assert(inheritanceVault.nest.main.url === "urn:conductor");
+        assert(inheritanceVault.nest.main.notes === "Test File for Junit");
     </script>
 
 </container>

@@ -3,9 +3,7 @@ package urn.conductor.core
 import org.apache.logging.log4j.LogManager
 import urn.conductor.ElementHandler
 import urn.conductor.Engine
-import urn.conductor.stdlib.xml.DebugContext
 import urn.conductor.stdlib.xml.For
-import javax.xml.namespace.QName
 
 class ForHandler : ElementHandler<For> {
 	private val logger = LogManager.getLogger()
