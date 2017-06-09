@@ -66,7 +66,7 @@ class VaultHandler : ElementHandler<Vault> {
 				vaultPassword != null && vaultKeyFile == null -> vaultDatabase.openDatabase(vaultPassword)
 				vaultPassword == null && vaultKeyFile != null -> vaultDatabase.openDatabase(vaultKeyFile)
 				vaultPassword != null && vaultKeyFile != null -> vaultDatabase.openDatabase(vaultPassword, vaultKeyFile)
-				else -> error("No credentials provided for vault")
+				else -> error("No credentials provided for vault: ${sourcePath.toAbsolutePath().normalize()}")
 			}
 
 			processRecords(vaultMap, vault.topEntries, vault.topGroups)
