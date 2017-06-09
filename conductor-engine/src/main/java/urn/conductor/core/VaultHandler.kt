@@ -46,7 +46,7 @@ class VaultHandler : ElementHandler<Vault> {
 		val vaultJsName = element.`as`
 		val vaultMap = HashMap<String, Any>()
 
-		element.source.map {
+		element.source.forEach {
 			val sourcePath = it.src
 					.let(engine::interpolate)
 					.let(engine::getPath)
