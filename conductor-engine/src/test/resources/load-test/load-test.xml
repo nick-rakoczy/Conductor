@@ -20,7 +20,7 @@
         <load as="json2" src="./sample.js" mode="js"/>
         <script>
             assert(typeof(json2) !== "undefined");
-            assert(json2.name === "Junit Tester");
+            assert(json2.name === "Junit Tester2");
         </script>
     </container>
 </container>

@@ -1,0 +1,15 @@
+<container xmlns="urn:conductor" xmlns:flow="urn:conductor:flow">
+    <include src="junit.js" mode="js"/>
+
+    <identity as="testIdentity"
+              username="junit"
+              ssh-public-key="pubpub"
+              ssh-private-key="pripri"/>
+
+    <script>
+        assert(typeof(testIdentity) !== 'undefined');
+        assert(testIdentity.username === "junit");
+        assert(testIdentity.publicKey === "pubpub");
+        assert(testIdentity.privateKey === "pripri");
+    </script>
+</container>

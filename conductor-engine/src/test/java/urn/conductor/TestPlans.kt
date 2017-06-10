@@ -13,6 +13,8 @@ class TestPlans {
 	@Test fun scriptHandler() = run("script-test.xml")
 	@Test fun vaultHandler() = run("vault-test/vault-test.xml")
 	@Test fun ifUnlessHandler() = run("if-test.xml")
+	@Test fun identityHandler() = run("identity-test.xml")
+	@Test fun interpolation() = run("interpolation-test.xml")
 
 	private fun file(name: String) = arrayOf("plugins=.", "file=./src/test/resources/$name")
 	private fun run(name: String) = file(name).let(::main)

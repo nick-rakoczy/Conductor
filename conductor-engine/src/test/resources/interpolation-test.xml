@@ -1,0 +1,26 @@
+<container xmlns="urn:conductor">
+    <include src="junit.js" mode="js"/>
+
+    <script>
+        var env = {
+            name: "unit-testing"
+        };
+
+        function getName() {
+            return env.name;
+        }
+    </script>
+
+    <host as="v1" tags="junit" ip-address="ip-{{env.name}}"/>
+    <host as="v2" tags="junit" ip-address="ip-\{{env.name}}"/>
+    <host as="f1" tags="junit" ip-address="ip-{{getName()}}"/>
+    <host as="f2" tags="junit" ip-address="ip-\{{getName()}}"/>
+
+    <script>
+        assert(v1.ipAddress === "ip-unit-testing");
+        assert(v2.ipAddress === "ip-{{env.name}}");
+
+        assert(f1.ipAddress === "ip-unit-testing");
+        assert(f2.ipAddress === "ip-{{getName()}}");
+    </script>
+</container>
