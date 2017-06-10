@@ -225,4 +225,18 @@
             <xsd:anyAttribute/>
         </xsd:complexType>
     </xsd:element>
+
+    <xsd:element name="identity">
+        <xsd:annotation>
+            <xsd:documentation>
+                Declares a login identity.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:attribute type="xsd:token" name="as" default="id"/>
+            <xsd:attribute type="xsd:token" name="username" use="required"/>
+            <xsd:attribute type="xsd:token" name="ssh-public-key" use="required"/>
+            <xsd:attribute type="xsd:token" name="ssh-private-key" use="required"/>
+        </xsd:complexType>
+    </xsd:element>
 </xsd:schema>
