@@ -4,23 +4,23 @@
         var increment = 1;
     </script>
 
-    <flow:define-macro id="myMacro">
+    <define-macro id="myMacro">
         <script>
             value += increment;
         </script>
-    </flow:define-macro>
+    </define-macro>
 
-    <flow:invoke-macro ref="myMacro"/>
-    <flow:invoke-macro ref="myMacro"/>
-    <flow:invoke-macro ref="myMacro"/>
-    <flow:invoke-macro ref="myMacro"/>
-    <flow:invoke-macro ref="myMacro" flow:if="value === 1000"/>
+    <invoke-macro ref="myMacro"/>
+    <invoke-macro ref="myMacro"/>
+    <invoke-macro ref="myMacro"/>
+    <invoke-macro ref="myMacro"/>
+    <invoke-macro ref="myMacro" flow:if="value === 1000"/>
 
     <script>
         increment = 5;
     </script>
 
-    <flow:invoke-macro ref="myMacro"/>
+    <invoke-macro ref="myMacro"/>
 
     <script>
         assert(value === 19);

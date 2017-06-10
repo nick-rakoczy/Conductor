@@ -265,4 +265,20 @@
             <xsd:attribute type="xsd:token" name="private-key-ref"/>
         </xsd:complexType>
     </xsd:element>
+
+    <xsd:element name="define-macro">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:any minOccurs="0" maxOccurs="unbounded"/>
+            </xsd:sequence>
+            <xsd:attribute type="xsd:token" name="id" use="required"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="invoke-macro">
+        <xsd:complexType>
+            <xsd:attribute type="xsd:token" name="ref" use="required"/>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
 </xsd:schema>
