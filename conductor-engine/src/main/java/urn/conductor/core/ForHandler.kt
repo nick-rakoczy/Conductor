@@ -1,5 +1,6 @@
 package urn.conductor.core
 
+import jdk.nashorn.api.scripting.ScriptObjectMirror
 import org.apache.logging.log4j.LogManager
 import urn.conductor.ElementHandler
 import urn.conductor.Engine
@@ -14,12 +15,21 @@ class ForHandler : ElementHandler<For> {
 	override fun process(element: For, engine: Engine, processChild: (Any) -> Unit) {
 		val itemName = element.id
 		val collectionName = element.iteratorRef
-		val sourceCollection = engine.getObjectMirror(collectionName)
+		val sourceCollection = engine.get(collectionName)
 
-		val oldValue = engine.getObjectMirror(itemName)
-		sourceCollection?.forEach {
-			engine.put(itemName, it.value)
+		val oldValue = engine.get(itemName)
+
+		fun processElement(value: Any?) {
+			engine.put(itemName, value)
 			element.any.forEach(processChild)
+		}
+
+		when (sourceCollection) {
+			is ScriptObjectMirror -> sourceCollection
+					.map { it.value }
+					.forEach(::processElement)
+			is Collection<*> -> sourceCollection
+					.forEach(::processElement)
 		}
 
 		engine.delete(itemName)

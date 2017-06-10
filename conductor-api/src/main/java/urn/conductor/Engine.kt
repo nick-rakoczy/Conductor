@@ -42,7 +42,7 @@ class Engine(
 		}
 	}.let(StringBuilder::toString)
 
-	fun getObjectMirror(name: String) = this[name] as ScriptObjectMirror?
+	fun getObjectMirror(name: String) = this[name] as? ScriptObjectMirror?
 
 	private val workingDirectoryStack = Stack<Path>()
 
