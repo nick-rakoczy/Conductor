@@ -5,7 +5,7 @@ import urn.conductor.Engine
 import urn.conductor.Host
 import urn.conductor.Identity
 
-abstract class HostIdentityElementHandler<T : Any>(
+abstract class AbstractHostIdentityElementHandler<T : Any>(
 		private val hostRef: T.() -> String?,
 		private val identityRef: T.() -> String?
 ) : ElementHandler<T> {

@@ -17,6 +17,13 @@
         echo "test" > ~/test.txt
     </ssh:shell>
 
+    <ssh:copy src="./sample.txt" dst="/root/sample.txt" template-parsing-disabled="true"/>
+    <ssh:md5 path="/root/sample.txt" id="basicHash"/>
+
+    <script>
+        assert(basicHash === "d54c84410117898fbbefb7bdd7c3a6a5");
+    </script>
+
     <ssh:copy src="./sample.txt" dst="/root/sample.txt"/>
     <ssh:md5 path="/root/sample.txt" id="interpolatedHash"/>
 
@@ -24,12 +31,6 @@
         assert(interpolatedHash === "1e665987ee8ffc00694a73d5993c110f");
     </script>
 
-    <ssh:copy src="./sample.txt" dst="/root/sample.txt" template-parsing-disabled="true"/>
-    <ssh:md5 path="/root/sample.txt" id="basicHash"/>
-
-    <script>
-        assert(basicHash === "d54c84410117898fbbefb7bdd7c3a6a5");
-    </script>
 
     <ssh:set-permissions path="/root/test.txt" owner="syslog" group="sambashare" mode="775"/>
 </container>

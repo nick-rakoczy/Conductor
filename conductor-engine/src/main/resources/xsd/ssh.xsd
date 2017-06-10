@@ -2,13 +2,7 @@
             xmlns="urn:conductor:ssh"
             targetNamespace="urn:conductor:ssh"
             elementFormDefault="qualified">
-
-    <xsd:element name="disable-host-key-checking">
-        <xsd:complexType>
-            <xsd:anyAttribute/>
-        </xsd:complexType>
-    </xsd:element>
-
+    
     <xsd:element name="host-key">
         <xsd:complexType>
             <xsd:simpleContent>

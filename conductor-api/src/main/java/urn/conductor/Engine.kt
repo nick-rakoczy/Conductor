@@ -2,6 +2,7 @@ package urn.conductor
 
 import com.google.gson.GsonBuilder
 import jdk.nashorn.api.scripting.ScriptObjectMirror
+import urn.conductor.ssh.SessionProvider
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.Stack
@@ -12,7 +13,8 @@ import javax.xml.bind.Unmarshaller
 
 class Engine(
 		private val internalScriptEngine: ScriptEngine,
-		val jaxbReader: Unmarshaller
+		val jaxbReader: Unmarshaller,
+		val sessionProvider: SessionProvider
 ) : ScriptEngine by internalScriptEngine {
 	val gson = GsonBuilder().setPrettyPrinting().create()
 

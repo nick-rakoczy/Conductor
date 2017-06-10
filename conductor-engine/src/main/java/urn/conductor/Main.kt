@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager
 import org.reflections.Reflections
 import org.reflections.scanners.SubTypesScanner
 import org.reflections.util.ConfigurationBuilder
+import urn.conductor.ssh.SessionProviderImpl
 import java.io.InputStreamReader
 
 import java.net.URLClassLoader
@@ -110,7 +111,7 @@ class Main(private val arguments: Array<String>) {
 
 	private val scriptEngine = ScriptEngineManager().getEngineByName("javascript")!!
 
-	private val engine = Engine(scriptEngine, jaxbReader)
+	private val engine = Engine(scriptEngine, jaxbReader, SessionProviderImpl)
 
 	init {
 		if (plan == null) {
@@ -118,6 +119,7 @@ class Main(private val arguments: Array<String>) {
 		}
 
 		scriptEngine["options"] = options
+		scriptEngine["sessionProvider"] = SessionProviderImpl
 
 		this.javaClass.getResourceAsStream("base-context.js").use {
 			InputStreamReader(it).use {

@@ -1,19 +1,15 @@
 package urn.conductor.ssh
 
-import urn.conductor.ElementHandler
 import urn.conductor.Engine
-import urn.conductor.Host
-import urn.conductor.Identity
-import urn.conductor.SessionManager
 import urn.conductor.absolutePathString
 import urn.conductor.stdlib.xml.Shell
 import java.nio.file.Files
 
-class ShellHandler : HostIdentityElementHandler<Shell>(Shell::getHostRef, Shell::getIdentityRef) {
+class ShellHandler : AbstractTransportElementHandler<Shell>(Shell::getHostRef, Shell::getIdentityRef) {
 	override val handles: Class<Shell>
 		get() = Shell::class.java
 
-	override fun process(element: Shell, engine: Engine, processChild: (Any) -> Unit, host: Host, identity: Identity) {
+	override fun process(element: Shell, engine: Engine, processChild: (Any) -> Unit, transport: HostTransport) {
 		val script = element.value.trimStart().trimEnd().trimIndent()
 		val scriptFile = Files.createTempFile("conductor-", "-script-tmp.sh")
 		val scriptName = scriptFile.fileName.toString()
@@ -21,10 +17,10 @@ class ShellHandler : HostIdentityElementHandler<Shell>(Shell::getHostRef, Shell:
 
 		val tmpFileName = "/tmp/$scriptName"
 
-		SessionManager.getTransport(host, identity).use {
-			this.upload(scriptFile, tmpFileName)
-			this.execute("/bin/sh $tmpFileName")
-			this.remove(tmpFileName)
+		transport.useSftpChannel {
+			this.put(scriptFile.absolutePathString, tmpFileName)
+			transport.execute("/bin/sh $tmpFileName")
+			this.rm(tmpFileName)
 		}
 
 		scriptFile.toFile().deleteOnExit()

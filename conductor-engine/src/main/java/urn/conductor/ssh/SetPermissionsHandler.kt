@@ -1,27 +1,29 @@
 package urn.conductor.ssh
 
 import urn.conductor.Engine
-import urn.conductor.Host
-import urn.conductor.Identity
-import urn.conductor.SessionManager
 import urn.conductor.stdlib.xml.SetPermissions
 
-class SetPermissionsHandler : HostIdentityElementHandler<SetPermissions>(SetPermissions::getHostRef, SetPermissions::getIdentityRef) {
+class SetPermissionsHandler : AbstractTransportElementHandler<SetPermissions>(SetPermissions::getHostRef, SetPermissions::getIdentityRef) {
 	override val handles: Class<SetPermissions>
 		get() = SetPermissions::class.java
 
-	override fun process(element: SetPermissions, engine: Engine, processChild: (Any) -> Unit, host: Host, identity: Identity) {
-		SessionManager.getTransport(host, identity).use {
+
+	override fun process(element: SetPermissions, engine: Engine, processChild: (Any) -> Unit, transport: HostTransport) {
+		transport.useSftpChannel {
 			if (element.owner != null) {
-				this.chown(element.path, element.owner)
+				transport.getUserId(element.owner)?.let {
+					this.chown(it, element.path)
+				}
 			}
 
 			if (element.group != null) {
-				this.chgrp(element.path, element.group)
+				transport.getGroupId(element.group)?.let {
+					this.chgrp(it, element.path)
+				}
 			}
 
 			if (element.mode != null) {
-				this.chmod(element.path, element.mode.toInt(8))
+				this.chmod(element.mode.toInt(8), element.path)
 			}
 		}
 	}
