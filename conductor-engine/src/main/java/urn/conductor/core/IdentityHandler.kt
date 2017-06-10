@@ -8,11 +8,11 @@ import javax.xml.namespace.QName
 
 class IdentityHandler : ElementHandler<Identity> {
 	override fun process(element: Identity, engine: Engine, processChild: (Any) -> Unit) {
-		element.run {
+		element.let {
 			urn.conductor.Identity(
-					username = this.username,
-					publicKey = this.sshPublicKey,
-					privateKey = this.sshPrivateKey
+					username = it.username,
+					publicKey = it.sshPublicKey,
+					privateKey = it.sshPrivateKey
 			)
 		}.let {
 			engine.put(element.`as`, it)
