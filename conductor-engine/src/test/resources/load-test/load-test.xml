@@ -2,14 +2,15 @@
     <include src="../junit.js" mode="js"/>
 
     <container>
-        <load as="text" src="./sample.txt" mode="text"/>
+        <load id="text" src="./sample.txt" mode="text"/>
+        <load id="text" src="./sample.txt"/>
         <script>
             assert(text === "Sample Text File");
         </script>
     </container>
 
     <container>
-        <load as="json" src="./sample.json" mode="json"/>
+        <load id="json" src="./sample.json" mode="json"/>
         <script>
             assert(typeof(json) !== "undefined");
             assert(json.name === "Junit Tester");
@@ -17,7 +18,7 @@
     </container>
 
     <container>
-        <load as="json2" src="./sample.js" mode="js"/>
+        <load id="json2" src="./sample.js" mode="js"/>
         <script>
             assert(typeof(json2) !== "undefined");
             assert(json2.name === "Junit Tester2");

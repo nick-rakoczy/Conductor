@@ -12,8 +12,8 @@ class ForHandler : ElementHandler<For> {
 		get() = urn.conductor.stdlib.xml.For::class.java
 
 	override fun process(element: urn.conductor.stdlib.xml.For, engine: Engine, processChild: (Any) -> Unit) {
-		val itemName = element.`as`
-		val collectionName = element.ref
+		val itemName = element.id
+		val collectionName = element.iteratorRef
 		val sourceCollection = engine.getObjectMirror(collectionName)
 
 		val oldValue = engine.getObjectMirror(itemName)

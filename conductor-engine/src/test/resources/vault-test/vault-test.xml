@@ -1,7 +1,7 @@
 <container xmlns="urn:conductor">
     <include src="../junit.js" mode="js"/>
 
-    <vault as="simpleVault">
+    <vault id="simpleVault">
         <source src="./simple-vault.kdbx" password-file="./password.txt"/>
     </vault>
 
@@ -15,7 +15,7 @@
         assert(simpleVault.nest.main.notes === "Test File for Junit");
     </script>
 
-    <vault as="keyedVault">
+    <vault id="keyedVault">
         <source src="./key-file-vault.kdbx" key-file="./key-file-vault.key"/>
     </vault>
 
@@ -24,7 +24,7 @@
         assert(keyedVault.main.password === "oSNZc2QoAt2R85TrKKve");
     </script>
 
-    <vault as="mfaVault">
+    <vault id="mfaVault">
         <source src="./2fa-vault.kdbx"
                 password-file="./password.txt"
                 key-file="./key-file-vault.key"/>
@@ -35,7 +35,7 @@
         assert(mfaVault.main.password === "vuD2EXu2GdEK2AooBJ6C");
     </script>
 
-    <vault as="inheritanceVault">
+    <vault id="inheritanceVault">
         <source src="./simple-vault.kdbx" password-file="./password.txt"/>
         <source src="./key-file-vault.kdbx" key-file="./key-file-vault.key"/>
     </vault>
@@ -49,5 +49,11 @@
         assert(inheritanceVault.nest.main.url === "urn:conductor");
         assert(inheritanceVault.nest.main.notes === "Test File for Junit");
     </script>
+
+    <never-fail mode="silent">
+        <vault id="noAuthVault">
+            <source src="./simple-vault.kdbx"/>
+        </vault>
+    </never-fail>
 
 </container>

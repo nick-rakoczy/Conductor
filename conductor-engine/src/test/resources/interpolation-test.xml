@@ -11,16 +11,16 @@
         }
     </script>
 
-    <host as="v1" tags="junit" ip-address="ip-{{env.name}}"/>
-    <host as="v2" tags="junit" ip-address="ip-\{{env.name}}"/>
-    <host as="f1" tags="junit" ip-address="ip-{{getName()}}"/>
-    <host as="f2" tags="junit" ip-address="ip-\{{getName()}}"/>
+    <host id="v1" tags="junit" address="ip-{{env.name}}"/>
+    <host id="v2" tags="junit" address="ip-\{{env.name}}"/>
+    <host id="f1" tags="junit" address="ip-{{getName()}}"/>
+    <host id="f2" tags="junit" address="ip-\{{getName()}}"/>
 
     <script>
-        assert(v1.ipAddress === "ip-unit-testing");
-        assert(v2.ipAddress === "ip-{{env.name}}");
+        assert(v1.address === "ip-unit-testing");
+        assert(v2.address === "ip-{{env.name}}");
 
-        assert(f1.ipAddress === "ip-unit-testing");
-        assert(f2.ipAddress === "ip-{{getName()}}");
+        assert(f1.address === "ip-unit-testing");
+        assert(f2.address === "ip-{{getName()}}");
     </script>
 </container>

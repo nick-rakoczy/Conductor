@@ -1,12 +1,12 @@
-<container xmlns="urn:conductor" xmlns:flow="urn:conductor:flow">
+<container xmlns="urn:conductor">
     <include src="junit.js" mode="js"/>
 
-    <host as="localhost" tags="local unit-test" ip-address="127.0.0.1"/>
+    <host id="localhost" tags="local unit-test" address="127.0.0.1"/>
 
     <script>
         assert(typeof(localhost) !== 'undefined');
         assert(localhost.name === "localhost");
-        assert(localhost.ipAddress === "127.0.0.1");
+        assert(localhost.address === "127.0.0.1");
         assert(localhost.sshPort === 22);
         assert(localhost.tags.contains("local"));
         assert(localhost.tags.contains("unit-test"));

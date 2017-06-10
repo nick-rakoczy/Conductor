@@ -75,14 +75,14 @@
                     </xsd:documentation>
                 </xsd:annotation>
             </xsd:attribute>
-            <xsd:attribute type="xsd:token" name="as" use="required">
+            <xsd:attribute type="xsd:token" name="id" use="required">
                 <xsd:annotation>
                     <xsd:documentation>
                         The JS name for the loaded file.
                     </xsd:documentation>
                 </xsd:annotation>
             </xsd:attribute>
-            <xsd:attribute type="xsd:token" name="charset" default="UTF-8">
+            <xsd:attribute type="xsd:token" name="charset">
                 <xsd:annotation>
                     <xsd:documentation>
                         The charset of the file. Defaults to UTF-8.
@@ -112,8 +112,8 @@
             <xsd:sequence>
                 <xsd:any minOccurs="0" maxOccurs="unbounded"/>
             </xsd:sequence>
-            <xsd:attribute type="xsd:token" name="as" default="it"/>
-            <xsd:attribute type="xsd:token" name="ref" use="required"/>
+            <xsd:attribute type="xsd:token" name="id" default="it"/>
+            <xsd:attribute type="xsd:token" name="iterator-ref" use="required"/>
             <xsd:anyAttribute/>
         </xsd:complexType>
     </xsd:element>
@@ -173,7 +173,7 @@
                     </xsd:complexType>
                 </xsd:element>
             </xsd:sequence>
-            <xsd:attribute type="xsd:token" name="as" use="required">
+            <xsd:attribute type="xsd:token" name="id" use="required">
                 <xsd:annotation>
                     <xsd:documentation>
                         The JS name for the vault.
@@ -191,21 +191,21 @@
             </xsd:documentation>
         </xsd:annotation>
         <xsd:complexType>
-            <xsd:attribute type="xsd:token" name="as" use="required">
+            <xsd:attribute type="xsd:token" name="id" default="host">
                 <xsd:annotation>
                     <xsd:documentation>
                         The JS name for the host.
                     </xsd:documentation>
                 </xsd:annotation>
             </xsd:attribute>
-            <xsd:attribute type="xsd:token" name="ip-address" use="required">
+            <xsd:attribute type="xsd:token" name="address" use="required">
                 <xsd:annotation>
                     <xsd:documentation>
                         The IP Address for the host. This field will not be passed through a DNS resolver. Interpolated.
                     </xsd:documentation>
                 </xsd:annotation>
             </xsd:attribute>
-            <xsd:attribute name="tags" use="required">
+            <xsd:attribute name="tags" default="">
                 <xsd:annotation>
                     <xsd:documentation>
                         The tags associated with this host. Interpolated.
@@ -233,10 +233,11 @@
             </xsd:documentation>
         </xsd:annotation>
         <xsd:complexType>
-            <xsd:attribute type="xsd:token" name="as" default="id"/>
+            <xsd:attribute type="xsd:token" name="id" default="id"/>
             <xsd:attribute type="xsd:token" name="username" use="required"/>
-            <xsd:attribute type="xsd:token" name="ssh-public-key" use="required"/>
-            <xsd:attribute type="xsd:token" name="ssh-private-key" use="required"/>
+            <xsd:attribute type="xsd:string" name="password"/>
+            <xsd:attribute type="xsd:token" name="public-key-ref"/>
+            <xsd:attribute type="xsd:token" name="private-key-ref"/>
         </xsd:complexType>
     </xsd:element>
 </xsd:schema>

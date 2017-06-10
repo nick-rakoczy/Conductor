@@ -7,4 +7,12 @@
         </script>
     </never-fail>
 
+    <never-fail mode="silent">
+        <never-fail mode="bob">
+            <script>
+                throw "failure";
+            </script>
+        </never-fail>
+    </never-fail>
+
 </container>

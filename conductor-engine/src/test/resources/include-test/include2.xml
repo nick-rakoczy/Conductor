@@ -1,0 +1,9 @@
+<container xmlns="urn:conductor">
+    <script>
+        var test = 10;
+    </script>
+
+    <never-fail mode="silent">
+        <include src="./include2.xml" mode="bob"/>
+    </never-fail>
+</container>

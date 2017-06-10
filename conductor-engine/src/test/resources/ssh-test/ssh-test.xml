@@ -1,0 +1,35 @@
+<container xmlns="urn:conductor" xmlns:ssh="urn:conductor:ssh">
+    <include src="../junit.js" mode="js"/>
+
+    <vault id="vault">
+        <source src="./ssh-test.kdbx" password-file="F:/conductor-keepass.txt"/>
+    </vault>
+
+    <host address="{{vault.ssh_test.url}}"/>
+
+    <identity username="{{vault.ssh_test.username}}" password="{{vault.ssh_test.password}}"/>
+
+    <ssh:host-key type="SSHRSA">
+        {{vault.ssh_test.notes}}
+    </ssh:host-key>
+
+    <ssh:shell>
+        echo "test" > ~/test.txt
+    </ssh:shell>
+
+    <ssh:copy src="./sample.txt" dst="/root/sample.txt"/>
+    <ssh:md5 path="/root/sample.txt" id="interpolatedHash"/>
+
+    <script>
+        assert(interpolatedHash === "1e665987ee8ffc00694a73d5993c110f");
+    </script>
+
+    <ssh:copy src="./sample.txt" dst="/root/sample.txt" template-parsing-disabled="true"/>
+    <ssh:md5 path="/root/sample.txt" id="basicHash"/>
+
+    <script>
+        assert(basicHash === "d54c84410117898fbbefb7bdd7c3a6a5");
+    </script>
+
+    <ssh:set-permissions path="/root/test.txt" owner="syslog" group="sambashare" mode="775"/>
+</container>

@@ -5,19 +5,23 @@
         var value = 0;
     </script>
 
-    <script flow:if="value == 0">
+    <script flow:if="value === 0">
         value++;
     </script>
 
-    <script flow:if="value == 1">
+    <script flow:if="value === 1">
         value++;
     </script>
 
-    <script flow:unless="value == 2">
+    <script flow:unless="value === 2">
         value++;
     </script>
 
     <script>
         assert(value === 2);
+    </script>
+
+    <script flow:if="value === 2" flow:unless="value === 3">
+
     </script>
 </container>

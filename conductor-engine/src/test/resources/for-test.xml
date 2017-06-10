@@ -6,7 +6,7 @@
         var sum = 0;
     </script>
 
-    <for ref="array">
+    <for iterator-ref="array">
         <script>
             sum += it;
         </script>

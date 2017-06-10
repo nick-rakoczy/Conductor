@@ -1,6 +1,13 @@
 package urn.conductor
 
+import com.jcraft.jsch.Channel
+import com.jcraft.jsch.ChannelExec
+import com.jcraft.jsch.ChannelSftp
+import com.jcraft.jsch.ChannelShell
+import com.jcraft.jsch.Session
 import org.apache.logging.log4j.LogManager
+import java.lang.management.ThreadInfo
+import java.nio.file.Path
 import javax.script.ScriptEngine
 import javax.xml.bind.annotation.XmlRootElement
 import javax.xml.bind.annotation.XmlSchema
@@ -48,3 +55,5 @@ val Class<*>.xmlNamespace: String?
 
 val Class<*>.xmlElementName: String?
 	get() = this.getAnnotation(XmlRootElement::class.java)?.name
+
+val Path.absolutePathString get() = this.toAbsolutePath().normalize().toString()

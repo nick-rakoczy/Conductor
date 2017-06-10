@@ -5,7 +5,6 @@ import urn.conductor.ElementHandler
 import urn.conductor.Engine
 import urn.conductor.stdlib.xml.Load
 import java.nio.file.Files
-import javax.xml.namespace.QName
 
 class LoadHandler : ElementHandler<Load> {
 	private val logger = LogManager.getLogger()
@@ -23,11 +22,11 @@ class LoadHandler : ElementHandler<Load> {
 		val type = element.mode
 
 		when (type) {
-			"text" -> engine.put(element.`as`, data)
-			"json" -> engine.put(element.`as`, engine.gson.fromJson(data, Any::class.java))
-			"js" -> engine.eval("var ${element.`as`} = $data;")
+			"text" -> engine.put(element.id, data)
+			"json" -> engine.put(element.id, engine.gson.fromJson(data, Any::class.java))
+			"js" -> engine.eval("var ${element.id} = $data;")
 		}
 
-		logger.info("Loaded ${type.toUpperCase()} [${sourcePath.toAbsolutePath().normalize()}] as ${element.`as`}")
+		logger.info("Loaded ${type.toUpperCase()} [${sourcePath.toAbsolutePath().normalize()}] as ${element.id}")
 	}
 }

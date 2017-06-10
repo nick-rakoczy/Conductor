@@ -43,7 +43,7 @@ class VaultHandler : ElementHandler<Vault> {
 
 
 	override fun process(element: Vault, engine: Engine, processChild: (Any) -> Unit) {
-		val vaultJsName = element.`as`
+		val vaultJsName = element.id
 		val vaultMap = HashMap<String, Any>()
 
 		element.source.forEach {

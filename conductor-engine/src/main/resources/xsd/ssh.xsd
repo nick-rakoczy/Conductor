@@ -1,0 +1,112 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="urn:conductor:ssh"
+            targetNamespace="urn:conductor:ssh"
+            elementFormDefault="qualified">
+
+    <xsd:element name="disable-host-key-checking">
+        <xsd:complexType>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="host-key">
+        <xsd:complexType>
+            <xsd:simpleContent>
+                <xsd:extension base="xsd:token">
+                    <xsd:attribute type="xsd:token" name="host-ref" default="host"/>
+                    <xsd:attribute name="type">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:token">
+                                <xsd:enumeration value="SSHDSS"/>
+                                <xsd:enumeration value="SSHRSA"/>
+                                <xsd:enumeration value="ECDSA256"/>
+                                <xsd:enumeration value="ECDSA384"/>
+                                <xsd:enumeration value="ECDSA521"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:attribute>
+                </xsd:extension>
+            </xsd:simpleContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="shell">
+        <xsd:complexType>
+            <xsd:simpleContent>
+                <xsd:extension base="xsd:string">
+                    <xsd:attribute type="xsd:token" name="host-ref" default="host"/>
+                    <xsd:attribute type="xsd:token" name="identity-ref" default="id"/>
+                    <xsd:anyAttribute/>
+                </xsd:extension>
+            </xsd:simpleContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="copy">
+        <xsd:complexType>
+            <xsd:attribute type="xsd:anyURI" name="src" use="required"/>
+            <xsd:attribute type="xsd:anyURI" name="dst" use="required"/>
+            <xsd:attribute type="xsd:token" name="host-ref" default="host"/>
+            <xsd:attribute type="xsd:token" name="identity-ref" default="id"/>
+            <xsd:attribute type="xsd:boolean" name="template-parsing-disabled" default="false"/>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="set-permissions">
+        <xsd:complexType>
+            <xsd:attribute type="xsd:anyURI" name="path" use="required"/>
+            <xsd:attribute type="xsd:token" name="owner"/>
+            <xsd:attribute type="xsd:token" name="group"/>
+            <xsd:attribute name="mode">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:token">
+                        <xsd:pattern value="[0-7]{3,4}"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:attribute>
+            <xsd:attribute type="xsd:token" name="host-ref" default="host"/>
+            <xsd:attribute type="xsd:token" name="identity-ref" default="id"/>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="delete">
+        <xsd:complexType>
+            <xsd:attribute type="xsd:anyURI" name="path" use="required"/>
+            <xsd:attribute type="xsd:token" name="host-ref" default="host"/>
+            <xsd:attribute type="xsd:token" name="identity-ref" default="id"/>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="symlink">
+        <xsd:complexType>
+            <xsd:attribute type="xsd:anyURI" name="path" use="required"/>
+            <xsd:attribute type="xsd:anyURI" name="target" use="required"/>
+            <xsd:attribute type="xsd:token" name="host-ref" default="host"/>
+            <xsd:attribute type="xsd:token" name="identity-ref" default="id"/>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="mkdir">
+        <xsd:complexType>
+            <xsd:attribute type="xsd:anyURI" name="path" use="required"/>
+            <xsd:attribute type="xsd:token" name="host-ref" default="host"/>
+            <xsd:attribute type="xsd:token" name="identity-ref" default="id"/>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="md5">
+        <xsd:complexType>
+            <xsd:attribute type="xsd:anyURI" name="path" use="required"/>
+            <xsd:attribute type="xsd:token" name="id" use="required"/>
+            <xsd:attribute type="xsd:token" name="host-ref" default="host"/>
+            <xsd:attribute type="xsd:token" name="identity-ref" default="id"/>
+        </xsd:complexType>
+    </xsd:element>
+
+
+</xsd:schema>
