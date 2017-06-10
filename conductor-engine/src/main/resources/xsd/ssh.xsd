@@ -1,22 +1,29 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
             xmlns="urn:conductor:ssh"
+            xmlns:c="urn:conductor"
             targetNamespace="urn:conductor:ssh"
             elementFormDefault="qualified">
-    
+
+    <xsd:import namespace="urn:conductor" schemaLocation="base.xsd"/>
+
     <xsd:element name="host-key">
         <xsd:complexType>
             <xsd:simpleContent>
                 <xsd:extension base="xsd:token">
-                    <xsd:attribute type="xsd:token" name="host-ref" default="host"/>
+                    <xsd:attribute type="xsd:token" name="host-ref" default="{{defaults.engine.host}}"/>
                     <xsd:attribute name="type">
                         <xsd:simpleType>
-                            <xsd:restriction base="xsd:token">
-                                <xsd:enumeration value="SSHDSS"/>
-                                <xsd:enumeration value="SSHRSA"/>
-                                <xsd:enumeration value="ECDSA256"/>
-                                <xsd:enumeration value="ECDSA384"/>
-                                <xsd:enumeration value="ECDSA521"/>
-                            </xsd:restriction>
+                            <xsd:union memberTypes="c:interpolation-token">
+                                <xsd:simpleType>
+                                    <xsd:restriction base="xsd:token">
+                                        <xsd:enumeration value="SSHDSS"/>
+                                        <xsd:enumeration value="SSHRSA"/>
+                                        <xsd:enumeration value="ECDSA256"/>
+                                        <xsd:enumeration value="ECDSA384"/>
+                                        <xsd:enumeration value="ECDSA521"/>
+                                    </xsd:restriction>
+                                </xsd:simpleType>
+                            </xsd:union>
                         </xsd:simpleType>
                     </xsd:attribute>
                 </xsd:extension>
@@ -28,8 +35,8 @@
         <xsd:complexType>
             <xsd:simpleContent>
                 <xsd:extension base="xsd:string">
-                    <xsd:attribute type="xsd:token" name="host-ref" default="host"/>
-                    <xsd:attribute type="xsd:token" name="identity-ref" default="id"/>
+                    <xsd:attribute type="xsd:token" name="host-ref" default="{{defaults.engine.host}}"/>
+                    <xsd:attribute type="xsd:token" name="identity-ref" default="{{defaults.engine.identity}}"/>
                     <xsd:anyAttribute/>
                 </xsd:extension>
             </xsd:simpleContent>
@@ -40,8 +47,8 @@
         <xsd:complexType>
             <xsd:attribute type="xsd:anyURI" name="src" use="required"/>
             <xsd:attribute type="xsd:anyURI" name="dst" use="required"/>
-            <xsd:attribute type="xsd:token" name="host-ref" default="host"/>
-            <xsd:attribute type="xsd:token" name="identity-ref" default="id"/>
+            <xsd:attribute type="xsd:token" name="host-ref" default="{{defaults.engine.host}}"/>
+            <xsd:attribute type="xsd:token" name="identity-ref" default="{{defaults.engine.identity}}"/>
             <xsd:attribute type="xsd:boolean" name="template-parsing-disabled" default="false"/>
             <xsd:anyAttribute/>
         </xsd:complexType>
@@ -59,8 +66,8 @@
                     </xsd:restriction>
                 </xsd:simpleType>
             </xsd:attribute>
-            <xsd:attribute type="xsd:token" name="host-ref" default="host"/>
-            <xsd:attribute type="xsd:token" name="identity-ref" default="id"/>
+            <xsd:attribute type="xsd:token" name="host-ref" default="{{defaults.engine.host}}"/>
+            <xsd:attribute type="xsd:token" name="identity-ref" default="{{defaults.engine.identity}}"/>
             <xsd:anyAttribute/>
         </xsd:complexType>
     </xsd:element>
@@ -68,8 +75,8 @@
     <xsd:element name="delete">
         <xsd:complexType>
             <xsd:attribute type="xsd:anyURI" name="path" use="required"/>
-            <xsd:attribute type="xsd:token" name="host-ref" default="host"/>
-            <xsd:attribute type="xsd:token" name="identity-ref" default="id"/>
+            <xsd:attribute type="xsd:token" name="host-ref" default="{{defaults.engine.host}}"/>
+            <xsd:attribute type="xsd:token" name="identity-ref" default="{{defaults.engine.identity}}"/>
             <xsd:anyAttribute/>
         </xsd:complexType>
     </xsd:element>
@@ -78,8 +85,8 @@
         <xsd:complexType>
             <xsd:attribute type="xsd:anyURI" name="path" use="required"/>
             <xsd:attribute type="xsd:anyURI" name="target" use="required"/>
-            <xsd:attribute type="xsd:token" name="host-ref" default="host"/>
-            <xsd:attribute type="xsd:token" name="identity-ref" default="id"/>
+            <xsd:attribute type="xsd:token" name="host-ref" default="{{defaults.engine.host}}"/>
+            <xsd:attribute type="xsd:token" name="identity-ref" default="{{defaults.engine.identity}}"/>
             <xsd:anyAttribute/>
         </xsd:complexType>
     </xsd:element>
@@ -87,8 +94,8 @@
     <xsd:element name="mkdir">
         <xsd:complexType>
             <xsd:attribute type="xsd:anyURI" name="path" use="required"/>
-            <xsd:attribute type="xsd:token" name="host-ref" default="host"/>
-            <xsd:attribute type="xsd:token" name="identity-ref" default="id"/>
+            <xsd:attribute type="xsd:token" name="host-ref" default="{{defaults.engine.host}}"/>
+            <xsd:attribute type="xsd:token" name="identity-ref" default="{{defaults.engine.identity}}"/>
             <xsd:anyAttribute/>
         </xsd:complexType>
     </xsd:element>
@@ -97,8 +104,8 @@
         <xsd:complexType>
             <xsd:attribute type="xsd:anyURI" name="path" use="required"/>
             <xsd:attribute type="xsd:token" name="id" use="required"/>
-            <xsd:attribute type="xsd:token" name="host-ref" default="host"/>
-            <xsd:attribute type="xsd:token" name="identity-ref" default="id"/>
+            <xsd:attribute type="xsd:token" name="host-ref" default="{{defaults.engine.host}}"/>
+            <xsd:attribute type="xsd:token" name="identity-ref" default="{{defaults.engine.identity}}"/>
         </xsd:complexType>
     </xsd:element>
 

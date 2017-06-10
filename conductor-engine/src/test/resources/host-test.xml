@@ -1,6 +1,4 @@
 <container xmlns="urn:conductor">
-    <include src="junit.js" mode="js"/>
-
     <host id="localhost" tags="local unit-test" address="127.0.0.1"/>
 
     <script>

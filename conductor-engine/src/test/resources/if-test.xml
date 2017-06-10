@@ -1,6 +1,4 @@
 <container xmlns="urn:conductor" xmlns:flow="urn:conductor:flow">
-    <include src="junit.js" mode="js"/>
-
     <script>
         var value = 0;
     </script>

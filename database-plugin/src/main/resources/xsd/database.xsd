@@ -1,0 +1,65 @@
+<xsd:schema elementFormDefault="qualified"
+            targetNamespace="urn:javax.sql"
+            xmlns="urn:javax.sql"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:element name="connection">
+        <xsd:annotation>
+            <xsd:documentation>
+                Establish a connection to a database.
+                Supports MySQL out of the box. Add additional connectors to the plugins folder.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:attribute type="xsd:token" name="id" default=".sqlConnection">
+                <xsd:annotation>
+                    <xsd:documentation>
+
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute type="xsd:anyURI" name="connection" use="required"/>
+            <xsd:attribute type="xsd:token" name="username" use="required"/>
+            <xsd:attribute type="xsd:token" name="password" use="required"/>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="close">
+        <xsd:complexType>
+            <xsd:attribute type="xsd:token" name="connection-ref" default=".sqlConnection"/>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="load">
+        <xsd:complexType>
+            <xsd:attribute type="xsd:anyURI" name="src" use="required"/>
+            <xsd:attribute type="xsd:token" name="connection-ref" default=".sqlConnection"/>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="query">
+        <xsd:complexType>
+            <xsd:simpleContent>
+                <xsd:extension base="xsd:normalizedString">
+                    <xsd:attribute type="xsd:token" name="connection-ref" default=".sqlConnection"/>
+                    <xsd:attribute type="xsd:token" name="id"/>
+                    <xsd:anyAttribute/>
+                </xsd:extension>
+            </xsd:simpleContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="update">
+        <xsd:complexType>
+            <xsd:simpleContent>
+                <xsd:extension base="xsd:normalizedString">
+                    <xsd:attribute type="xsd:token" name="connection-ref" default=".sqlConnection"/>
+                    <xsd:anyAttribute/>
+                </xsd:extension>
+            </xsd:simpleContent>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

@@ -1,0 +1,28 @@
+<container
+        xmlns="urn:conductor"
+        xmlns:sql="urn:javax.sql">
+
+    <include src="./junit.js" mode="js"/>
+
+    <sql:connection connection="jdbc:h2:mem:" username="sa" password="sa"/>
+
+    <sql:load src="./ddl.sql"/>
+
+    <sql:update>
+        INSERT INTO SAMPLE (name) VALUES ('junit');
+    </sql:update>
+
+    <sql:query id="queryResults">
+        SELECT ID, NAME
+        FROM SAMPLE
+    </sql:query>
+
+    <sql:close/>
+
+    <script>
+        assert(queryResults[0].id === 1);
+        assert(queryResults[0].name === 'junit1');
+        assert(queryResults[1].id === 2);
+        assert(queryResults[1].name === 'junit');
+    </script>
+</container>

@@ -1,5 +1,4 @@
 <container xmlns="urn:conductor">
-    <include src="../junit.js" mode="js"/>
     <include src="./include2.xml" mode="xml"/>
 
     <script>

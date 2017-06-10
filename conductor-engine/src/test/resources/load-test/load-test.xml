@@ -1,6 +1,4 @@
 <container xmlns="urn:conductor">
-    <include src="../junit.js" mode="js"/>
-
     <container>
         <load id="text" src="./sample.txt" mode="text"/>
         <load id="text" src="./sample.txt"/>

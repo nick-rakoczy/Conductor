@@ -1,5 +1,4 @@
-<container xmlns="urn:conductor" xmlns:flow="urn:conductor:flow">
-    <include src="junit.js" mode="js"/>
+<container xmlns="urn:conductor">
 
     <script>
         var array = [1, 2, 3];

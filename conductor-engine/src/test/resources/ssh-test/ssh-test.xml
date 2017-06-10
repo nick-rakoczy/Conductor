@@ -1,5 +1,4 @@
 <container xmlns="urn:conductor" xmlns:ssh="urn:conductor:ssh">
-    <include src="../junit.js" mode="js"/>
 
     <vault id="vault">
         <source src="./ssh-test.kdbx" password-file="F:/conductor-keepass.txt"/>

@@ -3,6 +3,12 @@
             targetNamespace="urn:conductor"
             elementFormDefault="qualified">
 
+    <xsd:simpleType name="interpolation-token">
+        <xsd:restriction base="xsd:token">
+            <xsd:pattern value="\{\{.+\}\}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
     <xsd:element name="container">
         <xsd:annotation>
             <xsd:documentation>
@@ -173,7 +179,7 @@
                     </xsd:complexType>
                 </xsd:element>
             </xsd:sequence>
-            <xsd:attribute type="xsd:token" name="id" use="required">
+            <xsd:attribute type="xsd:token" name="id" default="{{defaults.engine.vault}}">
                 <xsd:annotation>
                     <xsd:documentation>
                         The JS name for the vault.
@@ -191,7 +197,7 @@
             </xsd:documentation>
         </xsd:annotation>
         <xsd:complexType>
-            <xsd:attribute type="xsd:token" name="id" default="host">
+            <xsd:attribute type="xsd:token" name="id" default="{{defaults.engine.host}}">
                 <xsd:annotation>
                     <xsd:documentation>
                         The JS name for the host.
@@ -215,7 +221,7 @@
                     <xsd:list itemType="xsd:token"/>
                 </xsd:simpleType>
             </xsd:attribute>
-            <xsd:attribute type="xsd:unsignedShort" name="ssh-port" default="22">
+            <xsd:attribute type="xsd:unsignedShort" name="ssh-port" default="{{defaults.engine.sshPort}}">
                 <xsd:annotation>
                     <xsd:documentation>
                         The port on this machine with a listening SSH daemon. Defaults to 22.
@@ -233,7 +239,7 @@
             </xsd:documentation>
         </xsd:annotation>
         <xsd:complexType>
-            <xsd:attribute type="xsd:token" name="id" default="id"/>
+            <xsd:attribute type="xsd:token" name="id" default="{{defaults.engine.identity}}"/>
             <xsd:attribute type="xsd:token" name="username" use="required"/>
             <xsd:attribute type="xsd:string" name="password"/>
             <xsd:attribute type="xsd:token" name="public-key-ref"/>

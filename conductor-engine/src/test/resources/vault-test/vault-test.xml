@@ -1,6 +1,4 @@
 <container xmlns="urn:conductor">
-    <include src="../junit.js" mode="js"/>
-
     <vault id="simpleVault">
         <source src="./simple-vault.kdbx" password-file="./password.txt"/>
     </vault>

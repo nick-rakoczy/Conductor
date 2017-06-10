@@ -1,6 +1,4 @@
 <container xmlns="urn:conductor">
-    <include src="junit.js" mode="js"/>
-
     <script>
         var env = {
             name: "unit-testing"

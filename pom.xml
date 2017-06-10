@@ -12,6 +12,7 @@
         <module>conductor-api</module>
         <module>conductor-engine</module>
         <module>aws-plugin</module>
+        <module>mysql-plugin</module>
     </modules>
 
     <properties>

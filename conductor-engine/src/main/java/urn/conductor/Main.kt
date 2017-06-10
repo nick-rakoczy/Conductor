@@ -42,6 +42,7 @@ class Main(private val arguments: Array<String>) {
 		val classLoaders = HashSet<ClassLoader>()
 		val attributeHandlers = HashMap<QName, AttributeHandler>()
 		val elementHandlers = ElementHandlerMap()
+		val preloaders = ArrayList<Preloader>()
 
 		val jaxbInitializationArray: Array<Class<*>>
 			get() = this.elementHandlers.keys.toTypedArray()
@@ -97,6 +98,20 @@ class Main(private val arguments: Array<String>) {
 			elementHandlers.keys.map {
 				"{${it.xmlNamespace}}:${it.xmlElementName}"
 			}.sorted().forEach(log::debug)
+
+			reflections.getSubTypesOf(Preloader::class.java).attemptMap {
+				it.newInstance()
+			}.sortedBy {
+				it.priority
+			}.forEach {
+				preloaders.add(it)
+			}
+
+			preloaders.forEach {
+				log.debug("[${it.priority}] ${it.javaClass.name}")
+			}
+
+			log.info("Found ${preloaders.size} preloaders...")
 		}
 	}
 
@@ -120,14 +135,13 @@ class Main(private val arguments: Array<String>) {
 
 		scriptEngine["options"] = options
 		scriptEngine["sessionProvider"] = SessionProviderImpl
-
-		this.javaClass.getResourceAsStream("base-context.js").use {
-			InputStreamReader(it).use {
-				scriptEngine.eval(it)
-			}
-		}
+		scriptEngine["defaults"] = HashMap<String, String>()
 
 		engine.pushWorkingDirectory(filePath.parent)
+
+		plugin.preloaders.sortedBy(Preloader::priority).forEach {
+			it.configure(engine)
+		}
 
 		log.info("Processing Plan...")
 		processElement(plan)
