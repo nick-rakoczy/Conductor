@@ -29,9 +29,9 @@ class Engine(
 					this.append(eval(e))
 					left = left.substringAfter("}}")
 				}
-				left.startsWith("\\") -> {
-					this.append(left.substring(1)[0])
-					left = left.substring(2)
+				left.startsWith("\\{{") -> {
+					this.append("{{")
+					left = left.substringAfter("{{")
 				}
 				else -> this.append(left[0]).also {
 					left = left.substring(1)
