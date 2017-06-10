@@ -1,0 +1,29 @@
+<container xmlns="urn:conductor">
+    <aggregate id="hosts" return-ref="host">
+        <host address="127.0.0.1" id="host"></host>
+        <host address="127.0.0.2" id="host"></host>
+        <host address="127.0.0.3" id="host"></host>
+        <host address="127.0.0.4" id="host"></host>
+        <host address="127.0.0.5" id="host"></host>
+    </aggregate>
+
+    <script>
+        assert(hosts.length === 5);
+
+        function addressesContains(value) {
+            return hosts.stream().map(function(e) {
+                return e.address;
+            }).anyMatch(function (e) {
+                return e === value;
+            });
+        }
+
+        assert(addressesContains("127.0.0.1"));
+        assert(addressesContains("127.0.0.2"));
+        assert(addressesContains("127.0.0.3"));
+        assert(addressesContains("127.0.0.4"));
+        assert(addressesContains("127.0.0.5"));
+        assert(!addressesContains("127.0.0.6"));
+    </script>
+
+</container>

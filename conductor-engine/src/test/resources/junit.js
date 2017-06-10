@@ -8,7 +8,6 @@ function assert() {
     }
 
     argumentsToArray(arguments).forEach(function (e) {
-        logger.info(JSON.stringify(e));
         if (e != true) {
             throw "Assertion failure";
         }

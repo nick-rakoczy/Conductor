@@ -124,6 +124,22 @@
         </xsd:complexType>
     </xsd:element>
 
+    <xsd:element name="aggregate">
+        <xsd:annotation>
+            <xsd:documentation>
+                Collect the contents of this element into a JS collection
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:any minOccurs="0" maxOccurs="unbounded"/>
+            </xsd:sequence>
+            <xsd:attribute type="xsd:token" name="id" use="required"/>
+            <xsd:attribute type="xsd:token" name="return-ref" use="required"/>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+
     <xsd:element name="never-fail">
         <xsd:complexType>
             <xsd:sequence>
@@ -221,12 +237,15 @@
                     <xsd:list itemType="xsd:token"/>
                 </xsd:simpleType>
             </xsd:attribute>
-            <xsd:attribute type="xsd:unsignedShort" name="ssh-port" default="{{defaults.engine.sshPort}}">
+            <xsd:attribute name="ssh-port" default="{{defaults.engine.sshPort}}">
                 <xsd:annotation>
                     <xsd:documentation>
                         The port on this machine with a listening SSH daemon. Defaults to 22.
                     </xsd:documentation>
                 </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:union memberTypes="xsd:unsignedShort interpolation-token"/>
+                </xsd:simpleType>
             </xsd:attribute>
             <xsd:anyAttribute/>
         </xsd:complexType>

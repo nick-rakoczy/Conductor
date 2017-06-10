@@ -16,6 +16,7 @@ class TestPlans {
 	@Test fun identityHandler() = run("identity-test.xml")
 	@Test fun interpolation() = run("interpolation-test.xml")
 	@Test fun ssh() = run("ssh-test/ssh-test.xml")
+	@Test fun aggregateHandler() = run("aggregate-test.xml")
 
 	private fun file(name: String) = arrayOf("plugins=.", "file=./src/test/resources/$name")
 	private fun run(name: String) = file(name).let(::main)

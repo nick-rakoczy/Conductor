@@ -16,7 +16,7 @@ class HostHandler : ElementHandler<Host> {
 		urn.conductor.Host(
 				name = element.id,
 				address = element.address.let(engine::interpolate),
-				sshPort = element.sshPort,
+				sshPort = element.sshPort.let(engine::interpolate).toIntOrNull() ?: error("Invalid port: ${element.sshPort}"),
 				tags = element.tags.map(engine::interpolate).toSet()
 		).let {
 			engine.put(element.id, it)

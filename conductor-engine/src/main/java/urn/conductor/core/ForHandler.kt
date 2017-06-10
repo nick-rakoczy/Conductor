@@ -9,9 +9,9 @@ class ForHandler : ElementHandler<For> {
 	private val logger = LogManager.getLogger()
 
 	override val handles: Class<For>
-		get() = urn.conductor.stdlib.xml.For::class.java
+		get() = For::class.java
 
-	override fun process(element: urn.conductor.stdlib.xml.For, engine: Engine, processChild: (Any) -> Unit) {
+	override fun process(element: For, engine: Engine, processChild: (Any) -> Unit) {
 		val itemName = element.id
 		val collectionName = element.iteratorRef
 		val sourceCollection = engine.getObjectMirror(collectionName)
