@@ -7,18 +7,24 @@
         <xsd:annotation>
             <xsd:documentation>
                 Establish a connection to a database.
-                Supports MySQL out of the box. Add additional connectors to the plugins folder.
+                Be sure to add the appropriate JDBC connector jars to the plugins folder.
             </xsd:documentation>
         </xsd:annotation>
         <xsd:complexType>
             <xsd:attribute type="xsd:token" name="id" default=".sqlConnection">
                 <xsd:annotation>
                     <xsd:documentation>
-
+                        The JS Name for the database connection.
                     </xsd:documentation>
                 </xsd:annotation>
             </xsd:attribute>
-            <xsd:attribute type="xsd:anyURI" name="connection" use="required"/>
+            <xsd:attribute type="xsd:anyURI" name="connection" use="required">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The JDBC Connection string for the database.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
             <xsd:attribute type="xsd:token" name="username" use="required"/>
             <xsd:attribute type="xsd:token" name="password" use="required"/>
             <xsd:anyAttribute/>
