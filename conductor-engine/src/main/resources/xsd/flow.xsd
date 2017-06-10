@@ -3,7 +3,7 @@
             targetNamespace="urn:conductor:flow"
             elementFormDefault="qualified">
 
-    <xsd:attribute name="if" type="xsd:normalizedString">
+    <xsd:attribute name="if" type="xsd:token">
         <xsd:annotation>
             <xsd:documentation>
                 This expression will be evaluated to determine if the associated element will be executed.
@@ -11,12 +11,28 @@
         </xsd:annotation>
     </xsd:attribute>
 
-    <xsd:attribute name="unless" type="xsd:normalizedString">
+    <xsd:attribute name="unless" type="xsd:token">
         <xsd:annotation>
             <xsd:documentation>
                 This expression will be evaluated to determine if the associated element will be skipped.
             </xsd:documentation>
         </xsd:annotation>
     </xsd:attribute>
+
+    <xsd:element name="define-macro">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:any minOccurs="0" maxOccurs="unbounded"/>
+            </xsd:sequence>
+            <xsd:attribute type="xsd:token" name="id" use="required"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="invoke-macro">
+        <xsd:complexType>
+            <xsd:attribute type="xsd:token" name="ref" use="required"/>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
 
 </xsd:schema>

@@ -1,0 +1,29 @@
+<container xmlns="urn:conductor" xmlns:flow="urn:conductor:flow">
+    <script>
+        var value = 10;
+        var increment = 1;
+    </script>
+
+    <flow:define-macro id="myMacro">
+        <script>
+            value += increment;
+        </script>
+    </flow:define-macro>
+
+    <flow:invoke-macro ref="myMacro"/>
+    <flow:invoke-macro ref="myMacro"/>
+    <flow:invoke-macro ref="myMacro"/>
+    <flow:invoke-macro ref="myMacro"/>
+    <flow:invoke-macro ref="myMacro" flow:if="value === 1000"/>
+
+    <script>
+        increment = 5;
+    </script>
+
+    <flow:invoke-macro ref="myMacro"/>
+
+    <script>
+        assert(value === 19);
+        assert(increment === 5);
+    </script>
+</container>
