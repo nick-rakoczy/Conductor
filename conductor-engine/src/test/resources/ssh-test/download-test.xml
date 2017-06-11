@@ -1,0 +1,59 @@
+<container xmlns="urn:conductor"
+           xmlns:ssh="urn:conductor:ssh"
+           xmlns:flow="urn:conductor:flow">
+    <vault id="vault">
+        <source src="./ssh-test.kdbx" password-file="F:/conductor-keepass.txt"/>
+    </vault>
+
+    <host address="{{vault.ssh_test.url}}"/>
+
+    <identity username="{{vault.ssh_test.username}}" password="{{vault.ssh_test.password}}"/>
+
+    <ssh:host-key type="SSHRSA">
+        {{vault.ssh_test.notes}}
+    </ssh:host-key>
+
+    <script>
+        var config = {
+            mvnBase: 'https://repo1.maven.org/maven2',
+            tmpFile: '/root/tmp.bin'
+        };
+
+        var tests = [
+            {
+                type: 'url',
+                path: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js',
+                md5: 'd0212568ce69457081dacf84e327fa5c'
+            },
+            {
+                type: 'mvn',
+                group: 'com.google.code.gson',
+                artifact: 'gson',
+                version: '2.8.1',
+                md5: '2c334d82c64b56ae59ea1bdcbb674303'
+            }
+        ];
+    </script>
+
+    <for iterator-ref="tests">
+
+        <ssh:download flow:if="it.type === 'url'"
+                      url="{{it.path}}"
+                      path="{{config.tmpFile}}"/>
+
+        <ssh:download-gav flow:if="it.type === 'mvn'"
+                          path="{{config.tmpFile}}"
+                          base-url="{{config.mvnBase}}"
+                          group-id="{{it.group}}"
+                          artifact-id="{{it.artifact}}"
+                          version="{{it.version}}"/>
+
+        <ssh:md5 path="{{config.tmpFile}}" id="md5"/>
+        
+        <ssh:delete path="{{config.tmpFile}}"/>
+
+        <script>
+            assert(md5 === it.md5);
+        </script>
+    </for>
+</container>

@@ -14,7 +14,7 @@ class HostHandler : ElementHandler<Host> {
 
 	override fun process(element: Host, engine: Engine, processChild: (Any) -> Unit) {
 		urn.conductor.Host(
-				name = element.id,
+				name = element.id.let(engine::interpolate),
 				address = element.address.let(engine::interpolate),
 				sshPort = element.sshPort.let(engine::interpolate).toIntOrNull() ?: error("Invalid port: ${element.sshPort}"),
 				tags = element.tags.map(engine::interpolate).toSet()

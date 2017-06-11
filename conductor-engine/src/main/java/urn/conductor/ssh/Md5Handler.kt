@@ -8,7 +8,8 @@ class Md5Handler : AbstractTransportElementHandler<Md5>(Md5::getHostRef, Md5::ge
 		get() = Md5::class.java
 
 	override fun process(element: Md5, engine: Engine, processChild: (Any) -> Unit, transport: HostTransport) {
-		DigestHelper(transport).md5(element.path)[element.path]?.let {
+		val paths = element.path.let(engine::interpolate)
+		DigestHelper(transport).md5(paths)[paths]?.let {
 			engine.put(element.id, it)
 		}
 	}

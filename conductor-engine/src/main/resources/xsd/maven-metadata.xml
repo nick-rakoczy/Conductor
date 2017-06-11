@@ -1,0 +1,42 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+    <element name="metadata">
+        <complexType>
+            <sequence>
+                <element type="string" name="groupId"/>
+                <element type="string" name="artifactId"/>
+                <element type="string" name="version"/>
+                <element name="versioning">
+                    <complexType>
+                        <sequence>
+                            <element name="snapshot">
+                                <complexType>
+                                    <sequence>
+                                        <element type="string" name="timestamp"/>
+                                        <element type="string" name="buildNumber"/>
+                                    </sequence>
+                                </complexType>
+                            </element>
+                            <element type="string" name="lastUpdated"/>
+                            <element name="snapshotVersions">
+                                <complexType>
+                                    <sequence>
+                                        <element name="snapshotVersion" minOccurs="1" maxOccurs="unbounded">
+                                            <complexType>
+                                                <sequence>
+                                                    <element type="string" name="extension"/>
+                                                    <element type="string" name="value"/>
+                                                    <element type="string" name="updated"/>
+                                                </sequence>
+                                            </complexType>
+                                        </element>
+                                    </sequence>
+                                </complexType>
+                            </element>
+                        </sequence>
+                    </complexType>
+                </element>
+            </sequence>
+            <attribute type="token" name="modelVersion"/>
+        </complexType>
+    </element>
+</schema>

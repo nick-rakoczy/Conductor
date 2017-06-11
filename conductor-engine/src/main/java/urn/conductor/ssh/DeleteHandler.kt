@@ -9,7 +9,7 @@ class DeleteHandler : AbstractTransportElementHandler<Delete>(Delete::getHostRef
 
 	override fun process(element: Delete, engine: Engine, processChild: (Any) -> Unit, transport: HostTransport) {
 		transport.useSftpChannel {
-			this.rm(element.path)
+			this.rm(element.path.let(engine::interpolate))
 		}
 	}
 }

@@ -269,7 +269,7 @@
     <xsd:element name="define-macro">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:any minOccurs="0" maxOccurs="unbounded"/>
+                <xsd:any maxOccurs="unbounded"/>
             </xsd:sequence>
             <xsd:attribute type="xsd:token" name="id" use="required"/>
         </xsd:complexType>
@@ -281,4 +281,6 @@
             <xsd:anyAttribute/>
         </xsd:complexType>
     </xsd:element>
+
+
 </xsd:schema>

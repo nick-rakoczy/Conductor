@@ -1,4 +1,4 @@
-package urn.conductor.flow
+package urn.conductor.core
 
 import urn.conductor.ElementHandler
 import urn.conductor.Engine

@@ -106,8 +106,33 @@
             <xsd:attribute type="xsd:token" name="id" use="required"/>
             <xsd:attribute type="xsd:token" name="host-ref" default="{{defaults.engine.host}}"/>
             <xsd:attribute type="xsd:token" name="identity-ref" default="{{defaults.engine.identity}}"/>
+            <xsd:anyAttribute/>
         </xsd:complexType>
     </xsd:element>
 
+    <xsd:element name="download">
+        <xsd:complexType>
+            <xsd:attribute type="xsd:anyURI" name="url" use="required"/>
+            <xsd:attribute type="xsd:anyURI" name="path" use="required"/>
+            <xsd:attribute type="xsd:token" name="host-ref" default="{{defaults.engine.host}}"/>
+            <xsd:attribute type="xsd:token" name="identity-ref" default="{{defaults.engine.identity}}"/>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
 
+    <xsd:element name="download-gav">
+        <xsd:complexType>
+            <xsd:attribute type="xsd:anyURI" name="path" use="required"/>
+            <xsd:attribute type="xsd:anyURI" name="base-url" use="required"/>
+            <xsd:attribute type="xsd:token" name="group-id" use="required"/>
+            <xsd:attribute type="xsd:token" name="artifact-id" use="required"/>
+            <xsd:attribute type="xsd:token" name="version" use="required"/>
+            <xsd:attribute type="xsd:token" name="classifier"/>
+            <xsd:attribute type="xsd:token" name="packaging" default="jar"/>
+            <xsd:attribute type="xsd:boolean" name="snapshot" default="false"/>
+            <xsd:attribute type="xsd:token" name="host-ref" default="{{defaults.engine.host}}"/>
+            <xsd:attribute type="xsd:token" name="identity-ref" default="{{defaults.engine.identity}}"/>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
 </xsd:schema>
