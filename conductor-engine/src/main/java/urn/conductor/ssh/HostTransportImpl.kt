@@ -10,6 +10,8 @@ import java.lang.reflect.InvocationTargetException
 import java.util.concurrent.TimeoutException
 
 class HostTransportImpl(override val session: Session) : HostTransport {
+	override val properties: MutableMap<String, Any> = HashMap<String, Any>()
+
 	private inline fun <T> tryFinally(finally: () -> Unit, block: () -> T): T {
 		try {
 			return block()
