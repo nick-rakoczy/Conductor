@@ -13,6 +13,7 @@
         <module>conductor-engine</module>
         <module>aws-plugin</module>
         <module>database-plugin</module>
+        <module>package-management-plugin</module>
     </modules>
 
     <properties>

@@ -1,0 +1,23 @@
+<xsd:schema elementFormDefault="qualified"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="urn:conductor:packages"
+            targetNamespace="urn:conductor:packages">
+
+    <xsd:element name="install">
+        <xsd:complexType>
+            <xsd:attribute type="xsd:token" name="name" use="required"/>
+            <xsd:attribute type="xsd:token" name="version"/>
+            <xsd:attribute type="xsd:token" name="host-ref" default="{{defaults.engine.host}}"/>
+            <xsd:attribute type="xsd:token" name="identity-ref" default="{{defaults.engine.identity}}"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="uninstall">
+        <xsd:complexType>
+            <xsd:attribute type="xsd:token" name="name" use="required"/>
+            <xsd:attribute type="xsd:token" name="host-ref" default="{{defaults.engine.host}}"/>
+            <xsd:attribute type="xsd:token" name="identity-ref" default="{{defaults.engine.identity}}"/>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>
