@@ -11,7 +11,7 @@
             </xsd:documentation>
         </xsd:annotation>
         <xsd:complexType>
-            <xsd:attribute type="xsd:token" name="id" default=".sqlConnection">
+            <xsd:attribute type="xsd:token" name="id" default="$$sql">
                 <xsd:annotation>
                     <xsd:documentation>
                         The JS Name for the database connection.
@@ -33,7 +33,7 @@
 
     <xsd:element name="close">
         <xsd:complexType>
-            <xsd:attribute type="xsd:token" name="connection-ref" default=".sqlConnection"/>
+            <xsd:attribute type="xsd:token" name="connection-ref" default="$$sql"/>
             <xsd:anyAttribute/>
         </xsd:complexType>
     </xsd:element>
@@ -41,7 +41,7 @@
     <xsd:element name="load">
         <xsd:complexType>
             <xsd:attribute type="xsd:anyURI" name="src" use="required"/>
-            <xsd:attribute type="xsd:token" name="connection-ref" default=".sqlConnection"/>
+            <xsd:attribute type="xsd:token" name="connection-ref" default="$$sql"/>
             <xsd:anyAttribute/>
         </xsd:complexType>
     </xsd:element>
@@ -50,7 +50,7 @@
         <xsd:complexType>
             <xsd:simpleContent>
                 <xsd:extension base="xsd:normalizedString">
-                    <xsd:attribute type="xsd:token" name="connection-ref" default=".sqlConnection"/>
+                    <xsd:attribute type="xsd:token" name="connection-ref" default="$$sql"/>
                     <xsd:attribute type="xsd:token" name="id"/>
                     <xsd:anyAttribute/>
                 </xsd:extension>
@@ -62,7 +62,7 @@
         <xsd:complexType>
             <xsd:simpleContent>
                 <xsd:extension base="xsd:normalizedString">
-                    <xsd:attribute type="xsd:token" name="connection-ref" default=".sqlConnection"/>
+                    <xsd:attribute type="xsd:token" name="connection-ref" default="$$sql"/>
                     <xsd:anyAttribute/>
                 </xsd:extension>
             </xsd:simpleContent>

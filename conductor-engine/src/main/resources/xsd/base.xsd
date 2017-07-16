@@ -9,6 +9,10 @@
         </xsd:restriction>
     </xsd:simpleType>
 
+    <xsd:simpleType name="unsignedIntOrInterp">
+        <xsd:union memberTypes="xsd:unsignedInt interpolation-token"/>
+    </xsd:simpleType>
+
     <xsd:element name="container">
         <xsd:annotation>
             <xsd:documentation>
@@ -157,6 +161,23 @@
         </xsd:complexType>
     </xsd:element>
 
+    <xsd:element name="credential">
+        <xsd:annotation>
+            <xsd:documentation>
+                Manually defines a credential record, as if from a vault. Should be avoided, please use KDBX vaults.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:attribute type="xsd:token" name="id" use="required"/>
+            <xsd:attribute type="xsd:token" name="uuid"/>
+            <xsd:attribute type="xsd:token" name="username"/>
+            <xsd:attribute type="xsd:token" name="password"/>
+            <xsd:attribute type="xsd:token" name="name"/>
+            <xsd:attribute type="xsd:token" name="notes"/>
+            <xsd:attribute type="xsd:token" name="url"/>
+        </xsd:complexType>
+    </xsd:element>
+
     <xsd:element name="vault">
         <xsd:annotation>
             <xsd:documentation>
@@ -195,7 +216,7 @@
                     </xsd:complexType>
                 </xsd:element>
             </xsd:sequence>
-            <xsd:attribute type="xsd:token" name="id" default="{{defaults.engine.vault}}">
+            <xsd:attribute type="xsd:token" name="id" default="$$vault">
                 <xsd:annotation>
                     <xsd:documentation>
                         The JS name for the vault.
@@ -213,7 +234,7 @@
             </xsd:documentation>
         </xsd:annotation>
         <xsd:complexType>
-            <xsd:attribute type="xsd:token" name="id" default="{{defaults.engine.host}}">
+            <xsd:attribute type="xsd:token" name="id" default="$$host">
                 <xsd:annotation>
                     <xsd:documentation>
                         The JS name for the host.
@@ -237,15 +258,12 @@
                     <xsd:list itemType="xsd:token"/>
                 </xsd:simpleType>
             </xsd:attribute>
-            <xsd:attribute name="ssh-port" default="{{defaults.engine.sshPort}}">
+            <xsd:attribute type="unsignedIntOrInterp" name="ssh-port" default="22">
                 <xsd:annotation>
                     <xsd:documentation>
                         The port on this machine with a listening SSH daemon. Defaults to 22.
                     </xsd:documentation>
                 </xsd:annotation>
-                <xsd:simpleType>
-                    <xsd:union memberTypes="xsd:unsignedShort interpolation-token"/>
-                </xsd:simpleType>
             </xsd:attribute>
             <xsd:anyAttribute/>
         </xsd:complexType>
@@ -258,7 +276,7 @@
             </xsd:documentation>
         </xsd:annotation>
         <xsd:complexType>
-            <xsd:attribute type="xsd:token" name="id" default="{{defaults.engine.identity}}"/>
+            <xsd:attribute type="xsd:token" name="id" default="$$identity"/>
             <xsd:attribute type="xsd:token" name="username" use="required"/>
             <xsd:attribute type="xsd:string" name="password"/>
             <xsd:attribute type="xsd:token" name="public-key-ref"/>

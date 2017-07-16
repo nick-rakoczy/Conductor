@@ -13,6 +13,7 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import javax.script.ScriptEngineManager
 import javax.xml.bind.JAXBContext
+import javax.xml.bind.JAXBElement
 import javax.xml.namespace.QName
 
 class Main(private val arguments: Array<String>) {
@@ -41,6 +42,7 @@ class Main(private val arguments: Array<String>) {
 		val paths = HashSet<Path>()
 		val classLoaders = HashSet<ClassLoader>()
 		val attributeHandlers = HashMap<QName, AttributeHandler>()
+		val simpleElementHandlers = HashMap<QName, SimpleElementHandler>()
 		val elementHandlers = ElementHandlerMap()
 		val preloaders = ArrayList<Preloader>()
 
@@ -84,6 +86,18 @@ class Main(private val arguments: Array<String>) {
 			log.info("Found ${attributeHandlers.size} attribute handlers...")
 
 			attributeHandlers.keys.map {
+				"{${it.namespaceURI}}:${it.localPart}"
+			}.sorted().forEach(log::debug)
+
+			reflections.getSubTypesOf(SimpleElementHandler::class.java).attemptMap {
+				it.newInstance()
+			}.forEach {
+				simpleElementHandlers[it.handles] = it
+			}
+
+			log.info("Found ${simpleElementHandlers.size} simple element handlers...")
+
+			simpleElementHandlers.keys.map {
 				"{${it.namespaceURI}}:${it.localPart}"
 			}.sorted().forEach(log::debug)
 
@@ -149,34 +163,41 @@ class Main(private val arguments: Array<String>) {
 
 	fun processElement(element: Any) {
 		val type = element.javaClass
-		val elementHandler = plugin.elementHandlers[type]
 
-		@Suppress("UNCHECKED_CAST")
-		val elementAttributeHandler = elementHandler as? CustomAttributeHandler<Any> ?: AutoAttributeHandler
+		if (element is JAXBElement<*>) {
+			val simpleElementHandler = plugin.simpleElementHandlers[element.name]
+					?: error("No handler found for simple element: ${element.name}")
+			simpleElementHandler.process(element.value, engine)
+		} else {
+			val elementHandler = plugin.elementHandlers[type]
 
-		val attributes = elementAttributeHandler.getAttributes(element)
+			@Suppress("UNCHECKED_CAST")
+			val elementAttributeHandler = elementHandler as? CustomAttributeHandler<Any> ?: AutoAttributeHandler
 
-		val attributeOrder = attributes
-				.map { plugin.attributeHandlers.get(it.key) }
-				.filterNotNull()
-				.sortedBy { it.priority }
-				.map { it.handles }
-				.toMutableList()
+			val attributes = elementAttributeHandler.getAttributes(element)
 
-		fun processNextAttribute() {
-			if (attributeOrder.isNotEmpty()) {
-				val attributeName = attributeOrder.removeAt(0)
-				val attributeHandler = plugin.attributeHandlers[attributeName] ?: error("Invalid handler")
-				val attributeValue = attributes[attributeName] ?: ""
-				attributeHandler.process(element, attributeValue, engine, ::processNextAttribute)
-			} else {
-				plugin.elementHandlers[element.javaClass]
-						?.process(element, engine, this::processElement)
-						?: error("No handler found for element: ${element.javaClass.name}")
+			val attributeOrder = attributes
+					.map { plugin.attributeHandlers.get(it.key) }
+					.filterNotNull()
+					.sortedBy { it.priority }
+					.map { it.handles }
+					.toMutableList()
+
+			fun processNextAttribute() {
+				if (attributeOrder.isNotEmpty()) {
+					val attributeName = attributeOrder.removeAt(0)
+					val attributeHandler = plugin.attributeHandlers[attributeName] ?: error("Invalid handler")
+					val attributeValue = attributes[attributeName] ?: ""
+					attributeHandler.process(element, attributeValue, engine, ::processNextAttribute)
+				} else {
+					plugin.elementHandlers[element.javaClass]
+							?.process(element, engine, this::processElement)
+							?: error("No handler found for element: ${element.javaClass.name}")
+				}
 			}
-		}
 
-		processNextAttribute()
+			processNextAttribute()
+		}
 	}
 
 	companion object {

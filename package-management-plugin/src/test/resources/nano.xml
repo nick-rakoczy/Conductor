@@ -1,0 +1,18 @@
+<container xmlns="urn:conductor" xmlns:apt="urn:conductor:packages">
+    <vault id="vault">
+        <source src="./vault.kdbx" password-file="F:/conductor-keepass.txt"/>
+    </vault>
+
+    <script>
+        virtualMachines = [
+            vault.ubuntu,
+            vault.centos
+        ];
+    </script>
+
+    <for iterator-ref="virtualMachines" id="target">
+        <host address="{{target.url}}"/>
+        <identity username="{{target.username}}" password="{{target.password}}"/>
+        <apt:install name="nano"/>
+    </for>
+</container>

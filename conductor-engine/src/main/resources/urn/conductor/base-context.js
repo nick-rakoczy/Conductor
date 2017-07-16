@@ -19,4 +19,3 @@ function print(msg) {
 function println(msg) {
     logger.error("Do not use println() in JS");
 }
-

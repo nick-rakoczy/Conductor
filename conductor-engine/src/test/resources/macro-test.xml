@@ -26,4 +26,10 @@
         assert(value === 19);
         assert(increment === 5);
     </script>
+
+    <script>
+        increment = 1;
+        myMacro();
+        assert(value === 20);
+    </script>
 </container>

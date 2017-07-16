@@ -1,73 +1,196 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
             targetNamespace="https://amazonaws.com/route53"
             xmlns="https://amazonaws.com/route53"
-            xmlns:aws="https://amazonaws.com"
             elementFormDefault="qualified">
 
-    <xsd:import schemaLocation="aws.xsd" namespace="https://amazonaws.com"/>
+    <xsd:simpleType name="unsignedIntOrExpression">
+        <xsd:union memberTypes="xsd:unsignedInt">
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:token">
+                    <xsd:pattern value="\{\{.+\}\}"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:union>
+    </xsd:simpleType>
 
-    <xsd:element name="remove-zone">
-        <xsd:complexType>
-            <xsd:attribute type="xsd:token" name="name" use="required"/>
-            <xsd:anyAttribute/>
-        </xsd:complexType>
-    </xsd:element>
-
-    <xsd:simpleType name="dns-record-type">
+    <xsd:simpleType name="ipv4">
+        <xsd:annotation>
+            <xsd:documentation>
+                An IP version 4 address.
+            </xsd:documentation>
+        </xsd:annotation>
         <xsd:restriction base="xsd:token">
-            <xsd:enumeration value="A"/>
-            <xsd:enumeration value="AAAA"/>
-            <xsd:enumeration value="CNAME"/>
-            <xsd:enumeration value="MX"/>
-            <xsd:enumeration value="TXT"/>
-            <xsd:enumeration value="PTR"/>
-            <xsd:enumeration value="SRV"/>
-            <xsd:enumeration value="SPF"/>
-            <xsd:enumeration value="NS"/>
-            <xsd:enumeration value="SOA"/>
+            <xsd:pattern
+                    value="(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])"/>
+            <xsd:pattern value="[0-9A-Fa-f]{8}"/>
         </xsd:restriction>
     </xsd:simpleType>
+
+    <xsd:simpleType name="ipv6">
+        <xsd:annotation>
+            <xsd:documentation>
+                An IP version 6 address, based on RFC 1884.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:token">
+            <!-- Fully specified address -->
+            <xsd:pattern value="[0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){7}"/>
+            <!-- Double colon start -->
+            <xsd:pattern value=":(:[0-9A-Fa-f]{1,4}){1,7}"/>
+            <!-- Double colon middle -->
+            <xsd:pattern value="([0-9A-Fa-f]{1,4}:){1,6}(:[0-9A-Fa-f]{1,4}){1}"/>
+            <xsd:pattern value="([0-9A-Fa-f]{1,4}:){1,5}(:[0-9A-Fa-f]{1,4}){1,2}"/>
+            <xsd:pattern value="([0-9A-Fa-f]{1,4}:){1,4}(:[0-9A-Fa-f]{1,4}){1,3}"/>
+            <xsd:pattern value="([0-9A-Fa-f]{1,4}:){1,3}(:[0-9A-Fa-f]{1,4}){1,4}"/>
+            <xsd:pattern value="([0-9A-Fa-f]{1,4}:){1,2}(:[0-9A-Fa-f]{1,4}){1,5}"/>
+            <xsd:pattern value="([0-9A-Fa-f]{1,4}:){1}(:[0-9A-Fa-f]{1,4}){1,6}"/>
+            <!-- Double colon end -->
+            <xsd:pattern value="([0-9A-Fa-f]{1,4}:){1,7}:"/>
+            <!-- Embedded IPv4 addresses -->
+            <xsd:pattern
+                    value="((:(:0{1,4}){0,3}(:(0{1,4}|[fF]{4}))?)|(0{1,4}:(:0{1,4}){0,2}(:(0{1,4}|[fF]{4}))?)|((0{1,4}:){2}(:0{1,4})?(:(0{1,4}|[fF]{4}))?)|((0{1,4}:){3}(:(0{1,4}|[fF]{4}))?)|((0{1,4}:){4}(0{1,4}|[fF]{4})?)):(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])"/>
+            <!-- The unspecified address -->
+            <xsd:pattern value="::"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="srv-proto">
+        <xsd:restriction base="xsd:token">
+            <xsd:enumeration value="tcp"/>
+            <xsd:enumeration value="udp"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:attributeGroup name="dns-base-attributes">
+        <xsd:attribute type="xsd:token" name="name" default=""/>
+        <xsd:attribute type="unsignedIntOrExpression" name="ttl" default="3600"/>
+    </xsd:attributeGroup>
 
     <xsd:element name="zone">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="clear-records" minOccurs="0" maxOccurs="unbounded">
-                    <xsd:complexType>
-                        <xsd:attribute type="xsd:token" name="name" use="required"/>
-                        <xsd:attribute type="dns-record-type" name="type" use="required"/>
-                    </xsd:complexType>
-                </xsd:element>
-                <xsd:element name="record" minOccurs="0" maxOccurs="unbounded">
-                    <xsd:complexType>
-                        <xsd:sequence>
-                            <xsd:element name="value" minOccurs="0" maxOccurs="unbounded">
-                                <xsd:complexType>
-                                    <xsd:simpleContent>
-                                        <xsd:extension base="xsd:token">
-                                            <xsd:attribute type="xsd:unsignedInt" name="ttl" default="3600"/>
-                                        </xsd:extension>
-                                    </xsd:simpleContent>
-                                </xsd:complexType>
-                            </xsd:element>
-                        </xsd:sequence>
-                        <xsd:attribute type="xsd:token" name="name" use="required"/>
-                        <xsd:attribute type="dns-record-type" name="type" default="A"/>
-                        <xsd:attribute type="aws:status" name="status" default="present"/>
-                    </xsd:complexType>
-                </xsd:element>
-                <xsd:element name="await-replication" minOccurs="0" maxOccurs="1">
-                    <xsd:complexType>
-
-                    </xsd:complexType>
-                </xsd:element>
+                <xsd:any maxOccurs="unbounded" minOccurs="0"/>
             </xsd:sequence>
-            <xsd:attribute type="xsd:token" name="iam-ref" default="awsCredentials"/>
-            <xsd:attribute type="xsd:token" name="name" use="required"/>
-            <xsd:attribute type="xsd:boolean" name="clear" default="false"/>
-            <xsd:attribute type="xsd:boolean" name="private" default="false"/>
-            <xsd:attribute type="xsd:token" name="region" use="required"/>
+            <xsd:attribute type="xsd:token" name="hosted-zone-id" use="required"/>
+            <xsd:attribute type="xsd:token" name="aws-credential-ref" default="$aws$credentials"/>
+            <xsd:attribute type="xsd:token" name="id" default="$aws$r53$zone"/>
             <xsd:anyAttribute/>
         </xsd:complexType>
     </xsd:element>
+
+    <xsd:element name="a-record-set">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:any maxOccurs="unbounded" minOccurs="0"/>
+            </xsd:sequence>
+            <xsd:attributeGroup ref="dns-base-attributes"/>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element type="ipv4" name="a-record"/>
+
+    <xsd:element name="aaaa-record-set">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:any maxOccurs="unbounded" minOccurs="0"/>
+            </xsd:sequence>
+            <xsd:attributeGroup ref="dns-base-attributes"/>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element type="ipv6" name="aaaa-record"/>
+
+    <xsd:element name="cname-record-set">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:any maxOccurs="unbounded" minOccurs="0"/>
+            </xsd:sequence>
+            <xsd:attributeGroup ref="dns-base-attributes"/>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element type="xsd:token" name="cname-record"/>
+
+    <xsd:element name="mx-record-set">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:any maxOccurs="unbounded" minOccurs="0"/>
+            </xsd:sequence>
+            <xsd:attributeGroup ref="dns-base-attributes"/>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="mx-record">
+        <xsd:complexType>
+            <xsd:attribute type="unsignedIntOrExpression" name="priority" use="required"/>
+            <xsd:attribute type="xsd:token" name="hostname" use="required"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="ns-record-set">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:any maxOccurs="unbounded" minOccurs="0"/>
+            </xsd:sequence>
+            <xsd:attributeGroup ref="dns-base-attributes"/>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element type="xsd:token" name="ns-record"/>
+
+    <xsd:element name="soa-record-set">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:any maxOccurs="unbounded" minOccurs="0"/>
+            </xsd:sequence>
+            <xsd:attributeGroup ref="dns-base-attributes"/>
+            <xsd:attribute type="unsignedIntOrExpression" name="serial" use="required"/>
+            <xsd:attribute type="unsignedIntOrExpression" name="refresh" use="required"/>
+            <xsd:attribute type="unsignedIntOrExpression" name="retry" use="required"/>
+            <xsd:attribute type="unsignedIntOrExpression" name="expire" use="required"/>
+            <xsd:attribute type="xsd:token" name="mail-address" use="required"/>
+            <xsd:attribute type="xsd:boolean" name="primary" default="false"/>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element type="xsd:token" name="soa-record"/>
+
+    <xsd:element name="srv-record-set">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:any maxOccurs="unbounded" minOccurs="0"/>
+            </xsd:sequence>
+            <xsd:attributeGroup ref="dns-base-attributes"/>
+            <xsd:attribute type="srv-proto" name="protocol" use="required"/>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="srv-record">
+        <xsd:complexType>
+            <xsd:attribute type="unsignedIntOrExpression" name="priority" use="required"/>
+            <xsd:attribute type="unsignedIntOrExpression" name="weight" use="required"/>
+            <xsd:attribute type="unsignedIntOrExpression" name="port" use="required"/>
+            <xsd:attribute type="xsd:token" name="hostname" use="required"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="txt-record-set">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:any maxOccurs="unbounded" minOccurs="0"/>
+            </xsd:sequence>
+            <xsd:attributeGroup ref="dns-base-attributes"/>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element type="xsd:token" name="txt-record"/>
 
 </xsd:schema>

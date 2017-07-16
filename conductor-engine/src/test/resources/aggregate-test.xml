@@ -1,5 +1,5 @@
 <container xmlns="urn:conductor">
-    <aggregate id="hosts" return-ref="{{defaults.engine.host}}">
+    <aggregate id="hosts" return-ref="$$host">
         <host address="127.0.0.1"/>
         <host address="127.0.0.2"/>
         <host address="127.0.0.3"/>

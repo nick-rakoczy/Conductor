@@ -7,16 +7,16 @@
         <xsd:complexType>
             <xsd:attribute type="xsd:token" name="name" use="required"/>
             <xsd:attribute type="xsd:token" name="version"/>
-            <xsd:attribute type="xsd:token" name="host-ref" default="{{defaults.engine.host}}"/>
-            <xsd:attribute type="xsd:token" name="identity-ref" default="{{defaults.engine.identity}}"/>
+            <xsd:attribute type="xsd:token" name="host-ref" default="$$host"/>
+            <xsd:attribute type="xsd:token" name="identity-ref" default="$$identity"/>
         </xsd:complexType>
     </xsd:element>
 
     <xsd:element name="uninstall">
         <xsd:complexType>
             <xsd:attribute type="xsd:token" name="name" use="required"/>
-            <xsd:attribute type="xsd:token" name="host-ref" default="{{defaults.engine.host}}"/>
-            <xsd:attribute type="xsd:token" name="identity-ref" default="{{defaults.engine.identity}}"/>
+            <xsd:attribute type="xsd:token" name="host-ref" default="$$host"/>
+            <xsd:attribute type="xsd:token" name="identity-ref" default="$$identity"/>
         </xsd:complexType>
     </xsd:element>
 
