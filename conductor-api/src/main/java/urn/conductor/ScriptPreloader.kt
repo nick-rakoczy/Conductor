@@ -2,7 +2,7 @@ package urn.conductor
 
 import java.io.InputStream
 
-open class ScriptPreloader(private val type: Class<out ScriptPreloader>) : Preloader {
+abstract class ScriptPreloader(private val type: Class<out ScriptPreloader>) : Preloader {
 	override var priority: Int = 100
 
 	private fun getStream(file: String): InputStream {

@@ -1,0 +1,17 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="urn:jsc:unit-test"
+            targetNamespace="urn:jsc:unit-test"
+            elementFormDefault="qualified">
+
+    <xsd:attribute name="magic" type="xsd:boolean"/>
+
+    <xsd:element name="simple-type" type="xsd:token"/>
+
+    <xsd:element name="complex-type">
+        <xsd:complexType>
+            <xsd:attribute type="xsd:token" name="key" use="required"/>
+            <xsd:attribute type="xsd:token" name="value" use="required"/>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>

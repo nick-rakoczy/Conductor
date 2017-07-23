@@ -234,7 +234,7 @@
             </xsd:documentation>
         </xsd:annotation>
         <xsd:complexType>
-            <xsd:attribute type="xsd:token" name="id" default="$$host">
+            <xsd:attribute type="xsd:token" name="id" default="currentHost">
                 <xsd:annotation>
                     <xsd:documentation>
                         The JS name for the host.
@@ -276,7 +276,7 @@
             </xsd:documentation>
         </xsd:annotation>
         <xsd:complexType>
-            <xsd:attribute type="xsd:token" name="id" default="$$identity"/>
+            <xsd:attribute type="xsd:token" name="id" default="currentIdentity"/>
             <xsd:attribute type="xsd:token" name="username" use="required"/>
             <xsd:attribute type="xsd:string" name="password"/>
             <xsd:attribute type="xsd:token" name="public-key-ref"/>

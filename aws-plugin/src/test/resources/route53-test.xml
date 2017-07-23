@@ -1,26 +1,21 @@
 <container xmlns="urn:conductor" xmlns:dns="https://amazonaws.com/route53">
-    <script>
-        assert($dnsProviders.size() === 0);
-    </script>
-
-    <dns:zone hosted-zone-id="12345">
-        <dns:a-record-set name="www">
+    <dns:zone name="digabit.com" region="us-east-1" privacy="public">
+        <dns:a-record-set name="@">
             <dns:a-record>127.0.0.1</dns:a-record>
         </dns:a-record-set>
 
+        <dns:aaaa-record-set name="@">
+            <dns:a-record>127.0.0.2</dns:a-record>
+            <dns:aaaa-record>::1</dns:aaaa-record>
+        </dns:aaaa-record-set>
+
         <dns:cname-record-set name="ftp">
-            <dns:cname-record>www.digabit.com</dns:cname-record>
+            <dns:cname-record>digabit.com</dns:cname-record>
         </dns:cname-record-set>
 
-        <dns:mx-record-set name="">
+        <dns:mx-record-set name="@">
             <dns:mx-record priority="10" hostname="n1.outlook.microsoft.com"/>
             <dns:mx-record priority="12" hostname="n2.outlook.microsoft.com"/>
         </dns:mx-record-set>
-
-
     </dns:zone>
-
-    <script>
-        assert($dnsProviders.size() === 1);
-    </script>
 </container>

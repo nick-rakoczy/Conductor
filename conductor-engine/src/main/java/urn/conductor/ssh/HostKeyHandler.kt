@@ -13,7 +13,8 @@ class HostKeyHandler : ElementHandler<HostKey> {
 	private val logger = LogManager.getLogger()
 
 	override fun process(element: HostKey, engine: Engine, processChild: (Any) -> Unit) {
-		val host = element.hostRef.let(engine::get) as? Host ?: error("host-ref does not point to a valid host record.")
+		val host = element.hostRef.let(engine::interpolate).let(engine::get) as? Host
+				?: error("host-ref does not point to a valid host record: ${element.hostRef}")
 		val value = element.value.let(engine::interpolate)
 
 		val fingerprint = engine.sessionProvider.registerHostKey(host.address, HostKeyType.valueOf(element.type), value)

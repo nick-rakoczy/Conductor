@@ -1,5 +1,7 @@
 package urn.conductor
 
+import javax.xml.namespace.QName
+
 class ElementHandlerMap {
 	private val pairs = HashSet<Pair<Class<*>, ElementHandler<*>>>()
 

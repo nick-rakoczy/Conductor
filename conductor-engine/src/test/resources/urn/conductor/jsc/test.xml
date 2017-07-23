@@ -1,0 +1,70 @@
+<container xmlns="urn:conductor" xmlns:jsc="urn:jsc:unit-test">
+    <container>
+        <!-- Ensure no component-js bleed -->
+        <script>
+            assert(typeof(ns) === 'undefined');
+            assert(typeof(componentLogger) === 'undefined');
+        </script>
+    </container>
+
+    <container>
+        <!-- Preloader Test -->
+        <script>
+            assert(preloaderData === "Hello, World!");
+        </script>
+    </container>
+
+    <script>
+        logger.info("Preloader Test Passed");
+    </script>
+
+    <container>
+        <!-- Attribute Handler Test -->
+        <script>
+            var handlerOk = 0;
+        </script>
+
+        <script jsc:magic="true">
+            handlerOk++;
+        </script>
+
+        <script jsc:magic="false">
+            handlerOk++;
+        </script>
+
+        <script>
+            assert(handlerOk === 1);
+        </script>
+    </container>
+
+    <script>
+        logger.info("Attribute Test Passed");
+    </script>
+
+    <container>
+        <!-- Simple Element Test -->
+        <jsc:simple-type>Hello, World!</jsc:simple-type>
+
+        <script>
+            assert(simple === "Hello, World!");
+        </script>
+    </container>
+
+    <script>
+        logger.info("Simple Element Test Passed");
+    </script>
+
+    <container>
+        <!-- Complex Element Test -->
+        <jsc:complex-type key="simple" value="Good bye, World!"/>
+
+        <script>
+            assert(simple === "Good bye, World!");
+        </script>
+    </container>
+
+    <script>
+        logger.info("Complex Element Test Passed");
+    </script>
+
+</container>

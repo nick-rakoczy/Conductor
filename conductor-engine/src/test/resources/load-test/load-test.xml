@@ -1,7 +1,6 @@
 <container xmlns="urn:conductor">
     <container>
         <load id="text" src="./sample.txt" mode="text"/>
-        <load id="text" src="./sample.txt"/>
         <script>
             assert(text === "Sample Text File");
         </script>

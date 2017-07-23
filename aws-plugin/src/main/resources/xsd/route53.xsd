@@ -1,7 +1,10 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:aws="https://amazonaws.com"
             targetNamespace="https://amazonaws.com/route53"
             xmlns="https://amazonaws.com/route53"
             elementFormDefault="qualified">
+
+    <xsd:import schemaLocation="aws.xsd" namespace="https://amazonaws.com"/>
 
     <xsd:simpleType name="unsignedIntOrExpression">
         <xsd:union memberTypes="xsd:unsignedInt">
@@ -61,6 +64,13 @@
         </xsd:restriction>
     </xsd:simpleType>
 
+    <xsd:simpleType name="zone-privacy">
+        <xsd:restriction base="xsd:token">
+            <xsd:enumeration value="public"/>
+            <xsd:enumeration value="private"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
     <xsd:attributeGroup name="dns-base-attributes">
         <xsd:attribute type="xsd:token" name="name" default=""/>
         <xsd:attribute type="unsignedIntOrExpression" name="ttl" default="3600"/>
@@ -71,9 +81,10 @@
             <xsd:sequence>
                 <xsd:any maxOccurs="unbounded" minOccurs="0"/>
             </xsd:sequence>
-            <xsd:attribute type="xsd:token" name="hosted-zone-id" use="required"/>
-            <xsd:attribute type="xsd:token" name="aws-credential-ref" default="$aws$credentials"/>
-            <xsd:attribute type="xsd:token" name="id" default="$aws$r53$zone"/>
+            <xsd:attribute type="xsd:token" name="name" use="required"/>
+            <xsd:attribute type="zone-privacy" name="privacy" use="required"/>
+            <xsd:attribute type="aws:region" name="region" use="required"/>
+            <xsd:attribute type="xsd:token" name="aws-credential-ref" default="currentAwsCredentials"/>
             <xsd:anyAttribute/>
         </xsd:complexType>
     </xsd:element>
@@ -149,17 +160,24 @@
                 <xsd:any maxOccurs="unbounded" minOccurs="0"/>
             </xsd:sequence>
             <xsd:attributeGroup ref="dns-base-attributes"/>
-            <xsd:attribute type="unsignedIntOrExpression" name="serial" use="required"/>
-            <xsd:attribute type="unsignedIntOrExpression" name="refresh" use="required"/>
-            <xsd:attribute type="unsignedIntOrExpression" name="retry" use="required"/>
-            <xsd:attribute type="unsignedIntOrExpression" name="expire" use="required"/>
-            <xsd:attribute type="xsd:token" name="mail-address" use="required"/>
-            <xsd:attribute type="xsd:boolean" name="primary" default="false"/>
             <xsd:anyAttribute/>
         </xsd:complexType>
     </xsd:element>
 
-    <xsd:element type="xsd:token" name="soa-record"/>
+    <xsd:element name="soa-record">
+        <xsd:complexType>
+            <xsd:simpleContent>
+                <xsd:extension base="xsd:token">
+                    <xsd:attribute type="unsignedIntOrExpression" name="serial" use="required"/>
+                    <xsd:attribute type="unsignedIntOrExpression" name="refresh" use="required"/>
+                    <xsd:attribute type="unsignedIntOrExpression" name="retry" use="required"/>
+                    <xsd:attribute type="unsignedIntOrExpression" name="expire" use="required"/>
+                    <xsd:attribute type="xsd:token" name="mail-address" use="required"/>
+                    <xsd:attribute type="xsd:boolean" name="primary" default="false"/>
+                </xsd:extension>
+            </xsd:simpleContent>
+        </xsd:complexType>
+    </xsd:element>
 
     <xsd:element name="srv-record-set">
         <xsd:complexType>

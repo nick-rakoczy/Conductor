@@ -10,7 +10,7 @@
         <xsd:complexType>
             <xsd:simpleContent>
                 <xsd:extension base="xsd:token">
-                    <xsd:attribute type="xsd:token" name="host-ref" default="$$host"/>
+                    <xsd:attribute type="xsd:token" name="host-ref" default="currentHost"/>
                     <xsd:attribute name="type">
                         <xsd:simpleType>
                             <xsd:union memberTypes="c:interpolation-token">
@@ -35,8 +35,8 @@
         <xsd:complexType>
             <xsd:simpleContent>
                 <xsd:extension base="xsd:string">
-                    <xsd:attribute type="xsd:token" name="host-ref" default="$$host"/>
-                    <xsd:attribute type="xsd:token" name="identity-ref" default="$$identity"/>
+                    <xsd:attribute type="xsd:token" name="host-ref" default="currentHost"/>
+                    <xsd:attribute type="xsd:token" name="identity-ref" default="currentIdentity"/>
                     <xsd:anyAttribute/>
                 </xsd:extension>
             </xsd:simpleContent>
@@ -47,8 +47,8 @@
         <xsd:complexType>
             <xsd:attribute type="xsd:anyURI" name="src" use="required"/>
             <xsd:attribute type="xsd:anyURI" name="dst" use="required"/>
-            <xsd:attribute type="xsd:token" name="host-ref" default="$$host"/>
-            <xsd:attribute type="xsd:token" name="identity-ref" default="$$identity"/>
+            <xsd:attribute type="xsd:token" name="host-ref" default="currentHost"/>
+            <xsd:attribute type="xsd:token" name="identity-ref" default="currentIdentity"/>
             <xsd:attribute type="xsd:boolean" name="template-parsing-disabled" default="false"/>
             <xsd:anyAttribute/>
         </xsd:complexType>
@@ -66,8 +66,8 @@
                     </xsd:restriction>
                 </xsd:simpleType>
             </xsd:attribute>
-            <xsd:attribute type="xsd:token" name="host-ref" default="$$host"/>
-            <xsd:attribute type="xsd:token" name="identity-ref" default="$$identity"/>
+            <xsd:attribute type="xsd:token" name="host-ref" default="currentHost"/>
+            <xsd:attribute type="xsd:token" name="identity-ref" default="currentIdentity"/>
             <xsd:anyAttribute/>
         </xsd:complexType>
     </xsd:element>
@@ -75,8 +75,8 @@
     <xsd:element name="delete">
         <xsd:complexType>
             <xsd:attribute type="xsd:anyURI" name="path" use="required"/>
-            <xsd:attribute type="xsd:token" name="host-ref" default="$$host"/>
-            <xsd:attribute type="xsd:token" name="identity-ref" default="$$identity"/>
+            <xsd:attribute type="xsd:token" name="host-ref" default="currentHost"/>
+            <xsd:attribute type="xsd:token" name="identity-ref" default="currentIdentity"/>
             <xsd:anyAttribute/>
         </xsd:complexType>
     </xsd:element>
@@ -85,8 +85,8 @@
         <xsd:complexType>
             <xsd:attribute type="xsd:anyURI" name="path" use="required"/>
             <xsd:attribute type="xsd:anyURI" name="target" use="required"/>
-            <xsd:attribute type="xsd:token" name="host-ref" default="$$host"/>
-            <xsd:attribute type="xsd:token" name="identity-ref" default="$$identity"/>
+            <xsd:attribute type="xsd:token" name="host-ref" default="currentHost"/>
+            <xsd:attribute type="xsd:token" name="identity-ref" default="currentIdentity"/>
             <xsd:anyAttribute/>
         </xsd:complexType>
     </xsd:element>
@@ -94,8 +94,8 @@
     <xsd:element name="mkdir">
         <xsd:complexType>
             <xsd:attribute type="xsd:anyURI" name="path" use="required"/>
-            <xsd:attribute type="xsd:token" name="host-ref" default="$$host"/>
-            <xsd:attribute type="xsd:token" name="identity-ref" default="$$identity"/>
+            <xsd:attribute type="xsd:token" name="host-ref" default="currentHost"/>
+            <xsd:attribute type="xsd:token" name="identity-ref" default="currentIdentity"/>
             <xsd:anyAttribute/>
         </xsd:complexType>
     </xsd:element>
@@ -104,8 +104,8 @@
         <xsd:complexType>
             <xsd:attribute type="xsd:anyURI" name="path" use="required"/>
             <xsd:attribute type="xsd:token" name="id" use="required"/>
-            <xsd:attribute type="xsd:token" name="host-ref" default="$$host"/>
-            <xsd:attribute type="xsd:token" name="identity-ref" default="$$identity"/>
+            <xsd:attribute type="xsd:token" name="host-ref" default="currentHost"/>
+            <xsd:attribute type="xsd:token" name="identity-ref" default="currentIdentity"/>
             <xsd:anyAttribute/>
         </xsd:complexType>
     </xsd:element>
@@ -114,8 +114,8 @@
         <xsd:complexType>
             <xsd:attribute type="xsd:anyURI" name="url" use="required"/>
             <xsd:attribute type="xsd:anyURI" name="path" use="required"/>
-            <xsd:attribute type="xsd:token" name="host-ref" default="$$host"/>
-            <xsd:attribute type="xsd:token" name="identity-ref" default="$$identity"/>
+            <xsd:attribute type="xsd:token" name="host-ref" default="currentHost"/>
+            <xsd:attribute type="xsd:token" name="identity-ref" default="currentIdentity"/>
             <xsd:anyAttribute/>
         </xsd:complexType>
     </xsd:element>
@@ -130,8 +130,8 @@
             <xsd:attribute type="xsd:token" name="classifier"/>
             <xsd:attribute type="xsd:token" name="packaging" default="jar"/>
             <xsd:attribute type="xsd:boolean" name="snapshot" default="false"/>
-            <xsd:attribute type="xsd:token" name="host-ref" default="$$host"/>
-            <xsd:attribute type="xsd:token" name="identity-ref" default="$$identity"/>
+            <xsd:attribute type="xsd:token" name="host-ref" default="currentHost"/>
+            <xsd:attribute type="xsd:token" name="identity-ref" default="currentIdentity"/>
             <xsd:anyAttribute/>
         </xsd:complexType>
     </xsd:element>

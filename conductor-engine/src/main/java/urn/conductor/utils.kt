@@ -29,7 +29,10 @@ fun <T> attempt(block: () -> T): T? {
 		return block()
 	}
 	catch (e: Exception) {
-		LogManager.getLogger().debug("attempt failed", e.toString())
+		if (LogManager.getLogger().isDebugEnabled) {
+			LogManager.getLogger().debug("attempt failed", e.toString())
+			e.printStackTrace()
+		}
 		return null
 	}
 }

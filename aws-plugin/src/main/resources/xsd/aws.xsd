@@ -5,11 +5,31 @@
 
     <xsd:element name="credentials">
         <xsd:complexType>
-            <xsd:attribute type="xsd:token" name="id" default="$aws$credentials"/>
+            <xsd:attribute type="xsd:token" name="id" default="currentAwsCredentials"/>
             <xsd:attribute type="xsd:token" name="vault-ref" use="required"/>
         </xsd:complexType>
     </xsd:element>
 
+    <xsd:simpleType name="region">
+        <xsd:restriction base="xsd:token">
+            <xsd:enumeration value="us-gov-west-1"/>
+            <xsd:enumeration value="us-east-1"/>
+            <xsd:enumeration value="us-east-2"/>
+            <xsd:enumeration value="us-west-1"/>
+            <xsd:enumeration value="us-west-2"/>
+            <xsd:enumeration value="eu-west-1"/>
+            <xsd:enumeration value="eu-west-2"/>
+            <xsd:enumeration value="eu-central-1"/>
+            <xsd:enumeration value="ap-south-1"/>
+            <xsd:enumeration value="ap-southeast-1"/>
+            <xsd:enumeration value="ap-southeast-2"/>
+            <xsd:enumeration value="ap-northeast-1"/>
+            <xsd:enumeration value="ap-northeast-2"/>
+            <xsd:enumeration value="sa-east-1"/>
+            <xsd:enumeration value="cn-north-1"/>
+            <xsd:enumeration value="ca-central-1"/>
+        </xsd:restriction>
+    </xsd:simpleType>
 
 
 </xsd:schema>

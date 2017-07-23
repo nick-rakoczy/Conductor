@@ -19,6 +19,7 @@ class TestPlans {
 	@Test fun aggregateHandler() = run("aggregate-test.xml")
 	@Test fun macroHandler() = run("macro-test.xml")
 	@Test fun downloadHandler() = run("ssh-test/download-test.xml")
+	@Test fun jsComponent() = run("urn/conductor/jsc/test.xml")
 
 	private fun file(name: String) = arrayOf("plugins=.", "file=./src/test/resources/$name")
 	private fun run(name: String) = file(name).let(::main)

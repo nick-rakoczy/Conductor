@@ -18,6 +18,30 @@ class Engine(
 ) : ScriptEngine by internalScriptEngine {
 	val gson = GsonBuilder().setPrettyPrinting().create()
 
+	fun runWithContext(vararg attributes: Pair<String, *>, block: () -> Unit) {
+		attributes.forEach {
+			this.put(it.first, it.second)
+		}
+
+		block()
+
+		attributes.forEach {
+			this.delete(it.first)
+		}
+	}
+
+	fun runWithUniqueContext(vararg attributes: Pair<String, *>, block: () -> Unit) {
+		attributes.forEach {
+			if (this[it.first] != null) {
+				error("Attribute already defined [${it.first}]. Nested contexts not allowed.")
+			}
+		}
+
+		this.runWithContext(*attributes) {
+			block()
+		}
+	}
+
 	fun delete(name: String) {
 		this.context.removeAttribute(name, ScriptContext.ENGINE_SCOPE)
 	}
