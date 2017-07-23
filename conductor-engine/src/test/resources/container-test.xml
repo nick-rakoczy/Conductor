@@ -17,4 +17,10 @@
         assert(test === 2);
     </script>
 
+    <log>
+
+        We did a thing!
+
+    </log>
+
 </container>

@@ -189,7 +189,7 @@
         </xsd:annotation>
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="source" minOccurs="1" maxOccurs="unbounded">
+                <xsd:element name="source" maxOccurs="unbounded">
                     <xsd:complexType>
                         <xsd:attribute type="xsd:anyURI" name="src" use="required">
                             <xsd:annotation>
@@ -300,5 +300,6 @@
         </xsd:complexType>
     </xsd:element>
 
+    <xsd:element type="xsd:token" name="log"/>
 
 </xsd:schema>
