@@ -1,10 +1,10 @@
 package urn.conductor.aws.route53.recordsets
 
-import urn.conductor.ElementHandler
+import urn.conductor.ComplexElementHandler
 import urn.conductor.Engine
 import urn.conductor.aws.xml.ARecordSet
 
-class ARecordSetHandler : ElementHandler<ARecordSet> {
+class ARecordSetHandler : ComplexElementHandler<ARecordSet> {
 	override val handles: Class<ARecordSet>
 		get() = ARecordSet::class.java
 

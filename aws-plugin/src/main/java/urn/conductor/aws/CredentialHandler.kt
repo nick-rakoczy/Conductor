@@ -2,11 +2,11 @@ package urn.conductor.aws
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider
 import com.amazonaws.auth.BasicAWSCredentials
-import urn.conductor.ElementHandler
+import urn.conductor.ComplexElementHandler
 import urn.conductor.Engine
 import urn.conductor.aws.xml.Credentials
 
-class CredentialHandler : ElementHandler<Credentials> {
+class CredentialHandler : ComplexElementHandler<Credentials> {
 	override val handles: Class<Credentials>
 		get() = Credentials::class.java
 

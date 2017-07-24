@@ -5,12 +5,12 @@ import com.amazonaws.services.route53.AmazonRoute53
 import com.amazonaws.services.route53.AmazonRoute53ClientBuilder
 import com.amazonaws.services.route53.model.CreateHostedZoneRequest
 import com.amazonaws.services.route53.model.ListHostedZonesByNameRequest
-import urn.conductor.ElementHandler
+import urn.conductor.ComplexElementHandler
 import urn.conductor.Engine
 import urn.conductor.aws.xml.Zone
 import urn.conductor.aws.xml.ZonePrivacy
 
-class ZoneHandler : ElementHandler<Zone> {
+class ZoneHandler : ComplexElementHandler<Zone> {
 	override val handles: Class<Zone>
 		get() = Zone::class.java
 
@@ -40,7 +40,7 @@ class ZoneHandler : ElementHandler<Zone> {
 	}
 
 	fun AmazonRoute53.createZone(name: String, private: Boolean, region: String) = this.createHostedZone(CreateHostedZoneRequest().apply {
-		this.
+		TODO()
 	}).hostedZone.id
 
 	companion object {

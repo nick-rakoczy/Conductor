@@ -1,10 +1,10 @@
 package urn.conductor.aws.route53.recordsets
 
-import urn.conductor.ElementHandler
+import urn.conductor.ComplexElementHandler
 import urn.conductor.Engine
 import urn.conductor.aws.xml.SoaRecordSet
 
-class SoaRecordSetHandler : ElementHandler<SoaRecordSet> {
+class SoaRecordSetHandler : ComplexElementHandler<SoaRecordSet> {
 	override val handles: Class<SoaRecordSet>
 		get() = SoaRecordSet::class.java
 

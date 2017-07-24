@@ -1,10 +1,10 @@
 package urn.conductor.aws.route53.records
 
-import urn.conductor.ElementHandler
+import urn.conductor.ComplexElementHandler
 import urn.conductor.Engine
 import urn.conductor.aws.xml.MxRecord
 
-class MxRecordHandler : ElementHandler<MxRecord> {
+class MxRecordHandler : ComplexElementHandler<MxRecord> {
 	override val handles: Class<MxRecord>
 		get() = MxRecord::class.java
 
