@@ -4,7 +4,10 @@ import urn.conductor.Engine
 import urn.conductor.stdlib.xml.Shell
 import java.nio.file.Files
 
-class ShellHandler : AbstractTransportElementHandler<Shell>(Shell::getHostRef, Shell::getIdentityRef) {
+class ShellHandler : TransportComplexElementHandler<Shell> {
+	override fun getHostRef(element: Shell): String = element.hostRef
+	override fun getIdentityRef(element: Shell): String = element.identityRef
+
 	override val handles: Class<Shell>
 		get() = Shell::class.java
 
@@ -17,7 +20,7 @@ class ShellHandler : AbstractTransportElementHandler<Shell>(Shell::getHostRef, S
 		val tmpFileName = "/tmp/$scriptName"
 
 		transport.useSftpChannel {
-			this.put(scriptFile.absolutePathString, tmpFileName)
+			this.put(scriptFile.toAbsolutePath().normalize().toString(), tmpFileName)
 			transport.execute("/bin/sh $tmpFileName")
 			this.rm(tmpFileName)
 		}

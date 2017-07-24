@@ -1,11 +1,12 @@
 package urn.conductor.ssh
 
 import urn.conductor.Engine
-import urn.conductor.Host
-import urn.conductor.Identity
 import urn.conductor.stdlib.xml.Mkdir
 
-class MkdirHandler : AbstractTransportElementHandler<Mkdir>(Mkdir::getHostRef, Mkdir::getIdentityRef) {
+class MkdirHandler : TransportComplexElementHandler<Mkdir> {
+	override fun getHostRef(element: Mkdir): String = element.hostRef
+	override fun getIdentityRef(element: Mkdir): String = element.identityRef
+
 	override val handles: Class<Mkdir>
 		get() = Mkdir::class.java
 
