@@ -5,6 +5,8 @@ import java.io.InputStreamReader
 
 interface Preloader {
 	val priority: Int
+	
+	val friendlyName: String
 
 	fun configure(engine: Engine)
 

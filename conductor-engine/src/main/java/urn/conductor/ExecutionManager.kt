@@ -130,7 +130,7 @@ class ExecutionManager(pluginsDir: String) {
 
 		logger.info("Found ${preloaders.size} preloaders...")
 		preloaders.sortedBy { it.priority }
-				.map { "[${it.priority}] ${it.javaClass.name}" }
+				.map { "[${it.priority}] ${it.friendlyName}" }
 				.forEach(logger::debug)
 	}
 

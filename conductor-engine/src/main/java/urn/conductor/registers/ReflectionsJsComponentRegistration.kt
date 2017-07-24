@@ -21,6 +21,8 @@ class ReflectionsJsComponentRegistration : ComponentRegistration, JsComponentReg
 		this.reflections = reflections
 	}
 
+	private var currentFileName: String? = null
+
 	override fun init() {
 		val se = ScriptEngineManager().getEngineByName("javascript")!!
 
@@ -29,10 +31,12 @@ class ReflectionsJsComponentRegistration : ComponentRegistration, JsComponentReg
 		this.reflections.getSubTypesOf(JsComponentRegistration::class.java).map {
 			it.newInstance()
 		}.forEach {
-			it.provideInputStreams {
-				InputStreamReader(it).use {
+			it.provideInputStreams { stream, name ->
+				currentFileName = name
+				InputStreamReader(stream).use {
 					se.eval(it)
 				}
+				currentFileName = null
 			}
 		}
 	}
@@ -87,6 +91,8 @@ class ReflectionsJsComponentRegistration : ComponentRegistration, JsComponentReg
 		preloaders.add(object : Preloader {
 			override val priority: Int
 				get() = priority
+
+			override val friendlyName: String = currentFileName ?: error("No filename provided")
 
 			override fun configure(engine: Engine) {
 				preloadFunction(engine)

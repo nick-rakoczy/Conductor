@@ -12,24 +12,26 @@ class ReflectionsJsPreloaderRegistration : ComponentRegistration, CanUseReflecti
 	inner class ScriptPreloadHandlerImpl(val type: Class<out ScriptPreloader>) : ScriptPreloadHandler {
 		override var priority: Int = 100
 
-		private val filesToLoad = ArrayList<String>()
+		private val filesToLoad = ArrayList<Pair<String, String>>()
 
-		override fun addFile(name: String) {
-			filesToLoad.add(name)
+		override fun addFile(name: String, friendlyName: String) {
+			filesToLoad.add(name to friendlyName)
 		}
 
-		fun getAsPreloader() = object : Preloader {
-			override val priority: Int
-				get() = this@ScriptPreloadHandlerImpl.priority
+		fun getPreloaders(): List<Preloader> = filesToLoad.map { (file, friendlyName) ->
+			object : Preloader {
+				override val priority: Int
+					get() = this@ScriptPreloadHandlerImpl.priority
+				override val friendlyName: String
+					get() = friendlyName
 
-			private fun getStream(file: String): InputStream = type.getResourceAsStream(file)
-
-			override fun configure(engine: Engine) {
-				filesToLoad.forEach {
-					getStream(it).use {
+				override fun configure(engine: Engine) {
+					getStream(file).use {
 						engine.loadStream(it)
 					}
 				}
+
+				private fun getStream(file: String): InputStream = type.getResourceAsStream(file)
 			}
 		}
 	}
@@ -45,10 +47,10 @@ class ReflectionsJsPreloaderRegistration : ComponentRegistration, CanUseReflecti
 	override fun init() {
 		this.reflections.getSubTypesOf(ScriptPreloader::class.java).map {
 			it.newInstance()
-		}.mapTo(preloaders) {
+		}.flatMapTo(preloaders) {
 			val handler = ScriptPreloadHandlerImpl(it.javaClass)
 			it.configure(handler)
-			handler.getAsPreloader()
+			handler.getPreloaders()
 		}
 	}
 
