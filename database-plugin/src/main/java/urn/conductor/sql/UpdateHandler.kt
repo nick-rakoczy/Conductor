@@ -1,12 +1,11 @@
 package urn.conductor.sql
 
-import urn.conductor.ElementHandler
+import urn.conductor.ComplexElementHandler
 import urn.conductor.Engine
-import urn.conductor.database.xml.Query
 import urn.conductor.database.xml.Update
 import java.sql.Connection
 
-class UpdateHandler : ElementHandler<Update> {
+class UpdateHandler : ComplexElementHandler<Update> {
 	override val handles: Class<Update>
 		get() = Update::class.java
 

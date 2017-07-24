@@ -1,11 +1,9 @@
 package urn.conductor.core
 
-import urn.conductor.ElementHandler
-import urn.conductor.Engine
 import urn.conductor.stdlib.xml.InvokeMacro
 
 
-class InvokeMacroHandler : urn.conductor.ElementHandler<InvokeMacro> {
+class InvokeMacroHandler : urn.conductor.ComplexElementHandler<InvokeMacro> {
 	override val handles: Class<InvokeMacro>
 		get() = InvokeMacro::class.java
 

@@ -1,5 +1,6 @@
 package urn.conductor
 
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import jdk.nashorn.api.scripting.ScriptObjectMirror
 import urn.conductor.ssh.SessionProvider
@@ -11,87 +12,20 @@ import javax.script.ScriptEngine
 import javax.script.SimpleBindings
 import javax.xml.bind.Unmarshaller
 
-class Engine(
-		private val internalScriptEngine: ScriptEngine,
-		val jaxbReader: Unmarshaller,
-		val sessionProvider: SessionProvider
-) : ScriptEngine by internalScriptEngine {
-	val gson = GsonBuilder().setPrettyPrinting().create()
+interface Engine : ScriptEngine {
+	val currentWorkingDirectory: Path
+	val gson: Gson
+	val jaxbReader: Unmarshaller
+	val sessionProvider: SessionProvider
 
-	fun runWithContext(vararg attributes: Pair<String, *>, block: () -> Unit) {
-		attributes.forEach {
-			this.put(it.first, it.second)
-		}
+	fun runWithContext(vararg attributes: Pair<String, *>, block: () -> Unit)
+	fun runWithUniqueContext(vararg attributes: Pair<String, *>, block: () -> Unit)
+	fun delete(name: String)
+	fun interpolate(expression: String): String
 
-		block()
+	fun getObjectMirror(name: String): ScriptObjectMirror?
+	fun pushWorkingDirectory(path: Path)
+	fun popWorkingDirectory()
 
-		attributes.forEach {
-			this.delete(it.first)
-		}
-	}
-
-	fun runWithUniqueContext(vararg attributes: Pair<String, *>, block: () -> Unit) {
-		attributes.forEach {
-			if (this[it.first] != null) {
-				error("Attribute already defined [${it.first}]. Nested contexts not allowed.")
-			}
-		}
-
-		this.runWithContext(*attributes) {
-			block()
-		}
-	}
-
-	fun delete(name: String) {
-		this.context.removeAttribute(name, ScriptContext.ENGINE_SCOPE)
-	}
-
-	fun interpolate(expr: String): String = StringBuilder().apply {
-		var left = expr
-		while (left.isNotEmpty()) {
-			when {
-				left.startsWith("{{") -> {
-					val e = left.substring(2).substringBefore("}}")
-					this.append(eval(e))
-					left = left.substringAfter("}}")
-				}
-				left.startsWith("\\{{") -> {
-					this.append("{{")
-					left = left.substringAfter("{{")
-				}
-				else -> this.append(left[0]).also {
-					left = left.substring(1)
-				}
-			}
-		}
-	}.let(StringBuilder::toString)
-
-	fun getObjectMirror(name: String) = this[name] as? ScriptObjectMirror?
-
-	private val workingDirectoryStack = Stack<Path>()
-
-	fun pushWorkingDirectory(path: Path) {
-		workingDirectoryStack.push(path.toAbsolutePath().normalize())
-	}
-
-	fun popWorkingDirectory() {
-		workingDirectoryStack.pop()
-	}
-
-	val currentWorkingDirectory: Path get() = attempt { workingDirectoryStack.peek() } ?: Paths.get(".")
-
-	fun getPath(name: String): Path {
-		return currentWorkingDirectory.resolve(name).toAbsolutePath().normalize()
-	}
-
-	companion object {
-		fun <T> attempt(block: () -> T): T? {
-			try {
-				return block()
-			}
-			catch (e: Exception) {
-				return null
-			}
-		}
-	}
+	fun getPath(name: String): Path
 }

@@ -1,11 +1,8 @@
 package urn.conductor
 
 import jdk.internal.dynalink.beans.StaticClass
-import jdk.nashorn.api.scripting.ScriptObjectMirror
-import sun.java2d.pipe.SpanShapeRenderer
 import java.io.InputStream
 import java.io.InputStreamReader
-import javax.script.ScriptEngine
 import javax.script.ScriptEngineManager
 import javax.xml.namespace.QName
 
@@ -25,7 +22,7 @@ abstract class JsComponentRegistration : ComponentRegistration {
 
 	private val attributeHandlers = ArrayList<AttributeHandler>()
 	private val simpleElementHandlers = ArrayList<SimpleElementHandler>()
-	private val complexElementHandlers = ArrayList<ElementHandler<*>>()
+	private val complexElementHandlers = ArrayList<ComplexElementHandler<*>>()
 	private val preloaders = ArrayList<Preloader>()
 
 	override fun getAttributeHandlers() = attributeHandlers
@@ -58,7 +55,7 @@ abstract class JsComponentRegistration : ComponentRegistration {
 	}
 
 	fun <T : Any> registerComplexElementHandler(type: StaticClass, handler: (T, Engine, (Any) -> Unit) -> Unit) {
-		complexElementHandlers.add(object : ElementHandler<T> {
+		complexElementHandlers.add(object : ComplexElementHandler<T> {
 			override val handles: Class<T>
 				get() = type.representedClass as Class<T>
 

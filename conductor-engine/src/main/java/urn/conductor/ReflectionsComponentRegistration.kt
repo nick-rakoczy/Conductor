@@ -2,7 +2,6 @@ package urn.conductor
 
 import org.reflections.Reflections
 import java.lang.reflect.Modifier
-import javax.management.Attribute
 import kotlin.reflect.KClass
 
 class ReflectionsComponentRegistration : ComponentRegistration, CanUseReflections {
@@ -31,7 +30,7 @@ class ReflectionsComponentRegistration : ComponentRegistration, CanUseReflection
 			.toList()
 
 	override fun getAttributeHandlers() = reflectInstancesOfSubclasses(AttributeHandler::class)
-	override fun getComplexElementHandlers() = reflectInstancesOfSubclasses(ElementHandler::class)
+	override fun getComplexElementHandlers() = reflectInstancesOfSubclasses(ComplexElementHandler::class)
 	override fun getPreloaders() = reflectInstancesOfSubclasses(Preloader::class)
 	override fun getSimpleElementHandlers() = reflectInstancesOfSubclasses(SimpleElementHandler::class)
 }

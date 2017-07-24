@@ -7,6 +7,6 @@ interface ComponentRegistration {
 
 	fun getAttributeHandlers(): List<AttributeHandler> = emptyList()
 	fun getSimpleElementHandlers(): List<SimpleElementHandler> = emptyList()
-	fun getComplexElementHandlers(): List<ElementHandler<*>> = emptyList()
+	fun getComplexElementHandlers(): List<ComplexElementHandler<*>> = emptyList()
 	fun getPreloaders(): List<Preloader> = emptyList()
 }

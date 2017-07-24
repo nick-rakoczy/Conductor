@@ -2,11 +2,11 @@ package urn.conductor.core
 
 import jdk.nashorn.api.scripting.ScriptObjectMirror
 import org.apache.logging.log4j.LogManager
-import urn.conductor.ElementHandler
+import urn.conductor.ComplexElementHandler
 import urn.conductor.Engine
 import urn.conductor.stdlib.xml.For
 
-class ForHandler : ElementHandler<For> {
+class ForHandler : ComplexElementHandler<For> {
 	private val logger = LogManager.getLogger()
 
 	override val handles: Class<For>

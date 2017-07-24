@@ -1,12 +1,12 @@
 package urn.conductor.sql
 
 import org.apache.logging.log4j.LogManager
-import urn.conductor.ElementHandler
+import urn.conductor.ComplexElementHandler
 import urn.conductor.Engine
 import urn.conductor.database.xml.Close
 import java.sql.Connection
 
-class CloseHandler : ElementHandler<Close> {
+class CloseHandler : ComplexElementHandler<Close> {
 	override val handles: Class<Close>
 		get() = Close::class.java
 

@@ -1,12 +1,12 @@
 package urn.conductor.core
 
 import org.apache.logging.log4j.LogManager
-import urn.conductor.ElementHandler
+import urn.conductor.ComplexElementHandler
 import urn.conductor.Engine
 import urn.conductor.stdlib.xml.Load
 import java.nio.file.Files
 
-class LoadHandler : ElementHandler<Load> {
+class LoadHandler : ComplexElementHandler<Load> {
 	private val logger = LogManager.getLogger()
 
 	override val handles: Class<Load>

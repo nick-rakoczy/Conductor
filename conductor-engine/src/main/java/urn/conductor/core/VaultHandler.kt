@@ -4,12 +4,12 @@ import de.slackspace.openkeepass.KeePassDatabase
 import de.slackspace.openkeepass.domain.Entry
 import de.slackspace.openkeepass.domain.Group
 import org.apache.logging.log4j.LogManager
-import urn.conductor.ElementHandler
+import urn.conductor.ComplexElementHandler
 import urn.conductor.Engine
 import urn.conductor.stdlib.xml.Vault
 import java.nio.file.Files
 
-class VaultHandler : ElementHandler<Vault> {
+class VaultHandler : ComplexElementHandler<Vault> {
 	private val logger = LogManager.getLogger()
 
 	override val handles: Class<Vault>

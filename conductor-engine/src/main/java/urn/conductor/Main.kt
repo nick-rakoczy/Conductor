@@ -49,7 +49,7 @@ class Main(private val args: Array<String>) {
 	}
 
 	private val engine by lazy {
-		Engine(scriptEngine, jaxbReader, SessionProviderImpl)
+		EngineImpl(scriptEngine, jaxbReader, SessionProviderImpl) as Engine
 	}
 
 	private val filePath by lazy {

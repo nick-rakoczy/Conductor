@@ -1,17 +1,15 @@
 package urn.conductor
 
-import javax.xml.namespace.QName
-
 class ElementHandlerMap {
-	private val pairs = HashSet<Pair<Class<*>, ElementHandler<*>>>()
+	private val pairs = HashSet<Pair<Class<*>, ComplexElementHandler<*>>>()
 
 	val keys get() = pairs.map { it.first }
 	val size get() = pairs.size
 
 	@Suppress("UNCHECKED_CAST")
-	operator fun <T : Any> get(type: Class<T>): ElementHandler<T>? = pairs.find { it.first == type }?.second as? ElementHandler<T>
+	operator fun <T : Any> get(type: Class<T>): ComplexElementHandler<T>? = pairs.find { it.first == type }?.second as? ComplexElementHandler<T>
 
-	operator fun set(type: Class<*>, value: ElementHandler<*>) {
+	operator fun set(type: Class<*>, value: ComplexElementHandler<*>) {
 		pairs.removeIf {
 			it.first == type
 		}
