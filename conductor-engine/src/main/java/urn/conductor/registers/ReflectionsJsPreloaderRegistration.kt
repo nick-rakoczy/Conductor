@@ -31,7 +31,7 @@ class ReflectionsJsPreloaderRegistration : ComponentRegistration, CanUseReflecti
 					}
 				}
 
-				private fun getStream(file: String): InputStream = type.getResourceAsStream(file)
+				private fun getStream(filename: String): InputStream = type.getResourceAsStream(filename)
 			}
 		}
 	}
