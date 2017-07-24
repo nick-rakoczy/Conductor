@@ -1,6 +1,7 @@
 package urn.conductor
 
 import org.apache.logging.log4j.LogManager
+import urn.conductor.internal.EngineImpl
 import urn.conductor.ssh.SessionProviderImpl
 import java.nio.file.Files
 import java.nio.file.Paths

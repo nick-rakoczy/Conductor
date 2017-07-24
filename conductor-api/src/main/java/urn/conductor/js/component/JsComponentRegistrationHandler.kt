@@ -1,4 +1,4 @@
-package urn.conductor.jsc
+package urn.conductor.js.component
 
 import jdk.internal.dynalink.beans.StaticClass
 import urn.conductor.Engine

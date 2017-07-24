@@ -1,6 +1,13 @@
-package urn.conductor
+package urn.conductor.registers
 
 import org.reflections.Reflections
+import urn.conductor.AttributeHandler
+import urn.conductor.CanUseReflections
+import urn.conductor.ComplexElementHandler
+import urn.conductor.ComponentRegistration
+import urn.conductor.Preloader
+import urn.conductor.SimpleElementHandler
+import urn.conductor.attemptMap
 import java.lang.reflect.Modifier
 import kotlin.reflect.KClass
 

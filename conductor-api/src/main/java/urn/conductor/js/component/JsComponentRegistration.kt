@@ -1,4 +1,4 @@
-package urn.conductor.jsc
+package urn.conductor.js.component
 
 import java.io.InputStream
 

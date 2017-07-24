@@ -1,9 +1,16 @@
-package urn.conductor
+package urn.conductor.registers
 
 import jdk.internal.dynalink.beans.StaticClass
 import org.reflections.Reflections
-import urn.conductor.jsc.JsComponentRegistration
-import urn.conductor.jsc.JsComponentRegistrationHandler
+import urn.conductor.AttributeHandler
+import urn.conductor.CanUseReflections
+import urn.conductor.ComplexElementHandler
+import urn.conductor.ComponentRegistration
+import urn.conductor.Engine
+import urn.conductor.Preloader
+import urn.conductor.SimpleElementHandler
+import urn.conductor.js.component.JsComponentRegistration
+import urn.conductor.js.component.JsComponentRegistrationHandler
 import java.io.InputStreamReader
 import javax.script.ScriptEngineManager
 import javax.xml.namespace.QName

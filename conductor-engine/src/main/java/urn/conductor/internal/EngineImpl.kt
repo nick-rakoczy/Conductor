@@ -1,8 +1,10 @@
-package urn.conductor
+package urn.conductor.internal
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import jdk.nashorn.api.scripting.ScriptObjectMirror
+import urn.conductor.Engine
+import urn.conductor.attempt
 import urn.conductor.ssh.SessionProvider
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -15,7 +17,7 @@ class EngineImpl(scriptEngine: ScriptEngine, override val jaxbReader: Unmarshall
 	private val workingDirectoryStack = Stack<Path>()
 
 	override val currentWorkingDirectory: Path
-		get() = attempt { workingDirectoryStack.peek() } ?: Paths.get(".")
+		get() = attempt { workingDirectoryStack.peek() } ?: Paths.get("")
 
 	override val gson: Gson by lazy {
 		GsonBuilder().setPrettyPrinting().create()

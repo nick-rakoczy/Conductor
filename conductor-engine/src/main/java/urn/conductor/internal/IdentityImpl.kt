@@ -1,4 +1,6 @@
-package urn.conductor
+package urn.conductor.internal
+
+import urn.conductor.Identity
 
 data class IdentityImpl(override val username: String,
 						override val password: String?,
