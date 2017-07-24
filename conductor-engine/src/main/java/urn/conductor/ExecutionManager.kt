@@ -14,7 +14,7 @@ import javax.xml.bind.JAXBElement
 import javax.xml.bind.annotation.XmlRegistry
 import javax.xml.namespace.QName
 
-class InternalEngineImpl(pluginsDir: String) : InternalEngine {
+class ExecutionManager(pluginsDir: String) {
 	private val logger = LogManager.getLogger("Internal")
 	private val attributeHandlers = HashMap<QName, AttributeHandler>()
 	private val simpleElementHandlers = HashMap<QName, SimpleElementHandler>()
@@ -118,8 +118,7 @@ class InternalEngineImpl(pluginsDir: String) : InternalEngine {
 				.forEach(logger::debug)
 	}
 
-
-	override fun runHandlerFor(element: Any, engine: Engine, proceed: (Any) -> Unit) {
+	fun runHandlerFor(element: Any, engine: Engine, proceed: (Any) -> Unit) {
 		when {
 			element is JAXBElement<*> -> {
 				simpleElementHandlers[element.name]?.process(element.value, engine)
@@ -157,11 +156,11 @@ class InternalEngineImpl(pluginsDir: String) : InternalEngine {
 		}
 	}
 
-	override fun createJaxbContext() = this.objectFactories.toTypedArray().let {
+	fun createJaxbContext() = this.objectFactories.toTypedArray().let {
 		JAXBContext.newInstance(*it)
 	}
 
-	override fun executePreloaders(engine: Engine) {
+	fun executePreloaders(engine: Engine) {
 		this.preloaders.sortedBy {
 			it.priority
 		}.forEach {

@@ -33,12 +33,12 @@ class Main(private val args: Array<String>) {
 		}
 	}
 
-	private val engineFactory by lazy {
-		InternalEngineImpl(options["plugins"] as String)
+	private val executionManager by lazy {
+		ExecutionManager(options["plugins"] as String)
 	}
 
 	private val jaxbContext by lazy {
-		engineFactory.createJaxbContext()
+		executionManager.createJaxbContext()
 	}
 
 	private val jaxbReader by lazy {
@@ -72,7 +72,7 @@ class Main(private val args: Array<String>) {
 
 		engine.pushWorkingDirectory(filePath.parent)
 
-		engineFactory.executePreloaders(engine)
+		executionManager.executePreloaders(engine)
 
 		log.info("Processing Plan...")
 
@@ -80,7 +80,7 @@ class Main(private val args: Array<String>) {
 	}
 
 	fun processElement(element: Any) {
-		engineFactory.runHandlerFor(element, engine, this::processElement)
+		executionManager.runHandlerFor(element, engine, this::processElement)
 	}
 
 	companion object {
