@@ -1,0 +1,27 @@
+<xsd:schema elementFormDefault="qualified"
+            targetNamespace="urn:conductor:notifications:webhook"
+            xmlns="urn:conductor:notifications:webhook"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:element name="webhook-notification-provider">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="header" minOccurs="0" maxOccurs="unbounded">
+                    <xsd:complexType>
+                        <xsd:simpleContent>
+                            <xsd:extension base="xsd:token">
+                                <xsd:attribute type="xsd:token" name="name" use="required"/>
+                            </xsd:extension>
+                        </xsd:simpleContent>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element type="xsd:token" name="template"/>
+            </xsd:sequence>
+            <xsd:attribute type="xsd:token" name="id" use="required"/>
+            <xsd:attribute type="xsd:anyURI" name="href" use="required"/>
+            <xsd:attribute type="xsd:token" name="mime-type" use="required"/>
+            <xsd:anyAttribute/>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>

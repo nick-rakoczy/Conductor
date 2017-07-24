@@ -1,0 +1,26 @@
+<container xmlns="urn:conductor">
+    <script>
+        var json = "application/json";
+    </script>
+
+    <webhook-notification-provider xmlns="urn:conductor:notifications:webhook"
+                                   href="http://localhost:{{options.port}}/webhook"
+                                   id="localhost-webhook"
+                                   mime-type="{{json}}">
+
+        <header name="{{options.authHeader}}">
+            Bearer {{options.authToken}}
+        </header>
+        <template>
+            {
+                "text": "Hello, {{options.user}}!",
+                "value": "{{value}}"
+            }
+        </template>
+    </webhook-notification-provider>
+
+    <notify xmlns="urn:conductor:notifications" target="localhost-webhook">
+        {{options.message}}
+    </notify>
+
+</container>

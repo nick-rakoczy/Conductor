@@ -1,0 +1,16 @@
+<xsd:schema elementFormDefault="qualified"
+            targetNamespace="urn:conductor:notifications"
+            xmlns="urn:conductor:notifications"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:element name="notify">
+        <xsd:complexType>
+            <xsd:simpleContent>
+                <xsd:extension base="xsd:token">
+                    <xsd:attribute type="xsd:token" name="target" use="required"/>
+                </xsd:extension>
+            </xsd:simpleContent>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>

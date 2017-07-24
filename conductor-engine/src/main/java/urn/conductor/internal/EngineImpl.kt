@@ -27,13 +27,14 @@ class EngineImpl(scriptEngine: ScriptEngine, override val jaxbReader: Unmarshall
 		this.put(attribute.first, attribute.second)
 	}
 
-	override fun runWithContext(vararg attributes: Pair<String, *>, block: () -> Unit) {
+	override fun <T> runWithContext(vararg attributes: Pair<String, *>, block: () -> T): T {
 		attributes.forEach { this.put(it) }
-		block()
-		attributes.forEach { this.delete(it.first) }
+		return block().also {
+			attributes.forEach { this.delete(it.first) }
+		}
 	}
 
-	override fun runWithUniqueContext(vararg attributes: Pair<String, *>, block: () -> Unit) {
+	override fun <T> runWithUniqueContext(vararg attributes: Pair<String, *>, block: () -> T): T {
 		attributes.map {
 			it.first
 		}.filter {
@@ -48,7 +49,7 @@ class EngineImpl(scriptEngine: ScriptEngine, override val jaxbReader: Unmarshall
 			)
 		}
 
-		this.runWithContext(*attributes) {
+		return this.runWithContext(*attributes) {
 			block()
 		}
 	}
