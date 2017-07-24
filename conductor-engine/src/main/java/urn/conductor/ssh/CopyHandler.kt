@@ -1,9 +1,6 @@
 package urn.conductor.ssh
 
 import urn.conductor.Engine
-import urn.conductor.Host
-import urn.conductor.Identity
-import urn.conductor.absolutePathString
 import urn.conductor.stdlib.xml.Copy
 import java.nio.file.Files
 

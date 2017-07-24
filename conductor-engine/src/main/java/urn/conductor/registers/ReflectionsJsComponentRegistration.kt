@@ -3,7 +3,6 @@ package urn.conductor.registers
 import jdk.internal.dynalink.beans.StaticClass
 import org.reflections.Reflections
 import urn.conductor.AttributeHandler
-import urn.conductor.CanUseReflections
 import urn.conductor.ComplexElementHandler
 import urn.conductor.ComponentRegistration
 import urn.conductor.Engine

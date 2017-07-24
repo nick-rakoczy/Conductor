@@ -1,7 +1,6 @@
 package urn.conductor.registers
 
 import org.reflections.Reflections
-import urn.conductor.CanUseReflections
 import urn.conductor.ComponentRegistration
 import urn.conductor.Engine
 import urn.conductor.Preloader

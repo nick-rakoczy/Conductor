@@ -5,6 +5,7 @@ import org.reflections.Reflections
 import org.reflections.scanners.SubTypesScanner
 import org.reflections.scanners.TypeAnnotationsScanner
 import org.reflections.util.ConfigurationBuilder
+import urn.conductor.registers.CanUseReflections
 import java.lang.reflect.Modifier
 import java.net.URLClassLoader
 import java.nio.file.Files
@@ -12,6 +13,8 @@ import java.nio.file.Paths
 import javax.xml.bind.JAXBContext
 import javax.xml.bind.JAXBElement
 import javax.xml.bind.annotation.XmlRegistry
+import javax.xml.bind.annotation.XmlRootElement
+import javax.xml.bind.annotation.XmlSchema
 import javax.xml.namespace.QName
 
 class ExecutionManager(pluginsDir: String) {
@@ -21,6 +24,13 @@ class ExecutionManager(pluginsDir: String) {
 	private val complexElementHandlers = ElementHandlerMap()
 	private val preloaders = ArrayList<Preloader>()
 	private val objectFactories = HashSet<Class<*>>()
+
+	val Class<*>.xmlNamespace: String?
+		get() = this.getAnnotation(XmlRootElement::class.java)?.namespace?.takeIf { it != "##default" }
+				?: this.`package`?.getAnnotation(XmlSchema::class.java)?.namespace
+
+	val Class<*>.xmlElementName: String?
+		get() = this.getAnnotation(XmlRootElement::class.java)?.name
 
 	init {
 		logger.info("Scanning for plugins...")
@@ -37,8 +47,12 @@ class ExecutionManager(pluginsDir: String) {
 			}.filterNotNull()
 		}
 
-		val classloaders = paths.attemptMap {
-			it.toAbsolutePath().toUri().toURL().singletonArray
+		val classloaders = paths.map {
+			attempt {
+				it.toAbsolutePath().toUri().toURL()
+			}
+		}.filterNotNull().map {
+			arrayOf(it)
 		}.map(::URLClassLoader)
 
 		logger.info("Found ${classloaders.size} packages...")
@@ -64,9 +78,11 @@ class ExecutionManager(pluginsDir: String) {
 						.filter { it }
 						.none()
 			}
-		}.attemptMap {
-			it.newInstance()
-		}.forEach {
+		}.map {
+			attempt {
+				it.newInstance()
+			}
+		}.filterNotNull().forEach {
 			logger.debug("Found ComponentRegistration: ${it.javaClass.name}")
 
 			if (it is CanUseReflections) {
@@ -117,6 +133,7 @@ class ExecutionManager(pluginsDir: String) {
 				.map { "[${it.priority}] ${it.javaClass.name}" }
 				.forEach(logger::debug)
 	}
+
 
 	fun runHandlerFor(element: Any, engine: Engine, proceed: (Any) -> Unit) {
 		when {

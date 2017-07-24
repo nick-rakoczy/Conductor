@@ -66,9 +66,9 @@ class Main(private val args: Array<String>) {
 			error("Unable to parse plan")
 		}
 
-		scriptEngine["options"] = options
-		scriptEngine["sessionProvider"] = SessionProviderImpl
-		scriptEngine["defaults"] = HashMap<String, String>()
+		scriptEngine.put("options", options)
+		scriptEngine.put("sessionProvider", SessionProviderImpl)
+		scriptEngine.put("defaults", HashMap<String, String>())
 
 		engine.pushWorkingDirectory(filePath.parent)
 

@@ -1,4 +1,4 @@
-package urn.conductor
+package urn.conductor.registers
 
 import org.reflections.Reflections
 

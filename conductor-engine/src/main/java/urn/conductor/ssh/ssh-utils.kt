@@ -5,12 +5,6 @@ import com.jcraft.jsch.ChannelExec
 import com.jcraft.jsch.ChannelSftp
 import com.jcraft.jsch.ChannelShell
 import com.jcraft.jsch.Session
-import org.apache.logging.log4j.LogManager
-import urn.conductor.absolutePathString
-import urn.conductor.attempt
-import java.io.ByteArrayOutputStream
-import java.lang.reflect.InvocationTargetException
-import java.nio.file.Path
 
 private fun waitTill(interval: Long, block: () -> Boolean) {
 	while (!block()) {
