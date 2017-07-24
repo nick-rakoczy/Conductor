@@ -19,7 +19,7 @@ class TestPlans {
 		val message = UUID.randomUUID().toString()
 
 		var callCount = 0
-		Spark.post("/webhook") { req, res ->
+		Spark.post("/webhook") { req, _ ->
 			callCount++
 
 			val header = req.headers(authHeader)
