@@ -1,21 +1,32 @@
 package urn.conductor
 
 import jdk.internal.dynalink.beans.StaticClass
-import java.io.InputStream
+import org.reflections.Reflections
+import urn.conductor.jsc.JsComponentRegistration
+import urn.conductor.jsc.JsComponentRegistrationHandler
 import java.io.InputStreamReader
 import javax.script.ScriptEngineManager
 import javax.xml.namespace.QName
 
-abstract class JsComponentRegistration : ComponentRegistration {
+class ReflectionsJsComponentRegistration : ComponentRegistration, JsComponentRegistrationHandler, CanUseReflections {
+	private lateinit var reflections: Reflections
+
+	override fun injectReflections(reflections: Reflections) {
+		this.reflections = reflections
+	}
 
 	override fun init() {
 		val se = ScriptEngineManager().getEngineByName("javascript")!!
 
-		se.put("component", this)
+		se.put("component", this as JsComponentRegistrationHandler)
 
-		provideInputStreams {
-			InputStreamReader(it).use {
-				se.eval(it)
+		this.reflections.getSubTypesOf(JsComponentRegistration::class.java).map {
+			it.newInstance()
+		}.forEach {
+			it.provideInputStreams {
+				InputStreamReader(it).use {
+					se.eval(it)
+				}
 			}
 		}
 	}
@@ -30,7 +41,7 @@ abstract class JsComponentRegistration : ComponentRegistration {
 	override fun getComplexElementHandlers() = complexElementHandlers
 	override fun getPreloaders() = preloaders
 
-	fun registerAttributeHandler(namespace: String, localName: String, priority: Int, handler: (Any, String, Engine, () -> Unit) -> Unit) {
+	override fun registerAttributeHandler(namespace: String, localName: String, priority: Int, handler: (Any, String, Engine, () -> Unit) -> Unit) {
 		attributeHandlers.add(object : AttributeHandler {
 			override val handles: QName
 				get() = QName(namespace, localName)
@@ -43,7 +54,7 @@ abstract class JsComponentRegistration : ComponentRegistration {
 		})
 	}
 
-	fun registerSimpleElementHandler(namespace: String, localName: String, handler: (Any, Engine) -> Unit) {
+	override fun registerSimpleElementHandler(namespace: String, localName: String, handler: (Any, Engine) -> Unit) {
 		simpleElementHandlers.add(object : SimpleElementHandler {
 			override val handles: QName
 				get() = QName(namespace, localName)
@@ -54,9 +65,10 @@ abstract class JsComponentRegistration : ComponentRegistration {
 		})
 	}
 
-	fun <T : Any> registerComplexElementHandler(type: StaticClass, handler: (T, Engine, (Any) -> Unit) -> Unit) {
+	override fun <T : Any> registerComplexElementHandler(type: StaticClass, handler: (T, Engine, (Any) -> Unit) -> Unit) {
 		complexElementHandlers.add(object : ComplexElementHandler<T> {
 			override val handles: Class<T>
+				@Suppress("UNCHECKED_CAST")
 				get() = type.representedClass as Class<T>
 
 			override fun process(element: T, engine: Engine, processChild: (Any) -> Unit) {
@@ -65,7 +77,7 @@ abstract class JsComponentRegistration : ComponentRegistration {
 		})
 	}
 
-	fun registerPreloader(priority: Int, preloadFunction: (Engine) -> Unit) {
+	override fun registerPreloader(priority: Int, preloadFunction: (Engine) -> Unit) {
 		preloaders.add(object : Preloader {
 			override val priority: Int
 				get() = priority
@@ -73,9 +85,6 @@ abstract class JsComponentRegistration : ComponentRegistration {
 			override fun configure(engine: Engine) {
 				preloadFunction(engine)
 			}
-
 		})
 	}
-
-	abstract fun provideInputStreams(block: (InputStream) -> Unit)
 }
