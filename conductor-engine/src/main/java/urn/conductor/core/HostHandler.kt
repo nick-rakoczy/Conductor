@@ -3,6 +3,7 @@ package urn.conductor.core
 import org.apache.logging.log4j.LogManager
 import urn.conductor.ComplexElementHandler
 import urn.conductor.Engine
+import urn.conductor.HostImpl
 import urn.conductor.stdlib.xml.Host
 
 
@@ -13,7 +14,7 @@ class HostHandler : ComplexElementHandler<Host> {
 		get() = Host::class.java
 
 	override fun process(element: Host, engine: Engine, processChild: (Any) -> Unit) {
-		urn.conductor.Host(
+		HostImpl(
 				name = element.id.let(engine::interpolate),
 				address = element.address.let(engine::interpolate),
 				sshPort = element.sshPort.let(engine::interpolate).toIntOrNull() ?: error("Invalid port: ${element.sshPort}"),
