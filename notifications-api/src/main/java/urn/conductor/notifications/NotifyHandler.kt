@@ -9,7 +9,7 @@ class NotifyHandler : ComplexElementHandler<Notify> {
 		get() = Notify::class.java
 
 	override fun process(element: Notify, engine: Engine, processChild: (Any) -> Unit) {
-		val targetName = element.target.let(engine::interpolate)
+		val targetName = element.providerRef.let(engine::interpolate)
 		val message = element.value.let(engine::interpolate)
 		val targetImpl = engine.get(targetName) as? NotificationProvider ?: error("Target name [$targetName] does not represent a NotificationProvider")
 		targetImpl.notify(message)

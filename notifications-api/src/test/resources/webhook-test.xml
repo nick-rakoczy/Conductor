@@ -7,19 +7,18 @@
                                    href="http://localhost:{{options.port}}/webhook"
                                    id="localhost-webhook"
                                    mime-type="{{json}}">
-
         <header name="{{options.authHeader}}">
             Bearer {{options.authToken}}
         </header>
-        <template>
+        <template message-ref="value2">
             {
                 "text": "Hello, {{options.user}}!",
-                "value": "{{value}}"
+                "value": "{{value2}}"
             }
         </template>
     </webhook-notification-provider>
 
-    <notify xmlns="urn:conductor:notifications" target="localhost-webhook">
+    <notify xmlns="urn:conductor:notifications" provider-ref="localhost-webhook">
         {{options.message}}
     </notify>
 

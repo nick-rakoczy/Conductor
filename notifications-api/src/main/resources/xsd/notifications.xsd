@@ -7,7 +7,7 @@
         <xsd:complexType>
             <xsd:simpleContent>
                 <xsd:extension base="xsd:token">
-                    <xsd:attribute type="xsd:token" name="target" use="required"/>
+                    <xsd:attribute type="xsd:token" name="provider-ref" use="required"/>
                 </xsd:extension>
             </xsd:simpleContent>
         </xsd:complexType>

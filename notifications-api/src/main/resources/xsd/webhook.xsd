@@ -15,7 +15,15 @@
                         </xsd:simpleContent>
                     </xsd:complexType>
                 </xsd:element>
-                <xsd:element type="xsd:token" name="template"/>
+                <xsd:element name="template">
+                    <xsd:complexType>
+                        <xsd:simpleContent>
+                            <xsd:extension base="xsd:token">
+                                <xsd:attribute type="xsd:token" name="message-ref" default="value"/>
+                            </xsd:extension>
+                        </xsd:simpleContent>
+                    </xsd:complexType>
+                </xsd:element>
             </xsd:sequence>
             <xsd:attribute type="xsd:token" name="id" use="required"/>
             <xsd:attribute type="xsd:anyURI" name="href" use="required"/>

@@ -13,7 +13,7 @@ import urn.conductor.notifications.xml.WebhookNotificationProvider
 class WebhookNotificationProviderImpl(private val element: WebhookNotificationProvider, private val engine: Engine) : NotificationProvider {
 	private val logger = LogManager.getLogger()
 	private val client = OkHttpClient()
-
+	
 	override fun notify(msg: String) {
 		val builder = Request.Builder()
 		element.header.forEach {
@@ -27,8 +27,8 @@ class WebhookNotificationProviderImpl(private val element: WebhookNotificationPr
 		val mimeTypeString = element.mimeType.let(engine::interpolate)
 		val mimeType = mimeTypeString.let(MediaType::parse) ?: error("Invalid mime type [$mimeTypeString]")
 
-		val body = engine.runWithUniqueContext("value" to msg) {
-			element.template.let(engine::interpolate)
+		val body = engine.runWithUniqueContext(element.template.messageRef to msg) {
+			element.template.value.let(engine::interpolate)
 		}
 		val requestBody = RequestBody.create(mimeType, body)!!
 		builder.post(requestBody)
