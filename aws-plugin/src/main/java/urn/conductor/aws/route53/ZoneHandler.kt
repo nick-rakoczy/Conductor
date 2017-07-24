@@ -5,12 +5,12 @@ import com.amazonaws.services.route53.AmazonRoute53
 import com.amazonaws.services.route53.AmazonRoute53ClientBuilder
 import com.amazonaws.services.route53.model.CreateHostedZoneRequest
 import com.amazonaws.services.route53.model.ListHostedZonesByNameRequest
-import urn.conductor.ComplexElementHandler
 import urn.conductor.Engine
+import urn.conductor.StandardComplexElementHandler
 import urn.conductor.aws.xml.Zone
 import urn.conductor.aws.xml.ZonePrivacy
 
-class ZoneHandler : ComplexElementHandler<Zone> {
+class ZoneHandler : StandardComplexElementHandler<Zone> {
 	override val handles: Class<Zone>
 		get() = Zone::class.java
 

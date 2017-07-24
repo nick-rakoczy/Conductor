@@ -1,11 +1,11 @@
 package urn.conductor.core
 
-import urn.conductor.ComplexElementHandler
 import urn.conductor.Engine
+import urn.conductor.StandardComplexElementHandler
 import urn.conductor.internal.IdentityImpl
 import urn.conductor.stdlib.xml.Identity
 
-class IdentityHandler : ComplexElementHandler<Identity> {
+class IdentityHandler : StandardComplexElementHandler<Identity> {
 	override fun process(element: Identity, engine: Engine, processChild: (Any) -> Unit) {
 		val user = element.username?.let(engine::interpolate) ?: error("Missing username")
 		val publicKey = element.publicKeyRef?.let(engine::get) as? String

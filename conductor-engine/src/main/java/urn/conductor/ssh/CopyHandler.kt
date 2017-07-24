@@ -4,7 +4,10 @@ import urn.conductor.Engine
 import urn.conductor.stdlib.xml.Copy
 import java.nio.file.Files
 
-class CopyHandler : AbstractTransportElementHandler<Copy>(Copy::getHostRef, Copy::getIdentityRef) {
+class CopyHandler : TransportComplexElementHandler<Copy> {
+	override fun getHostRef(element: Copy): String = element.hostRef
+	override fun getIdentityRef(element: Copy): String = element.identityRef
+
 	override val handles: Class<Copy>
 		get() = Copy::class.java
 
@@ -24,7 +27,7 @@ class CopyHandler : AbstractTransportElementHandler<Copy>(Copy::getHostRef, Copy
 		}
 
 		transport.useSftpChannel {
-			this.put(tempFile.absolutePathString, element.dst)
+			this.put(tempFile.toAbsolutePath().normalize().toString(), element.dst)
 		}
 
 		tempFile.toFile().deleteOnExit()

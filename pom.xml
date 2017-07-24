@@ -11,10 +11,10 @@
     <modules>
         <module>conductor-api</module>
         <module>conductor-engine</module>
-        <module>aws-plugin</module>
         <module>database-plugin</module>
         <module>package-management-plugin</module>
         <module>notifications-api</module>
+        <module>aws-plugin</module>
     </modules>
 
     <properties>

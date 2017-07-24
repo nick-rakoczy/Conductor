@@ -1,10 +1,10 @@
 package urn.conductor.core
 
-import urn.conductor.ComplexElementHandler
 import urn.conductor.Engine
+import urn.conductor.StandardComplexElementHandler
 import urn.conductor.stdlib.xml.Container
 
-class ContainerHandler : ComplexElementHandler<Container> {
+class ContainerHandler : StandardComplexElementHandler<Container> {
 	override fun process(element: Container, engine: Engine, processChild: (Any) -> Unit) {
 		element.any.forEach(processChild)
 	}

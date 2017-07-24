@@ -1,12 +1,12 @@
 package urn.conductor.sql
 
-import urn.conductor.ComplexElementHandler
 import urn.conductor.Engine
+import urn.conductor.StandardComplexElementHandler
 import urn.conductor.database.xml.Load
 import java.nio.file.Files
 import java.sql.Connection
 
-class LoadHandler : ComplexElementHandler<Load> {
+class LoadHandler : StandardComplexElementHandler<Load> {
 	override val handles: Class<Load>
 		get() = Load::class.java
 

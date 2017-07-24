@@ -1,12 +1,12 @@
 package urn.conductor.ssh
 
 import org.apache.logging.log4j.LogManager
-import urn.conductor.ComplexElementHandler
 import urn.conductor.Engine
 import urn.conductor.Host
+import urn.conductor.StandardComplexElementHandler
 import urn.conductor.stdlib.xml.HostKey
 
-class HostKeyHandler : ComplexElementHandler<HostKey> {
+class HostKeyHandler : StandardComplexElementHandler<HostKey> {
 	override val handles: Class<HostKey>
 		get() = HostKey::class.java
 

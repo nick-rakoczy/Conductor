@@ -3,7 +3,10 @@ package urn.conductor.ssh
 import urn.conductor.Engine
 import urn.conductor.stdlib.xml.Delete
 
-class DeleteHandler : AbstractTransportElementHandler<Delete>(Delete::getHostRef, Delete::getIdentityRef) {
+class DeleteHandler : TransportComplexElementHandler<Delete> {
+	override fun getHostRef(element: Delete): String = element.hostRef
+	override fun getIdentityRef(element: Delete): String = element.identityRef
+
 	override val handles: Class<Delete>
 		get() = Delete::class.java
 

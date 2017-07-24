@@ -1,12 +1,12 @@
 package urn.conductor.sql
 
 import org.apache.logging.log4j.LogManager
-import urn.conductor.ComplexElementHandler
 import urn.conductor.Engine
+import urn.conductor.StandardComplexElementHandler
 import urn.conductor.database.xml.Connection
 import java.sql.DriverManager
 
-class ConnectionHandler : ComplexElementHandler<Connection> {
+class ConnectionHandler : StandardComplexElementHandler<Connection> {
 	override val handles: Class<Connection>
 		get() = Connection::class.java
 

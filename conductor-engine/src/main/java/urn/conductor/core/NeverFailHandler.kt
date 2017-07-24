@@ -1,17 +1,17 @@
 package urn.conductor.core
 
 import org.apache.logging.log4j.LogManager
-import urn.conductor.ComplexElementHandler
 import urn.conductor.Engine
+import urn.conductor.StandardComplexElementHandler
 import urn.conductor.stdlib.xml.NeverFail
 
-class NeverFailHandler : ComplexElementHandler<NeverFail> {
+class NeverFailHandler : StandardComplexElementHandler<NeverFail> {
 	private val logger = LogManager.getLogger()
 
-	override val handles: Class<urn.conductor.stdlib.xml.NeverFail>
-		get() = urn.conductor.stdlib.xml.NeverFail::class.java
+	override val handles: Class<NeverFail>
+		get() = NeverFail::class.java
 
-	override fun process(element: urn.conductor.stdlib.xml.NeverFail, engine: Engine, processChild: (Any) -> Unit) {
+	override fun process(element: NeverFail, engine: Engine, processChild: (Any) -> Unit) {
 		try {
 			element.any.forEach(processChild)
 		}

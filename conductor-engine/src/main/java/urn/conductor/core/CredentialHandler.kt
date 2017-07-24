@@ -1,11 +1,11 @@
 package urn.conductor.core
 
-import urn.conductor.ComplexElementHandler
 import urn.conductor.Engine
+import urn.conductor.StandardComplexElementHandler
 import urn.conductor.stdlib.xml.Credential
 import java.util.UUID
 
-class CredentialHandler : ComplexElementHandler<Credential> {
+class CredentialHandler : StandardComplexElementHandler<Credential> {
 	override val handles: Class<Credential>
 		get() = Credential::class.java
 

@@ -8,6 +8,7 @@ import urn.conductor.ComponentRegistration
 import urn.conductor.Engine
 import urn.conductor.Preloader
 import urn.conductor.SimpleElementHandler
+import urn.conductor.StandardComplexElementHandler
 import urn.conductor.js.component.JsComponentRegistration
 import urn.conductor.js.component.JsComponentRegistrationHandler
 import java.io.InputStreamReader
@@ -76,7 +77,7 @@ class ReflectionsJsComponentRegistration : ComponentRegistration, JsComponentReg
 	}
 
 	override fun <T : Any> registerComplexElementHandler(type: StaticClass, handler: (T, Engine, (Any) -> Unit) -> Unit) {
-		complexElementHandlers.add(object : ComplexElementHandler<T> {
+		complexElementHandlers.add(object : StandardComplexElementHandler<T> {
 			override val handles: Class<T>
 				@Suppress("UNCHECKED_CAST")
 				get() = type.representedClass as Class<T>

@@ -1,10 +1,10 @@
 package urn.conductor.core
 
-import urn.conductor.ComplexElementHandler
 import urn.conductor.Engine
+import urn.conductor.StandardComplexElementHandler
 import urn.conductor.stdlib.xml.DefineMacro
 
-class DefineMacroHandler : ComplexElementHandler<DefineMacro> {
+class DefineMacroHandler : StandardComplexElementHandler<DefineMacro> {
 	override val handles: Class<DefineMacro>
 		get() = DefineMacro::class.java
 

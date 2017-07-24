@@ -1,11 +1,11 @@
 package urn.conductor.core
 
 import org.apache.logging.log4j.LogManager
-import urn.conductor.ComplexElementHandler
 import urn.conductor.Engine
+import urn.conductor.StandardComplexElementHandler
 import urn.conductor.stdlib.xml.Aggregate
 
-class AggregateHandler : ComplexElementHandler<Aggregate> {
+class AggregateHandler : StandardComplexElementHandler<Aggregate> {
 	private val logger = LogManager.getLogger()
 
 	override val handles: Class<Aggregate>

@@ -6,7 +6,10 @@ import urn.conductor.stdlib.xml.Metadata
 import java.io.InputStreamReader
 import java.net.URL
 
-class DownloadGavHandler : AbstractTransportElementHandler<DownloadGav>(DownloadGav::getHostRef, DownloadGav::getIdentityRef) {
+class DownloadGavHandler : TransportComplexElementHandler<DownloadGav> {
+	override fun getHostRef(element: DownloadGav): String = element.hostRef
+	override fun getIdentityRef(element: DownloadGav): String = element.identityRef
+
 	override val handles: Class<DownloadGav>
 		get() = DownloadGav::class.java
 

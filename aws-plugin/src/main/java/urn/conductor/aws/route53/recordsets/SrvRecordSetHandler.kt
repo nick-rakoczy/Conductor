@@ -1,10 +1,10 @@
 package urn.conductor.aws.route53.recordsets
 
-import urn.conductor.ComplexElementHandler
 import urn.conductor.Engine
+import urn.conductor.StandardComplexElementHandler
 import urn.conductor.aws.xml.SrvRecordSet
 
-class SrvRecordSetHandler : ComplexElementHandler<SrvRecordSet> {
+class SrvRecordSetHandler : StandardComplexElementHandler<SrvRecordSet> {
 	override val handles: Class<SrvRecordSet>
 		get() = SrvRecordSet::class.java
 

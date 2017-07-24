@@ -6,6 +6,7 @@ import org.reflections.scanners.SubTypesScanner
 import org.reflections.scanners.TypeAnnotationsScanner
 import org.reflections.util.ConfigurationBuilder
 import urn.conductor.registers.CanUseReflections
+import urn.conductor.ssh.TransportComplexElementHandler
 import java.lang.reflect.Modifier
 import java.net.URLClassLoader
 import java.nio.file.Files
@@ -164,7 +165,22 @@ class ExecutionManager(pluginsDir: String) {
 						val attributeValue = attributes[attributeName] ?: ""
 						attributeHandler.process(element, attributeValue, engine, ::processNextAttribute)
 					} else {
-						handler.process(element, engine, proceed)
+						when (handler) {
+							is TransportComplexElementHandler<Any> -> {
+								val host = handler.getHostRef(element)
+										.let(engine::interpolate)
+										.let(engine::get)
+										.let { it as Host }
+								val identity = handler.getIdentityRef(element)
+										.let(engine::interpolate)
+										.let(engine::get)
+										.let { it as Identity }
+								val transport = engine.sessionProvider.getTransport(host, identity)
+								handler.process(element, engine, proceed, transport)
+							}
+							is StandardComplexElementHandler<Any> -> handler.process(element, engine, proceed)
+							else -> error("Unknown element handler type: ${handler.javaClass.name}")
+						}
 					}
 				}
 

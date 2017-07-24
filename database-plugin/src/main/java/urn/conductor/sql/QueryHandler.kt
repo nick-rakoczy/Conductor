@@ -1,14 +1,14 @@
 package urn.conductor.sql
 
 import org.apache.logging.log4j.LogManager
-import urn.conductor.ComplexElementHandler
 import urn.conductor.Engine
+import urn.conductor.StandardComplexElementHandler
 import urn.conductor.database.xml.Query
 import java.sql.Connection
 import java.sql.ResultSet
 import java.sql.Types
 
-class QueryHandler : ComplexElementHandler<Query> {
+class QueryHandler : StandardComplexElementHandler<Query> {
 	override val handles: Class<Query>
 		get() = Query::class.java
 

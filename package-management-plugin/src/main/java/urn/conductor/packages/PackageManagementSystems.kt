@@ -2,7 +2,6 @@ package urn.conductor.packages
 
 import urn.conductor.attempt
 import urn.conductor.ssh.HostTransport
-import urn.conductor.ssh.execute
 
 enum class PackageManagementSystems(val verificationCommand: String) {
 	YUM("yum --version"),

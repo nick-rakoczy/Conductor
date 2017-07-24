@@ -4,7 +4,6 @@ import urn.conductor.packages.PackageManagementSystems
 import urn.conductor.packages.PackageManager
 import urn.conductor.packages.PackageManagment
 import urn.conductor.ssh.HostTransport
-import urn.conductor.ssh.execute
 
 @PackageManager(PackageManagementSystems.YUM)
 class YumPackageManager : PackageManagment {

@@ -3,7 +3,10 @@ package urn.conductor.ssh
 import urn.conductor.Engine
 import urn.conductor.stdlib.xml.SetPermissions
 
-class SetPermissionsHandler : AbstractTransportElementHandler<SetPermissions>(SetPermissions::getHostRef, SetPermissions::getIdentityRef) {
+class SetPermissionsHandler : TransportComplexElementHandler<SetPermissions> {
+	override fun getHostRef(element: SetPermissions): String = element.hostRef
+	override fun getIdentityRef(element: SetPermissions): String = element.identityRef
+
 	override val handles: Class<SetPermissions>
 		get() = SetPermissions::class.java
 

@@ -6,7 +6,6 @@ import com.jcraft.jsch.Session
 import org.apache.logging.log4j.LogManager
 import urn.conductor.attempt
 import java.io.ByteArrayOutputStream
-import java.lang.reflect.InvocationTargetException
 import java.util.concurrent.TimeoutException
 
 class HostTransportImpl(override val session: Session) : HostTransport {
@@ -33,78 +32,78 @@ class HostTransportImpl(override val session: Session) : HostTransport {
 			channelSftp.block()
 		}
 	}
-}
 
-fun HostTransport.getUserId(name: String): Int? {
-	return attempt {
-		val (_, _, uid) = this.execute("getent passwd $name").split(":")
-		uid.toIntOrNull()
-	}
-}
+	override fun execute(path: String,
+						 errorHandler: ((String) -> Unit),
+						 pollingInterval: Long,
+						 timeout: Long): String {
+		val outputStream = ByteArrayOutputStream()
+		val errorStream = ByteArrayOutputStream()
+		val logger = LogManager.getLogger(HostTransport::class.java)
 
-fun HostTransport.getGroupId(name: String): Int? {
-	return attempt {
-		val (_, _, gid) = this.execute("getent group $name").split(":")
-		gid.toIntOrNull()
-	}
-}
+		this.useExecChannel {
+			this.setOutputStream(outputStream)
+			this.setErrStream(errorStream)
+			this.setInputStream(null)
 
-fun HostTransport.execute(path: String,
-						  errorHandler: ((String) -> Unit) = { throw InvocationTargetException(null, it) },
-						  pollingInterval: Long = 500,
-						  timeout: Long = 30_000): String {
-	val outputStream = ByteArrayOutputStream()
-	val errorStream = ByteArrayOutputStream()
-	val logger = LogManager.getLogger(HostTransport::class.java)
+			this.setCommand(path)
 
-	this.useExecChannel {
-		this.setOutputStream(outputStream)
-		this.setErrStream(errorStream)
-		this.setInputStream(null)
+			val startTime = System.currentTimeMillis()
+			val hupTime = startTime + timeout
+			val killTime = hupTime + timeout
+			val abortTime = killTime + timeout
 
-		this.setCommand(path)
+			this.connect()
 
-		val startTime = System.currentTimeMillis()
-		val hupTime = startTime + timeout
-		val killTime = hupTime + timeout
-		val abortTime = killTime + timeout
+			var status = "OK"
 
-		this.connect()
+			while (!this.isClosed && status != "ABORTED") {
+				Thread.sleep(pollingInterval)
 
-		var status = "OK"
-
-		while (!this.isClosed && status != "ABORTED") {
-			Thread.sleep(pollingInterval)
-
-			when {
-				System.currentTimeMillis() > hupTime -> {
-					this.sendSignal("15")
-					status = "HUP"
+				when {
+					System.currentTimeMillis() > hupTime -> {
+						this.sendSignal("15")
+						status = "HUP"
+					}
+					System.currentTimeMillis() > killTime -> {
+						this.sendSignal("9")
+						status = "KILL"
+					}
+					System.currentTimeMillis() > abortTime -> {
+						status = "ABORTED"
+					}
 				}
-				System.currentTimeMillis() > killTime -> {
-					this.sendSignal("9")
-					status = "KILL"
-				}
-				System.currentTimeMillis() > abortTime -> {
-					status = "ABORTED"
-				}
+			}
+
+			this.disconnect()
+
+			val endTime = System.currentTimeMillis()
+
+			if (errorStream.size() > 0) {
+				errorHandler(errorStream.toString())
+			}
+
+			logger.info("Executed [$path] in ${endTime - startTime}msec, result: $status")
+
+			if (status != "OK") {
+				throw TimeoutException("Timed Out")
 			}
 		}
 
-		this.disconnect()
+		return outputStream.toString()
+	}
 
-		val endTime = System.currentTimeMillis()
-
-		if (errorStream.size() > 0) {
-			errorHandler(errorStream.toString())
-		}
-
-		logger.info("Executed [$path] in ${endTime - startTime}msec, result: $status")
-
-		if (status != "OK") {
-			throw TimeoutException("Timed Out")
+	override fun getUserId(name: String): Int? {
+		return attempt {
+			val (_, _, uid) = this.execute("getent passwd $name").split(":")
+			uid.toIntOrNull()
 		}
 	}
 
-	return outputStream.toString()
+	override fun getGroupId(name: String): Int? {
+		return attempt {
+			val (_, _, gid) = this.execute("getent group $name").split(":")
+			gid.toIntOrNull()
+		}
+	}
 }
