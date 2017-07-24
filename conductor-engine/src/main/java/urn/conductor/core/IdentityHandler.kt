@@ -2,6 +2,7 @@ package urn.conductor.core
 
 import urn.conductor.ComplexElementHandler
 import urn.conductor.Engine
+import urn.conductor.IdentityImpl
 import urn.conductor.stdlib.xml.Identity
 
 class IdentityHandler : ComplexElementHandler<Identity> {
@@ -11,7 +12,7 @@ class IdentityHandler : ComplexElementHandler<Identity> {
 		val privateKey = element.privateKeyRef?.let(engine::get) as? String
 		val password = element.password?.let(engine::interpolate)
 
-		val ident = urn.conductor.Identity(username = user,
+		val ident = IdentityImpl(username = user,
 				privateKey = privateKey,
 				publicKey = publicKey,
 				password = password)
